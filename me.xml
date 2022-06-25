@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE student PUBLIC "-//Portland State University//DTD CS410J Grade Book//EN" "http://www.cs.pdx.edu/~whitlock/dtds/gradebook.dtd">
+<student enrolled-section="graduate">
+<id>camilo3</id>
+<firstName>Camilo</firstName>
+<lastName>Schaser-Hughes</lastName>
+<email>camilo3@pdx.edu</email>
+<major>Computer Science</major>
+<notes>
+<note>Camilo Schaser-Hughes would like to learn How to be an adequate Java programmer, maybe even competent... but we only have 10 weeks.  To be able to put Java on my resume and not feel like a fraud.</note>
+<note>Camilo Schaser-Hughes has these comments: It took me a minute to get to this point in the class and am feeling a little behind already.</note>
+</notes>
+</student>
