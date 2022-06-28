@@ -2,8 +2,9 @@ package edu.pdx.cs410J.camilo3;
 
 import edu.pdx.cs410J.lang.Human;
 
-import java.util.ArrayList;
-                                                                                    
+//import java.util.ArrayList;
+import java.util.*;
+
 /**                                                                                 
  * This class is represents a <code>Student</code>.                                 
  */                                                                                 
@@ -30,8 +31,9 @@ public class Student extends Human {
    * All students say "This class is too much work"
    */
   @Override
-  public String says() {                                                            
-    throw new UnsupportedOperationException("Not implemented yet");
+  public String says() {
+//    throw new UnsupportedOperationException("Not implemented yet");
+    return "This class is too much work";
   }
                                                                                     
   /**                                                                               
@@ -39,7 +41,9 @@ public class Student extends Human {
    * <code>Student</code>.                                                          
    */                                                                               
   public String toString() {
-    throw new UnsupportedOperationException("Not implemented yet");
+//    throw new UnsupportedOperationException("Not implemented yet");
+    return (this.name) + says();
+//    return says();
   }
 
   /**
@@ -50,11 +54,14 @@ public class Student extends Human {
   public static void main(String[] args) {
 
 
-    if (args.length != 6) {
+    if (args.length < 3) {
       System.err.println("Missing command line arguments");
-//      System.exit(0);
     } else {
       System.out.println("Hello world!!!");
+      var my_classes = Arrays.copyOfRange(args, 3, args.length);
+      ArrayList<String> classList = new ArrayList<>(Arrays.asList(my_classes));
+      Student a_student = new Student(args[0], classList, Double.parseDouble(args[1]), args[2]);
+      System.out.println(a_student.toString());
     }
   }
 }
