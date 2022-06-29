@@ -83,40 +83,40 @@ public class AboutStrings {
     @Koan
     public void stringLowerCase() {
         String str = "I AM a number ONE!";
-        assertEquals(str.toLowerCase(), __);
+        assertEquals(str.toLowerCase(), "i am a number one!");
     }
 
     @Koan
     public void stringCompare() {
         String str = "I AM a number ONE!";
-        assertEquals(str.compareTo("I AM a number ONE!") == 0, __);
-        assertEquals(str.compareTo("I am a number one!") == 0, __);
-        assertEquals(str.compareTo("I AM A NUMBER ONE!") == 0, __);
+        assertEquals(str.compareTo("I AM a number ONE!") == 0, true);
+        assertEquals(str.compareTo("I am a number one!") == 0, false);
+        assertEquals(str.compareTo("I AM A NUMBER ONE!") == 0, false);
     }
 
     @Koan
     public void stringCompareIgnoreCase() {
         String str = "I AM a number ONE!";
-        assertEquals(str.compareToIgnoreCase("I AM a number ONE!") == 0, __);
-        assertEquals(str.compareToIgnoreCase("I am a number one!") == 0, __);
-        assertEquals(str.compareToIgnoreCase("I AM A NUMBER ONE!") == 0, __);
+        assertEquals(str.compareToIgnoreCase("I AM a number ONE!") == 0, true);
+        assertEquals(str.compareToIgnoreCase("I am a number one!") == 0, true);
+        assertEquals(str.compareToIgnoreCase("I AM A NUMBER ONE!") == 0, true);
     }
 
     @Koan
     public void stringStartsWith() {
-        assertEquals("".startsWith("one"), __);
-        assertEquals("one".startsWith("one"), __);
-        assertEquals("one is the number".startsWith("one"), __);
-        assertEquals("ONE is the number".startsWith("one"), __);
+        assertEquals("".startsWith("one"), false);
+        assertEquals("one".startsWith("one"), true);
+        assertEquals("one is the number".startsWith("one"), true);
+        assertEquals("ONE is the number".startsWith("one"), false);
     }
 
     @Koan
     public void stringEndsWith() {
-        assertEquals("".endsWith("one"), __);
-        assertEquals("one".endsWith("one"), __);
-        assertEquals("the number is one".endsWith("one"), __);
-        assertEquals("the number is two".endsWith("one"), __);
-        assertEquals("the number is One".endsWith("one"), __);
+        assertEquals("".endsWith("one"), false);
+        assertEquals("one".endsWith("one"), true);
+        assertEquals("the number is one".endsWith("one"), true);
+        assertEquals("the number is two".endsWith("one"), false);
+        assertEquals("the number is One".endsWith("one"), false);
     }
 
     @Koan
