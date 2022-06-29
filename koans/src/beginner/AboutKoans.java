@@ -12,8 +12,8 @@ public class AboutKoans {
 
     @Koan
     public void definitionOfKoanCompletion() {
-        boolean koanIsComplete = false;
-        if (koanIsComplete) {
+        boolean koanIsComplete = true;
+        if (!koanIsComplete) {
             fail("what if koanIsComplete variable was true?");
         }
     }
