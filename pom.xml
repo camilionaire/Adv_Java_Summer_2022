@@ -36,7 +36,7 @@ accordingly
         
   
   
-  <groupId>edu.pdx.cs410J.YourUserId</groupId>
+  <groupId>edu.pdx.cs410J.camilo3</groupId>
         
   
   
@@ -60,7 +60,7 @@ accordingly
         
   
   
-  <url>http://YourGitHubUserInLowerCase.github.io/PortlandStateJavaSummer2022</url>
+  <url>http://camilionaire.github.io/Adv_Java_Summer_2022</url>
         
   
   
@@ -109,7 +109,7 @@ accordingly
                 
     
     
-    <url>https://github.com/YourGitHubUser/PortlandStateJavaSummer2022/issues</url>
+    <url>https://github.com/camilionaire/Adv_Java_Summer_2022/issues</url>
               
   
   
@@ -257,7 +257,7 @@ accordingly
                 
     
     
-    <connection>scm:git:http://YourGitHubUser/PortlandStateJavaSummer2022.git</connection>
+    <connection>scm:git:http://camilionaire/Adv_Java_Summer_2022.git</connection>
               
   
   
@@ -297,7 +297,7 @@ accordingly
                         
       
       
-      <url>scm:git:http://YourGitHubUser/PortlandStateJavaSummer2022.git</url>
+      <url>scm:git:http://camilionaire/Adv_Java_Summer_2022.git</url>
                       
     
     
