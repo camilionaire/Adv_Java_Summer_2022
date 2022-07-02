@@ -56,7 +56,8 @@ public class Project1 {
     }
   }
   public static void main(String[] args) {
-    PhoneCall call = new PhoneCall();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+//    PhoneCall call = new PhoneCall();  // Refer to one of Dave's classes so that we can be sure it is on the classpath
+    PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234", "03/2/2022 1:03" ,"3/15/2022 10:39");
     boolean readme = false;
 
     try {
