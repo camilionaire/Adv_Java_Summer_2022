@@ -5,6 +5,7 @@ import edu.pdx.cs410J.AbstractPhoneBill;
 import java.util.Collection;
 
 import java.util.Arrays;
+// this will probably be deleted later on.
 import java.util.Collections;
 import java.util.stream.IntStream;
 
@@ -19,16 +20,28 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
  * @param customer
  *        The customer's number as a String.
  *        Format "whatever string" where the string is unicode? i think...
- *        the phone call list will automatically be made with 8 slots
+ *        the phone call list will automatically be made with 1 slot
  *        and will grow as necessary.
  */
 
 public PhoneBill(String customer) {
     this.customer = customer;
-    this.phoneCalls = new PhoneCall[8];
+    this.phoneCalls = new PhoneCall[1];
     this.numPhoneCalls = 0;
   }
 
+  /**
+   * super simple getNumPhoneCalls() returns the number of phone calls present
+   * helpful so you don't have to use .size() on the collections sometimes.
+   */
+  public int getNumPhoneCalls() {
+    return this.numPhoneCalls;
+  }
+
+  /**
+   * super simple getCustumer() returns the string customer name
+   * overrides the abstract phone bill's abstract getCustomer method
+   */
   @Override
   public String getCustomer() {
     return this.customer;
@@ -52,12 +65,12 @@ public PhoneBill(String customer) {
 
   // looked up how to return a collection of something here:
   // https://stackoverflow.com/questions/24491067/how-to-return-a-collection
+  /**
+   * returns the array as a copy from the range of # of phone calls and then
+   * turns that into a list and returns that, there is probably a simpler way.
+   */
   @Override
   public Collection<PhoneCall> getPhoneCalls() {
-//    throw new UnsupportedOperationException("This method is not implemented yet");
-    // this below was not really what I wanted... but something to explore later.
-//    return IntStream.range(0, numPhoneCalls).mapToObj(i -> phoneCalls[i]).toArray();
-    return Arrays.asList(phoneCalls);
-//    return Collections.list(phoneCalls); // this does not work
+    return Arrays.asList(Arrays.copyOfRange(phoneCalls, 0, numPhoneCalls));
   }
 }
