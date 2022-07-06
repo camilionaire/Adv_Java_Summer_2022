@@ -5,17 +5,17 @@ import edu.pdx.cs410J.AbstractPhoneBill;
 import java.util.Collection;
 
 import java.util.Arrays;
-// this will probably be deleted later on.
-import java.util.Collections;
-import java.util.stream.IntStream;
 
+/**
+ * PhoneBill class extends AbstractPhoneBill
+ */
 public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
   private final String customer;
   private PhoneCall[] phoneCalls;
   private int numPhoneCalls;
 
 /**
- * Creates a new <code>Student</code>
+ * Creates a new <code>PhoneBill</code>
  *
  * @param customer
  *        The customer's number as a String.
@@ -72,6 +72,8 @@ public PhoneBill(String customer) {
 
   // looked up how to return a collection of something here:
   // https://stackoverflow.com/questions/24491067/how-to-return-a-collection
+  // and how to get a copy of range here:
+  // https://www.geeksforgeeks.org/how-to-get-slice-of-a-primitive-array-in-java/
   /**
    * returns the array as a copy from the range of # of phone calls and then
    * turns that into a list and returns that, there is probably a simpler way.
