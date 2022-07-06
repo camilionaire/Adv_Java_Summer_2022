@@ -1,7 +1,6 @@
 package edu.pdx.cs410J.camilo3;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
@@ -9,13 +8,10 @@ import java.util.Collection;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.when;
 
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-//import org.mockito.junit.;
-
-//@ExtendWith(MockitoExtension.class)
+/**
+ * Unit tests for the {@link PhoneBill} class.
+ */
 public class PhoneBillTest {
     /**
      * This unit test makes sure something is created when we create the object.
@@ -26,11 +22,11 @@ public class PhoneBillTest {
         assertNotNull(aBill);
     }
     /**
+     *
      * This unit test makes sure getCustomer works
      */
-
     @Test
-    void testToSeeThatBillIsCreatedAndGetCustomerWorks() {
+    void testToSeeThatGetCustomerWorks() {
         PhoneBill aBill = new PhoneBill("Steven");
         assertThat(aBill.getCustomer(), containsString("Steven"));
     }
@@ -40,7 +36,7 @@ public class PhoneBillTest {
      * of phone calls.
      */
     @Test
-    void testToSeeThatPhoneCallsIsSetCorrectAndGetPhoneCallsWorksZeroEntries() {
+    void testToSeeThatGetPhoneCallsWorksZeroEntries() {
         PhoneBill aBill = new PhoneBill("Steven");
         // I guess this is how this works?...
         assertEquals(aBill.getPhoneCalls(), Arrays.asList(new PhoneCall[0]));
@@ -61,14 +57,13 @@ public class PhoneBillTest {
      * This unit test makes sure getNumPhoneCalls works when there are no Phone calls.
      */
     @Test
-    void testToSeeThatPhoneCallsIsZeroSetAndGetNumPhoneCallsWorksZeroEntries() {
+    void testToSeeThatGetNumPhoneCallsWorksZeroEntries() {
         PhoneBill aBill = new PhoneBill("Steven");
-        // I guess this is how this works?...
         assertEquals(aBill.getNumPhoneCalls(), 0);
     }
 
     /**
-     * This unit test makes sure getPhoneCalls works when there is one phone call
+     * This unit test makes sure addPhoneCalls works when there is one phone call
      * NOT SURE HOW TO DO A FAKE OR A MOCK YET... STILL WATCHING THE VIDEOS
      */
     @Test
@@ -85,7 +80,7 @@ public class PhoneBillTest {
     }
 
     /**
-     * This unit test makes sure getPhoneCalls works when we add a phoneCall
+     * This unit test makes sure getPhoneCalls works when we add 2 phoneCalls
      * NOT SURE HOW TO DO A FAKE OR A MOCK YET... STILL WATCHING THE VIDEOS
      */
     @Test
