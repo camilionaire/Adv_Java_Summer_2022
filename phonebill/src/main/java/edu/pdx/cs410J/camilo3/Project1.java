@@ -31,16 +31,6 @@ public class Project1 {
   }
 
   /**
-   * just sees if there are zero arguments used in the command line call
-   */
-  @VisibleForTesting
-  private static void checkForZeroArgs(String[] args) throws MissingCommandLineArguments {
-    if ((args == null) || (args.length == 0)) {
-      throw new MissingCommandLineArguments();
-    }
-  }
-
-  /**
    * just sees if there is a -README option in any of the options
    */
   @VisibleForTesting
@@ -130,12 +120,6 @@ public class Project1 {
     PhoneBill aBill;
     PhoneCall aCall;
     String[] clippedArgs;
-
-    try {
-      checkForZeroArgs(args);
-    } catch (MissingCommandLineArguments e) {
-      System.err.println(e.getMessage());
-    }
 
     // runs through options and checks for a -README
     readme = checkForReadme(args);
