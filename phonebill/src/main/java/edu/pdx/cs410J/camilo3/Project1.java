@@ -14,6 +14,10 @@ import java.util.regex.*;
  */
 public class Project1 {
 
+  /**
+   * if -README option is invoked, this method is called and prints the
+   * readme file found at README.txt.
+   */
   private static void printReadme() {
     try (InputStream readme = Project1.class.getResourceAsStream("README.txt")
     ) {
@@ -26,14 +30,21 @@ public class Project1 {
     }
   }
 
-//  @VisibleForTesting
-  public static void checkForZeroArgs(String[] args) throws MissingCommandLineArguments {
+  /**
+   * just sees if there are zero arguments used in the command line call
+   */
+  @VisibleForTesting
+  private static void checkForZeroArgs(String[] args) throws MissingCommandLineArguments {
     if ((args == null) || (args.length == 0)) {
       throw new MissingCommandLineArguments();
     }
   }
 
-  public static boolean checkForReadme(String[] args) {
+  /**
+   * just sees if there is a -README option in any of the options
+   */
+  @VisibleForTesting
+  static boolean checkForReadme(String[] args) {
     for (String arg : args) {
       if (arg.equals("-README")) {
         printReadme();
@@ -44,8 +55,13 @@ public class Project1 {
     }
     return false;
   }
+
+  /**
+   * just sees if there is a -print option in any of the options
+   * this currently only checks the first argument if any as that
+   * is the only legal argument left after -README has been read
+   */
   public static boolean checkForPrint(String[] args) {
-//    return (args[0].equals("-print"));
     for (String arg : args) {
       if (arg.equals("-print")) {
         return true;
@@ -56,22 +72,38 @@ public class Project1 {
     return false;
   }
 
+  /**
+   * returns true if is of the form nnn-nnn-nnnn, false otherwise
+   */
   @VisibleForTesting
   static boolean isValidPhoneNumber(String phoneNumber) {
     return Pattern.matches("^\\d{3}-\\d{3}-\\d{4}$", phoneNumber);
   }
 
+  /**
+   * returns true if date is of the regex form ^\\d?\\d/\\d?\\d/\\d{4}$
+   * false otherwise
+   */
   @VisibleForTesting
   static boolean isValidDate(String date) {
     return Pattern.matches("^\\d?\\d/\\d?\\d/\\d{4}$", date);
   }
 
+  /**
+   * returns true if time is of the regex form ^[012]?\\d:[0-5]\\d$
+   * false otherwise
+   */
   @VisibleForTesting
   static boolean isValidTime(String time) {
     return Pattern.matches("^[012]?\\d:[0-5]\\d$", time);
   }
 
 
+  /**
+   * takes the args and makes sure they are the correct length, and then
+   * makes sure each individual argument is in the correct format,
+   * responds with an exception depending on which argument is invalid.
+   */
   static void checkForImproperFormatting(String[] args)
           throws MissingCommandLineArguments, ImproperPhoneNumber, ImproperDate, ImproperTime {
     if (args.length != 7) {
@@ -86,6 +118,13 @@ public class Project1 {
   }
 
 
+  /**
+   * main method, can take is arguments from the command line, parses and checks them for
+   * validity and prints exception messages if there are any
+   * makes a {@link PhoneCall} object and a {@link PhoneBill} and adds phoneCall to
+   * phoneBill
+   * prints out a message if -print option is employed.
+   */
   public static void main(String[] args) {
     boolean readme, printOption;
     PhoneBill aBill;
@@ -98,18 +137,24 @@ public class Project1 {
       System.err.println(e.getMessage());
     }
 
+    // runs through options and checks for a -README
     readme = checkForReadme(args);
 
+    // if there is no readme, we check for -print
     if (!readme) {
-//      System.out.println("This is where the other stuff will work out!");
 
+      // checks only first item for -print, since only 2 possible
+      // options are viable, throws false otherwise.
       printOption = checkForPrint(args);
+
       if (printOption) {
         clippedArgs = Arrays.copyOfRange(args, 1, args.length);
       } else {
         clippedArgs = args;
       }
-//
+
+      // this part checks for the formatting.
+      // and then creates the actual objects with the formatted array.
       try {
         checkForImproperFormatting(clippedArgs);
         aBill = new PhoneBill(clippedArgs[0]);
@@ -122,17 +167,12 @@ public class Project1 {
       } catch (Exception e) {
         System.err.println(e.getMessage());
       }
-
-
-
     }
-
-//    System.out.println("\n FOR TESTING!: These were the arguments we got:");
-//    for (String arg : args) {
-//      System.out.println(arg);
-//    }
   } // end of main
 
+  /**
+   * exception that is thrown when the phone number arguments are messed up.
+   */
   static class ImproperPhoneNumber extends Exception {
     public ImproperPhoneNumber() {
       super( "INCORRECT FORMATTING OF PHONE NUMBERS\n" +
@@ -142,6 +182,9 @@ public class Project1 {
     }
   }
 
+  /**
+   * exception that is thrown when the date arguments are messed up.
+   */
   static class ImproperDate extends Exception {
     public ImproperDate() {
       super("INCORRECT FORMATTING OF DATES\n" +
@@ -151,6 +194,9 @@ public class Project1 {
     }
   }
 
+  /**
+   * exception that is thrown when the time arguments are messed up.
+   */
   static class ImproperTime extends Exception {
     public ImproperTime() {
       super("INCORRECT FORMATTING OF TIMES\n" +
@@ -159,6 +205,10 @@ public class Project1 {
               "example: 03:42 or 11:13\n" + "Thank you.");
     }
   }
+
+  /**
+   * exception that is thrown when the time arguments are messed up.
+   */
   @VisibleForTesting
   static class MissingCommandLineArguments extends Exception {
     public MissingCommandLineArguments() {
