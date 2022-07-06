@@ -1,37 +1,25 @@
 package edu.pdx.cs410J.camilo3;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests for the {@link PhoneCall} class.
- *
- * You'll need to update these unit tests as you build out your program.
  */
 public class PhoneCallTest {
 
   /**
-   * This unit test will need to be modified (likely deleted) as you implement
-   * your project.
+   * This unit test makes sure something is created.
    */
-//  @Test
-//  void getBeginTimeStringNeedsToBeImplemented() {
-//    PhoneCall call = new PhoneCall();
-//    assertThrows(UnsupportedOperationException.class, call::getBeginTimeString);
-//  }
+  @Test
+  void testToSeeThatSomethingIsCreated() {
+    PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234", "03/2/2022 1:03" ,"3/15/2022 10:39");
+    assertNotNull(call);
+  }
 
-  /**
-   * This unit test will need to be modified (likely deleted) as you implement
-   * your project.
-   */
-//  @Test
-//  void initiallyAllPhoneCallsHaveTheSameCallee() {
-//    PhoneCall call = new PhoneCall();
-//    assertThat(call.getCallee(), containsString("not implemented"));
-//  }
   /**
    * This unit test makes sure getCallerFunction works
    */

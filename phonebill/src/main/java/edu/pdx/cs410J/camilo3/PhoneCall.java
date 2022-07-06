@@ -3,7 +3,8 @@ package edu.pdx.cs410J.camilo3;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
 /**
- * The class represents a phone call.
+ * The class represents a phone call. It is made up of a
+ * callerNumber, calleeNumber, beginTimeString, and endTimeString
  */
 public class PhoneCall extends AbstractPhoneCall {
   private String callerNumber;
@@ -20,9 +21,9 @@ public class PhoneCall extends AbstractPhoneCall {
    *        The callee's number as a String.
    *        Format "nnn-nnn-nnnn" where n is a 0-9 character.
    * @param begin
-   *        The time the phone call was placed.
+   *        The time the phone call was placed as a String.
    * @param end
-   *        The time the phone call was finished.
+   *        The time the phone call was finished as a String.
    */
 
   public PhoneCall(String caller, String callee, String begin, String end) {
@@ -32,38 +33,34 @@ public class PhoneCall extends AbstractPhoneCall {
     this.endTimeString = end;
   }
   /**
-   * getCaller() returns the callerNumber string.
+   * getCaller() returns the callerNumber String.
    */
   @Override
   public String getCaller() {
-//    throw new UnsupportedOperationException("This method is not implemented yet");
     return this.callerNumber;
   }
 
   /**
-   * getCallee() returns the calleeNumber string.
+   * getCallee() returns the calleeNumber String.
    */
   @Override
   public String getCallee() {
-//    return "This method is not implemented yet";
     return this.calleeNumber;
   }
 
   /**
-   * getBeginTimeString() returns the beginTimeString string..
+   * getBeginTimeString() returns the beginTimeString as a String.
    */
   @Override
   public String getBeginTimeString() {
-//    throw new UnsupportedOperationException("This method is not implemented yet");
     return this.beginTimeString;
   }
 
   /**
-   * getEndTimeString() returns the endTimeString string..
+   * getEndTimeString() returns the endTimeString as a String.
    */
   @Override
   public String getEndTimeString() {
-//    throw new UnsupportedOperationException("This method is not implemented yet");
     return this.endTimeString;
   }
 }
