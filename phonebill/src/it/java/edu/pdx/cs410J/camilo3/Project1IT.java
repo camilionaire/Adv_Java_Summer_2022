@@ -27,4 +27,16 @@ class Project1IT extends InvokeMainTestCase {
     assertThat(result.getTextWrittenToStandardError(), containsString("INCORRECT USE OF COMMAND LINE ARGUMENTS"));
   }
 
+    /**
+     * Tests that invoking the main method with correct arguments
+     * and print option, prints everything and it's alright.
+     */
+    @Test
+    void testEverythingPrintsWonderfully() {
+        MainMethodResult result = invokeMain(
+                new String[]
+                        {"-print", "Steven", "867-867-5309", "503-222-2222",
+                                "03/17/2022", "23:11", "03/17/2022", "23:27"});
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Steven's phone bill with 1 phone calls"));
+    }
 }
