@@ -39,7 +39,7 @@ public PhoneBill(String customer) {
   }
 
   /**
-   * super simple getCustumer() returns the string customer name
+   * super simple getCustomer() returns the string customer name
    * overrides the abstract phone bill's abstract getCustomer method
    */
   @Override
@@ -47,12 +47,19 @@ public PhoneBill(String customer) {
     return this.customer;
   }
 
-  // probably going to use
+  // used this as I wasn't quite sure how to do an array inside of a class in java.
   // https://www.geeksforgeeks.org/creating-a-dynamic-array-in-java/
   // to get the array that's growable, but we will see...
+  /**
+   * addPhoneCall
+   * adds a phone call to a growable array.  array starts as single element and
+   * grows by double each time it expands beyond limits
+   * adds 1 to the number of calls
+   * @param call
+   *        the call to be added to the phoneCalls list.
+   */
   @Override
   public void addPhoneCall(PhoneCall call) {
-//    throw new UnsupportedOperationException("This method is not implemented yet");
     if (phoneCalls.length == numPhoneCalls) {
       PhoneCall newPhoneList[] = new PhoneCall[2 * numPhoneCalls];
       for (int i = 0; i < numPhoneCalls; i++) {
@@ -68,6 +75,7 @@ public PhoneBill(String customer) {
   /**
    * returns the array as a copy from the range of # of phone calls and then
    * turns that into a list and returns that, there is probably a simpler way.
+   * but this seems to work.
    */
   @Override
   public Collection<PhoneCall> getPhoneCalls() {

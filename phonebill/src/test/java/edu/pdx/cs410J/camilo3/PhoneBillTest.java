@@ -18,7 +18,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 //@ExtendWith(MockitoExtension.class)
 public class PhoneBillTest {
     /**
-     * This unit test makes sure something is created when we create something.
+     * This unit test makes sure something is created when we create the object.
      */
     @Test
     void testToSeeThatBillIsCreated() {
@@ -36,7 +36,8 @@ public class PhoneBillTest {
     }
 
     /**
-     * This unit test makes sure getPhoneCalls works when there are no Phone calls.
+     * This unit test makes sure getPhoneCalls returns an empty list
+     * of phone calls.
      */
     @Test
     void testToSeeThatPhoneCallsIsSetCorrectAndGetPhoneCallsWorksZeroEntries() {
@@ -47,6 +48,7 @@ public class PhoneBillTest {
 
     /**
      * This unit test makes sure getPhoneCalls works when there are no Phone calls.
+     * with the size of the list that is returned.
      */
     @Test
     void testToSeeThatPhoneCallsIsZeroSetAndGetPhoneCallsWorksZeroEntries() {
@@ -56,23 +58,24 @@ public class PhoneBillTest {
     }
 
     /**
-     * This unit test makes sure getPhoneCalls works when there are no Phone calls.
+     * This unit test makes sure getNumPhoneCalls works when there are no Phone calls.
      */
     @Test
-    void testToSeeThatPhoneCallsIsZeroSetAndGetNumberPhonecallsWorksZeroEntries() {
+    void testToSeeThatPhoneCallsIsZeroSetAndGetNumPhoneCallsWorksZeroEntries() {
         PhoneBill aBill = new PhoneBill("Steven");
         // I guess this is how this works?...
         assertEquals(aBill.getNumPhoneCalls(), 0);
     }
 
     /**
-     * This unit test makes sure getPhoneCalls works when there are no Phone calls.
+     * This unit test makes sure getPhoneCalls works when there is one phone call
      * NOT SURE HOW TO DO A FAKE OR A MOCK YET... STILL WATCHING THE VIDEOS
      */
     @Test
     void testToSeeThatAddingAPhoneCallWorks() {
         PhoneBill aBill = new PhoneBill("Steven");
-        PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234", "03/2/2022 1:03" ,"3/15/2022 10:39");
+        PhoneCall call = new PhoneCall(
+                "503-867-5309", "800-666-1234", "03/2/2022 1:03" ,"3/15/2022 10:39");
 
         aBill.addPhoneCall(call);
         Collection<PhoneCall> comparePhoneCalls = Arrays.asList(new PhoneCall[] {call});
@@ -86,13 +89,15 @@ public class PhoneBillTest {
      * NOT SURE HOW TO DO A FAKE OR A MOCK YET... STILL WATCHING THE VIDEOS
      */
     @Test
-    void testToSeeThatAddingAPhoneCallWorksForSize() {
+    void testToSeeThatAddingAPhoneCallWorksForSizeTwo() {
         PhoneBill aBill = new PhoneBill("Steven");
         PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234", "03/2/2022 1:03" ,"3/15/2022 10:39");
+        PhoneCall call2 = new PhoneCall("503-867-5309", "800-666-1234", "03/16/2022 1:03" ,"3/16/2022 10:39");
 
         aBill.addPhoneCall(call);
+        aBill.addPhoneCall(call2);
 
-        assertEquals(aBill.getNumPhoneCalls(), 1);
+        assertEquals(aBill.getNumPhoneCalls(), 2);
     }
 
     /**
