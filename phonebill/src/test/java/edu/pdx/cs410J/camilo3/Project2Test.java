@@ -1,6 +1,5 @@
 package edu.pdx.cs410J.camilo3;
 
-import edu.pdx.cs410J.InvokeMainTestCase;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,12 +18,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * written to {@link System#out} and the like.
  */
 
-class Project1Test {
+class Project2Test {
 
   @Test
   void readmeCanBeReadAsResource() throws IOException {
     try (
-      InputStream readme = Project1.class.getResourceAsStream("README.txt")
+      InputStream readme = Project2.class.getResourceAsStream("README.txt")
     ) {
       assertThat(readme, not(nullValue()));
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
@@ -39,14 +38,14 @@ class Project1Test {
   @Test
   void stringOfArgsWithOptionOfReadmeTrueSingleOption() {
     String[] test = {"-README"};
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.checkForReadme(test), true);
   }
   @Test
   void stringOfArgsWithOptionOfReadmeTrueMultipleOptions() {
     String[] test = {"-print", "-hello-world", "-README", "more things"};
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.checkForReadme(test), true);
   }
@@ -54,7 +53,7 @@ class Project1Test {
   @Test
   void stringOfArgsWithOptionOfReadmeFalseMultipleOptions() {
     String[] test = {"-print", "-hello-world", "Robert Paulson", "-README"};
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.checkForReadme(test), false);
   }
@@ -64,14 +63,14 @@ class Project1Test {
    */
   @Test
   void isValidPhoneNumberTrue() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.isValidPhoneNumber("503-867-5309"), true);
   }
 
   @Test
   void isValidPhoneNumberFalse() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.isValidPhoneNumber("50t-867-5309"), false);
   }
@@ -81,7 +80,7 @@ class Project1Test {
    */
   @Test
   void isValidDateTrue() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.isValidDate("3/15/2022"), true);
     assertEquals(proj.isValidDate("03/2/2022"), true);
@@ -89,7 +88,7 @@ class Project1Test {
 
   @Test
   void isValidDateFalse() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.isValidDate("003/02/1901"), false);
     assertEquals(proj.isValidDate("3/2/901"), false);
@@ -100,7 +99,7 @@ class Project1Test {
    */
   @Test
   void isValidTimeTrue() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.isValidTime("11:13"), true);
     assertEquals(proj.isValidTime("09:59"), true);
@@ -108,7 +107,7 @@ class Project1Test {
 
   @Test
   void isValidTimeFalse() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.isValidTime("003/02/1901"), false);
     assertEquals(proj.isValidTime("45:99"), false);
@@ -119,21 +118,21 @@ class Project1Test {
    */
   @Test
   void checkForPrintTrue() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.checkForPrint(new String[] {"-print", "-first"}), true);
   }
 
   @Test
   void checkForPrintFalse() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.checkForPrint(new String[] {"-first", "-print"}), false);
   }
 
   @Test
   void checkForPrintFalseZero() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
 
     assertEquals(proj.checkForPrint(new String[0]), false);
   }
@@ -143,9 +142,9 @@ class Project1Test {
    */
   @Test
   void checkFormattingFailsOnZero() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
     String[] testArgs = new String[0];
-    Exception exception = assertThrows(Project1.MissingCommandLineArguments.class, () -> {
+    Exception exception = assertThrows(Project2.MissingCommandLineArguments.class, () -> {
       proj.checkForImproperFormatting(testArgs);
     });
     assertTrue(exception.getMessage().contains("INCORRECT USE OF COMMAND LINE ARGUMENTS"));
@@ -153,9 +152,9 @@ class Project1Test {
 
   @Test
   void checkFormattingFailsOnBadFirstPhoneNumber() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
     String[] testArgs = new String[] {"dave", "8k1-227-1838", "831-479-4859", "date1", "time1", "date2", "time2"};
-    Exception exception = assertThrows(Project1.ImproperPhoneNumber.class, () -> {
+    Exception exception = assertThrows(Project2.ImproperPhoneNumber.class, () -> {
       proj.checkForImproperFormatting(testArgs);
     });
     assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF PHONE NUMBERS"));
@@ -163,9 +162,9 @@ class Project1Test {
 
   @Test
   void checkFormattingFailsOnBadSecondPhoneNumber() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
     String[] testArgs = new String[] {"dave", "831-479-4859", "8k1-227-1838", "date1", "time1", "date2", "time2"};
-    Exception exception = assertThrows(Project1.ImproperPhoneNumber.class, () -> {
+    Exception exception = assertThrows(Project2.ImproperPhoneNumber.class, () -> {
       proj.checkForImproperFormatting(testArgs);
     });
     assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF PHONE NUMBERS"));
@@ -173,9 +172,9 @@ class Project1Test {
 
   @Test
   void checkFormattingFailsOnBadFirstDate() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
     String[] testArgs = new String[] {"dave", "831-479-4859", "861-227-1838", "003/7/2022", "time1", "03/7/2022", "time2"};
-    Exception exception = assertThrows(Project1.ImproperDate.class, () -> {
+    Exception exception = assertThrows(Project2.ImproperDate.class, () -> {
       proj.checkForImproperFormatting(testArgs);
     });
     assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF DATES"));
@@ -183,9 +182,9 @@ class Project1Test {
 
   @Test
   void checkFormattingFailsOnBadSecondDate() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
     String[] testArgs = new String[] {"dave", "831-479-4859", "861-227-1838", "03/7/2022", "time1", "03/007/2022", "time2"};
-    Exception exception = assertThrows(Project1.ImproperDate.class, () -> {
+    Exception exception = assertThrows(Project2.ImproperDate.class, () -> {
       proj.checkForImproperFormatting(testArgs);
     });
     assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF DATES"));
@@ -193,9 +192,9 @@ class Project1Test {
 
   @Test
   void checkFormattingFailsOnBadFirstTime() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
     String[] testArgs = new String[] {"dave", "831-479-4859", "861-227-1838", "03/7/2022", "33:42", "03/7/2022", "01:47"};
-    Exception exception = assertThrows(Project1.ImproperTime.class, () -> {
+    Exception exception = assertThrows(Project2.ImproperTime.class, () -> {
       proj.checkForImproperFormatting(testArgs);
     });
     assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF TIMES"));
@@ -203,9 +202,9 @@ class Project1Test {
 
   @Test
   void checkFormattingFailsOnBadSecondTime() {
-    Project1 proj = new Project1();
+    Project2 proj = new Project2();
     String[] testArgs = new String[] {"dave", "831-479-4859", "861-227-1838", "03/7/2022", "01:42", "03/07/2022", "001:47"};
-    Exception exception = assertThrows(Project1.ImproperTime.class, () -> {
+    Exception exception = assertThrows(Project2.ImproperTime.class, () -> {
       proj.checkForImproperFormatting(testArgs);
     });
     assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF TIMES"));
