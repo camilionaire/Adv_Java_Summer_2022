@@ -33,19 +33,31 @@ public class PhoneCallChecker {
     }
 
     /**
+     */
+    @VisibleForTesting
+    static void isArrayZero(String[] args) throws MissingCommandLineArguments {
+        if (args.length == 0) {
+            throw new MissingCommandLineArguments();
+        }
+    }
+
+    /**
      * takes the args and makes sure they are the correct length, and then
      * makes sure each individual argument is in the correct format,
      * responds with an exception depending on which argument is invalid.
      */
     static void checkForImproperFormatting(String[] args)
-            throws MissingCommandLineArguments, ImproperTime, ImproperDate, ImproperPhoneNumber {
-        if (args.length != 7) {
+            throws MissingCommandLineArguments, ImproperTime, ImproperDate,
+                ImproperPhoneNumber, ExtraneousCommandLineArguments {
+        if (args.length < 6) {
             throw new MissingCommandLineArguments();
-        } else if (! isValidPhoneNumber(args[1]) || ! isValidPhoneNumber(args[2])) {
+        } else if (args.length > 6) {
+            throw new ExtraneousCommandLineArguments();
+        } else if (! isValidPhoneNumber(args[0]) || ! isValidPhoneNumber(args[1])) {
             throw new ImproperPhoneNumber();
-        } else if (! isValidDate(args[3]) || ! isValidDate(args[5])) {
+        } else if (! isValidDate(args[2]) || ! isValidDate(args[4])) {
             throw new ImproperDate();
-        } else if (! isValidTime(args[4]) || ! isValidTime(args[6])) {
+        } else if (! isValidTime(args[3]) || ! isValidTime(args[5])) {
             throw new ImproperTime();
         }
     }
@@ -92,12 +104,22 @@ public class PhoneCallChecker {
     }
 
     /**
-     * exception that is thrown when the time arguments are messed up.
+     * exception that is thrown when there are too many arguments
+     */
+    static class ExtraneousCommandLineArguments extends Exception {
+        public ExtraneousCommandLineArguments() {
+            super( "TOO MANY COMMAND LINE ARGUMENTS\n" +
+                    "usage: java -jar target/phonebill-2022.0.0.jar [options] <args>\n" +
+                    "Please use option -README for complete list of options and args.");
+        }
+    }
+    /**
+     * exception that is thrown when there are too few arguments
      */
     @VisibleForTesting
     static class MissingCommandLineArguments extends Exception {
         public MissingCommandLineArguments() {
-            super( "INCORRECT USE OF COMMAND LINE ARGUMENTS\n" +
+            super( "TOO FEW COMMAND LINE ARGUMENTS\n" +
                     "usage: java -jar target/phonebill-2022.0.0.jar [options] <args>\n" +
                     "Please use option -README for complete list of options and args.");
         }

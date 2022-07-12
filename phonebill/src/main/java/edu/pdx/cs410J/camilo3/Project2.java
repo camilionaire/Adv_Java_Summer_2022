@@ -96,8 +96,12 @@ public class Project2 {
       // and then creates the actual objects with the formatted array.
       try {
         PhoneCallChecker checker = new PhoneCallChecker();
-        checker.checkForImproperFormatting(clippedArgs);
+        checker.isArrayZero(args);
+
         aBill = new PhoneBill(clippedArgs[0]);
+
+        checker.checkForImproperFormatting(Arrays.copyOfRange(clippedArgs, 1, clippedArgs.length));
+
         aCall = new PhoneCall(
                 clippedArgs[1], clippedArgs[2], clippedArgs[3] + " " + clippedArgs[4],
                 clippedArgs[5] + " " + clippedArgs[6]);

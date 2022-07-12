@@ -24,7 +24,7 @@ class Project2IT extends InvokeMainTestCase {
   @Test
   void testNoCommandLineArguments() {
     MainMethodResult result = invokeMain();
-    assertThat(result.getTextWrittenToStandardError(), containsString("INCORRECT USE OF COMMAND LINE ARGUMENTS"));
+    assertThat(result.getTextWrittenToStandardError(), containsString("TOO FEW COMMAND LINE ARGUMENTS"));
   }
 
     /**
