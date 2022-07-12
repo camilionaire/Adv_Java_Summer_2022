@@ -83,7 +83,7 @@ public class PhoneCallCheckerTest {
         PhoneCallChecker checker = new PhoneCallChecker();
         ArrayList sa = new ArrayList();
         Exception exception = assertThrows(PhoneCallChecker.MissingCommandLineArguments.class, () -> {
-            checker.checkForImproperFormatting(sa);
+            checker.isArrayZero(sa);
         });
         assertTrue(exception.getMessage().contains("TOO FEW COMMAND LINE ARGUMENTS"));
     }

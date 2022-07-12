@@ -107,16 +107,13 @@ public class Project2 {
       // options are viable, throws false otherwise.
       printOption = checkForPrint(argList);
 
-//      if (printOption) {
-//        clippedArgs = removePrint(args);
-//      } else {
-//        clippedArgs = args;
-//      }
-
       // this part checks for the formatting.
       // and then creates the actual objects with the formatted array.
       try {
         PhoneCallChecker checker = new PhoneCallChecker();
+
+//        checker.extraOptions(argList);
+
         checker.isArrayZero(argList);
 
         aBill = new PhoneBill(argList.get(0));

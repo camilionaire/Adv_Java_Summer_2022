@@ -49,8 +49,10 @@ public class PhoneCallChecker {
      */
     static void checkForImproperFormatting(ArrayList args)
             throws MissingCommandLineArguments, ImproperTime, ImproperDate,
-                ImproperPhoneNumber, ExtraneousCommandLineArguments {
-        if (args.size() < 6) {
+                ImproperPhoneNumber, ExtraneousCommandLineArguments, TooManyOptions {
+        if (args.get(0).toString().startsWith("-")) {
+           throw new TooManyOptions();
+        } else if (args.size() < 6) {
             throw new MissingCommandLineArguments();
         } else if (args.size() > 6) {
             throw new ExtraneousCommandLineArguments();
@@ -67,6 +69,17 @@ public class PhoneCallChecker {
 
     }
 
+    /**
+     * exception that is thrown when there are too many options
+     */
+    static class TooManyOptions extends Exception {
+        public TooManyOptions() {
+            super( "UNRECOGNIZED OPTIONS!\n" +
+                    "Only options currently available are -print\n" +
+                    "-README and -textFile file\n" +
+                    "Please run with option -REAME for more options.");
+        }
+    }
 
     /**
      * exception that is thrown when the phone number arguments are messed up.
