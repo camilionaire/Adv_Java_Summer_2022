@@ -63,7 +63,7 @@ public class PhoneBillTest {
                 "503-867-5309", "800-666-1234", "03/2/2022 1:03" ,"3/15/2022 10:39");
 
         aBill.addPhoneCall(call);
-        Collection<PhoneCall> comparePhoneCalls = Arrays.asList(new PhoneCall[] {call});
+        Collection<PhoneCall> comparePhoneCalls = Arrays.asList(call);
 
         assertEquals(aBill.getPhoneCalls().size(), 1);
         assertEquals(aBill.getPhoneCalls(), comparePhoneCalls);

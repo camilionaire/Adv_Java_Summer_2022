@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -79,9 +81,9 @@ public class PhoneCallCheckerTest {
     @Test
     void checkFormattingFailsOnZero() {
         PhoneCallChecker checker = new PhoneCallChecker();
-        String[] testArgs = new String[0];
+        ArrayList sa = new ArrayList();
         Exception exception = assertThrows(PhoneCallChecker.MissingCommandLineArguments.class, () -> {
-            checker.checkForImproperFormatting(testArgs);
+            checker.checkForImproperFormatting(sa);
         });
         assertTrue(exception.getMessage().contains("TOO FEW COMMAND LINE ARGUMENTS"));
     }
@@ -89,10 +91,10 @@ public class PhoneCallCheckerTest {
     @Test
     void checkFormattingFailsOn7Args() {
         PhoneCallChecker checker = new PhoneCallChecker();
-        String[] testArgs = new String[] {"8k1-227-1838", "831-479-4859", "extras",
-                "date1", "time1", "date2", "time2"};
+        ArrayList sa = new ArrayList<>(Arrays.asList("831-479-4859", "831-444-4859", "extras",
+                "date1", "time1", "date2", "time2"));
         Exception exception = assertThrows(PhoneCallChecker.ExtraneousCommandLineArguments.class, () -> {
-            checker.checkForImproperFormatting(testArgs);
+            checker.checkForImproperFormatting(sa);
         });
         assertTrue(exception.getMessage().contains("TOO MANY COMMAND LINE ARGUMENTS"));
     }
@@ -100,9 +102,9 @@ public class PhoneCallCheckerTest {
     @Test
     void checkFormattingFailsOnBadFirstPhoneNumber() {
         PhoneCallChecker checker = new PhoneCallChecker();
-        String[] testArgs = new String[] {"8k1-227-1838", "831-479-4859", "date1", "time1", "date2", "time2"};
+        ArrayList sa = new ArrayList(Arrays.asList("8k1-227-1838", "831-479-4859", "date1", "time1", "date2", "time2"));
         Exception exception = assertThrows(PhoneCallChecker.ImproperPhoneNumber.class, () -> {
-            checker.checkForImproperFormatting(testArgs);
+            checker.checkForImproperFormatting(sa);
         });
         assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF PHONE NUMBERS"));
     }
@@ -110,9 +112,9 @@ public class PhoneCallCheckerTest {
     @Test
     void checkFormattingFailsOnBadSecondPhoneNumber() {
         PhoneCallChecker checker = new PhoneCallChecker();
-        String[] testArgs = new String[] {"831-479-4859", "8k1-227-1838", "date1", "time1", "date2", "time2"};
+        ArrayList sa = new ArrayList(Arrays.asList("831-479-4859", "8k1-227-1838", "date1", "time1", "date2", "time2"));
         Exception exception = assertThrows(PhoneCallChecker.ImproperPhoneNumber.class, () -> {
-            checker.checkForImproperFormatting(testArgs);
+            checker.checkForImproperFormatting(sa);
         });
         assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF PHONE NUMBERS"));
     }
@@ -120,9 +122,9 @@ public class PhoneCallCheckerTest {
     @Test
     void checkFormattingFailsOnBadFirstDate() {
         PhoneCallChecker checker = new PhoneCallChecker();
-        String[] testArgs = new String[] {"831-479-4859", "861-227-1838", "003/7/2022", "time1", "03/7/2022", "time2"};
+        ArrayList sa = new ArrayList(Arrays.asList("831-479-4859", "861-227-1838", "003/7/2022", "time1", "03/7/2022", "time2"));
         Exception exception = assertThrows(PhoneCallChecker.ImproperDate.class, () -> {
-            checker.checkForImproperFormatting(testArgs);
+            checker.checkForImproperFormatting(sa);
         });
         assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF DATES"));
     }
@@ -130,9 +132,10 @@ public class PhoneCallCheckerTest {
     @Test
     void checkFormattingFailsOnBadSecondDate() {
         PhoneCallChecker checker = new PhoneCallChecker();
-        String[] testArgs = new String[] {"831-479-4859", "861-227-1838", "03/7/2022", "time1", "03/007/2022", "time2"};
+        String[] testArgs = new String[] {};
+        ArrayList sa = new ArrayList(Arrays.asList("831-479-4859", "861-227-1838", "03/7/2022", "time1", "03/007/2022", "time2"));
         Exception exception = assertThrows(PhoneCallChecker.ImproperDate.class, () -> {
-            checker.checkForImproperFormatting(testArgs);
+            checker.checkForImproperFormatting(sa);
         });
         assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF DATES"));
     }
@@ -140,9 +143,9 @@ public class PhoneCallCheckerTest {
     @Test
     void checkFormattingFailsOnBadFirstTime() {
         PhoneCallChecker checker = new PhoneCallChecker();
-        String[] testArgs = new String[] {"831-479-4859", "861-227-1838", "03/7/2022", "33:42", "03/7/2022", "01:47"};
+        ArrayList sa = new ArrayList(Arrays.asList("831-479-4859", "861-227-1838", "03/7/2022", "33:42", "03/7/2022", "01:47"));
         Exception exception = assertThrows(PhoneCallChecker.ImproperTime.class, () -> {
-            checker.checkForImproperFormatting(testArgs);
+            checker.checkForImproperFormatting(sa);
         });
         assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF TIMES"));
     }
@@ -150,9 +153,9 @@ public class PhoneCallCheckerTest {
     @Test
     void checkFormattingFailsOnBadSecondTime() {
         PhoneCallChecker checker = new PhoneCallChecker();
-        String[] testArgs = new String[] {"831-479-4859", "861-227-1838", "03/7/2022", "01:42", "03/07/2022", "001:47"};
+        ArrayList sa = new ArrayList(Arrays.asList("831-479-4859", "861-227-1838", "03/7/2022", "01:42", "03/07/2022", "001:47"));
         Exception exception = assertThrows(PhoneCallChecker.ImproperTime.class, () -> {
-            checker.checkForImproperFormatting(testArgs);
+            checker.checkForImproperFormatting(sa);
         });
         assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF TIMES"));
     }

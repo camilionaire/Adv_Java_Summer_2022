@@ -2,6 +2,7 @@ package edu.pdx.cs410J.camilo3;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class PhoneCallChecker {
@@ -35,8 +36,8 @@ public class PhoneCallChecker {
     /**
      */
     @VisibleForTesting
-    static void isArrayZero(String[] args) throws MissingCommandLineArguments {
-        if (args.length == 0) {
+    static void isArrayZero(ArrayList args) throws MissingCommandLineArguments {
+        if (args.size() == 0) {
             throw new MissingCommandLineArguments();
         }
     }
@@ -46,18 +47,18 @@ public class PhoneCallChecker {
      * makes sure each individual argument is in the correct format,
      * responds with an exception depending on which argument is invalid.
      */
-    static void checkForImproperFormatting(String[] args)
+    static void checkForImproperFormatting(ArrayList args)
             throws MissingCommandLineArguments, ImproperTime, ImproperDate,
                 ImproperPhoneNumber, ExtraneousCommandLineArguments {
-        if (args.length < 6) {
+        if (args.size() < 6) {
             throw new MissingCommandLineArguments();
-        } else if (args.length > 6) {
+        } else if (args.size() > 6) {
             throw new ExtraneousCommandLineArguments();
-        } else if (! isValidPhoneNumber(args[0]) || ! isValidPhoneNumber(args[1])) {
+        } else if (! isValidPhoneNumber(args.get(0).toString()) || ! isValidPhoneNumber(args.get(1).toString())) {
             throw new ImproperPhoneNumber();
-        } else if (! isValidDate(args[2]) || ! isValidDate(args[4])) {
+        } else if (! isValidDate(args.get(2).toString()) || ! isValidDate(args.get(4).toString())) {
             throw new ImproperDate();
-        } else if (! isValidTime(args[3]) || ! isValidTime(args[5])) {
+        } else if (! isValidTime(args.get(3).toString()) || ! isValidTime(args.get(5).toString())) {
             throw new ImproperTime();
         }
     }

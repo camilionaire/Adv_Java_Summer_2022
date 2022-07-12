@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,25 +39,28 @@ class Project2Test {
    */
   @Test
   void stringOfArgsWithOptionOfReadmeTrueSingleOption() {
-    String[] test = {"-README"};
-    Project2 proj = new Project2();
 
-    assertEquals(proj.checkForReadme(test), true);
+    Project2 proj = new Project2();
+    ArrayList argList = new ArrayList<>(Arrays.asList("-README"));
+
+    assertEquals(proj.checkForReadme(argList), true);
   }
   @Test
   void stringOfArgsWithOptionOfReadmeTrueMultipleOptions() {
     String[] test = {"-print", "-hello-world", "-README", "more things"};
     Project2 proj = new Project2();
+    ArrayList argList = new ArrayList<> (Arrays.asList("-print", "-hello-world", "-README", "more things"));
 
-    assertEquals(proj.checkForReadme(test), true);
+    assertEquals(proj.checkForReadme(argList), true);
   }
 
   @Test
   void stringOfArgsWithOptionOfReadmeFalseMultipleOptions() {
-    String[] test = {"-print", "-hello-world", "Robert Paulson", "-README"};
+    ;
     Project2 proj = new Project2();
+    ArrayList argList = new ArrayList<>(Arrays.asList("-print", "-hello-world", "Robert Paulson", "-README"));
 
-    assertEquals(proj.checkForReadme(test), false);
+    assertEquals(proj.checkForReadme(argList), false);
   }
 
   /**
@@ -64,22 +69,25 @@ class Project2Test {
   @Test
   void checkForPrintTrue() {
     Project2 proj = new Project2();
+    ArrayList argList = new ArrayList<>(Arrays.asList("-print", "-first"));
 
-    assertEquals(proj.checkForPrint(new String[] {"-print", "-first"}), true);
+    assertEquals(proj.checkForPrint(argList), true);
   }
 
   @Test
   void checkForPrintFalse() {
     Project2 proj = new Project2();
+    ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-print"));
 
-    assertEquals(proj.checkForPrint(new String[] {"-first", "-print"}), false);
+    assertEquals(proj.checkForPrint(argList), true);
   }
 
   @Test
   void checkForPrintFalseZero() {
     Project2 proj = new Project2();
+    ArrayList argList = new ArrayList<>();
 
-    assertEquals(proj.checkForPrint(new String[0]), false);
+    assertEquals(proj.checkForPrint(argList), false);
   }
 
 
