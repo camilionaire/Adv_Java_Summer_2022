@@ -37,6 +37,7 @@ class Project2IT extends InvokeMainTestCase {
                 new String[]
                         {"-print", "Steven", "867-867-5309", "503-222-2222",
                                 "03/17/2022", "23:11", "03/17/2022", "23:27"});
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Steven's phone bill with 1 phone calls"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString(
+                "Phone call from 867-867-5309 to 503-222-2222 from 03/17/2022 23:11 to 03/17/2022 23:27"));
     }
 }

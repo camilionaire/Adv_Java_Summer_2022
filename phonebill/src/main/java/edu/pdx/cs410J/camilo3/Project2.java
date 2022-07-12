@@ -52,6 +52,7 @@ public class Project2 {
    * is the only legal argument left after -README has been read
    */
   public static boolean checkForPrint(String[] args) {
+    boolean printOption = false;
     for (String arg : args) {
       if (arg.equals("-print")) {
         return true;
@@ -147,7 +148,7 @@ public class Project2 {
                 clippedArgs[5] + " " + clippedArgs[6]);
         aBill.addPhoneCall(aCall);
         if (printOption) {
-          System.out.println(aBill);
+          System.out.println(aCall);
         }
       } catch (Exception e) {
         System.err.println(e.getMessage());

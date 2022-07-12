@@ -33,8 +33,8 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
       while ((customer = br.readLine()) != null) {
         String[] aCallArray = customer.split("\\s+");
         PhoneCall aCall = new PhoneCall(
-                aCallArray[1], aCallArray[2], aCallArray[3] + " " + aCallArray[4],
-                aCallArray[5] + " " + aCallArray[6]);
+                aCallArray[0], aCallArray[1], aCallArray[2] + " " + aCallArray[3],
+                aCallArray[4] + " " + aCallArray[5]);
         aBill.addPhoneCall(aCall);
       }
 
