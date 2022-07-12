@@ -143,7 +143,8 @@ public class Project2 {
         checkForImproperFormatting(clippedArgs);
         aBill = new PhoneBill(clippedArgs[0]);
         aCall = new PhoneCall(
-                clippedArgs[1], clippedArgs[2], clippedArgs[3] + clippedArgs[4], clippedArgs[5] + clippedArgs[6]);
+                clippedArgs[1], clippedArgs[2], clippedArgs[3] + " " + clippedArgs[4],
+                clippedArgs[5] + " " + clippedArgs[6]);
         aBill.addPhoneCall(aCall);
         if (printOption) {
           System.out.println(aBill);
@@ -198,16 +199,7 @@ public class Project2 {
     public MissingCommandLineArguments() {
       super( "INCORRECT USE OF COMMAND LINE ARGUMENTS\n" +
               "usage: java -jar target/phonebill-2022.0.0.jar [options] <args>\n" +
-              "args are (in this order):\n" +
-              "customer \tPerson whose phone bill we’re modeling\n" +
-              "callerNumber \tPhone number of caller\n" +
-              "calleeNumber \tPhone number of person who was called\n" +
-              "begin \tDate and time call began (24-hour time)\n" +
-              "end \tDate and time call ended (24-hour time)\n" +
-              "options are (options may appear in any order):\n" +
-              "-print \tPrints a description of the new phone call\n" +
-              "-README \tPrints a README for this project and exits\n" +
-              "Date and time should be in the format: mm/dd/yyyy hh:mm");
+              "Please use option -README for complete list of options and args.");
     }
   }
 }
