@@ -26,7 +26,19 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
         throw new ParserException("Missing customer");
       }
 
-      return new PhoneBill(customer);
+      PhoneBill aBill = new PhoneBill(customer);
+
+      // need to insert going through these phonecalls here
+      // and add them all to the phonebill class.
+      while ((customer = br.readLine()) != null) {
+        String[] aCallArray = customer.split("\\s+");
+        PhoneCall aCall = new PhoneCall(
+                aCallArray[1], aCallArray[2], aCallArray[3] + " " + aCallArray[4],
+                aCallArray[5] + " " + aCallArray[6]);
+        aBill.addPhoneCall(aCall);
+      }
+
+      return aBill;
 
     } catch (IOException e) {
       throw new ParserException("While parsing phone bill text", e);
