@@ -63,6 +63,20 @@ public class Project2 {
     return false;
   }
 
+//  /**
+//   * this removes the print statement.
+//   */
+//  public static boolean removePrint(String[] args) {
+//    int place = 0;
+//    for (int i = 0; i < args.length; i++) {
+//      if (args[i].equals("-print")) {
+//        place = i;
+//      }
+//    }
+////    return Arrays.copyOfRange(args, 0, place) + Arrays.copyOfRange(args, place + 1, args.length);
+//    return true;
+//  }
+
   /**
    * main method, can take is arguments from the command line, parses and checks them for
    * validity and prints exception messages if there are any

@@ -54,17 +54,7 @@ public class PhoneBillTest {
     }
 
     /**
-     * This unit test makes sure getNumPhoneCalls works when there are no Phone calls.
-     */
-    @Test
-    void testToSeeThatGetNumPhoneCallsWorksZeroEntries() {
-        PhoneBill aBill = new PhoneBill("Steven");
-        assertEquals(aBill.getNumPhoneCalls(), 0);
-    }
-
-    /**
      * This unit test makes sure addPhoneCalls works when there is one phone call
-     * NOT SURE HOW TO DO A FAKE OR A MOCK YET... STILL WATCHING THE VIDEOS
      */
     @Test
     void testToSeeThatAddingAPhoneCallWorks() {
@@ -81,7 +71,6 @@ public class PhoneBillTest {
 
     /**
      * This unit test makes sure getPhoneCalls works when we add 2 phoneCalls
-     * NOT SURE HOW TO DO A FAKE OR A MOCK YET... STILL WATCHING THE VIDEOS
      */
     @Test
     void testToSeeThatAddingAPhoneCallWorksForSizeTwo() {
@@ -92,7 +81,7 @@ public class PhoneBillTest {
         aBill.addPhoneCall(call);
         aBill.addPhoneCall(call2);
 
-        assertEquals(aBill.getNumPhoneCalls(), 2);
+        assertEquals(aBill.getPhoneCalls().size(), 2);
     }
 
     /**

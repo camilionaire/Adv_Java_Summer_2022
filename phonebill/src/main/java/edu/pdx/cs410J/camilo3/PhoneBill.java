@@ -2,17 +2,16 @@ package edu.pdx.cs410J.camilo3;
 
 import edu.pdx.cs410J.AbstractPhoneBill;
 
+import java.util.ArrayList;
 import java.util.Collection;
-
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * PhoneBill class extends AbstractPhoneBill
  */
 public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
   private final String customer;
-  private PhoneCall[] phoneCalls;
-  private int numPhoneCalls;
+  private List<PhoneCall> phoneCalls;
 
 /**
  * Creates a new <code>PhoneBill</code>
@@ -26,16 +25,7 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall> {
 
 public PhoneBill(String customer) {
     this.customer = customer;
-    this.phoneCalls = new PhoneCall[1];
-    this.numPhoneCalls = 0;
-  }
-
-  /**
-   * super simple getNumPhoneCalls() returns the number of phone calls present
-   * helpful so you don't have to use .size() on the collections sometimes.
-   */
-  public int getNumPhoneCalls() {
-    return this.numPhoneCalls;
+    this.phoneCalls = new ArrayList<>();
   }
 
   /**
@@ -47,9 +37,6 @@ public PhoneBill(String customer) {
     return this.customer;
   }
 
-  // used this as I wasn't quite sure how to do an array inside of a class in java.
-  // https://www.geeksforgeeks.org/creating-a-dynamic-array-in-java/
-  // to get the array that's growable, but we will see...
   /**
    * addPhoneCall
    * adds a phone call to a growable array.  array starts as single element and
@@ -60,20 +47,9 @@ public PhoneBill(String customer) {
    */
   @Override
   public void addPhoneCall(PhoneCall call) {
-    if (phoneCalls.length == numPhoneCalls) {
-      PhoneCall newPhoneList[] = new PhoneCall[2 * numPhoneCalls];
-      for (int i = 0; i < numPhoneCalls; i++) {
-        newPhoneList[i] = phoneCalls[i];
-      }
-      this.phoneCalls = newPhoneList;
-    }
-    this.phoneCalls[numPhoneCalls++] = call;
+    phoneCalls.add(call);
   }
 
-  // looked up how to return a collection of something here:
-  // https://stackoverflow.com/questions/24491067/how-to-return-a-collection
-  // and how to get a copy of range here:
-  // https://www.geeksforgeeks.org/how-to-get-slice-of-a-primitive-array-in-java/
   /**
    * returns the array as a copy from the range of # of phone calls and then
    * turns that into a list and returns that, there is probably a simpler way.
@@ -81,6 +57,6 @@ public PhoneBill(String customer) {
    */
   @Override
   public Collection<PhoneCall> getPhoneCalls() {
-    return Arrays.asList(Arrays.copyOfRange(phoneCalls, 0, numPhoneCalls));
+    return this.phoneCalls;
   }
 }
