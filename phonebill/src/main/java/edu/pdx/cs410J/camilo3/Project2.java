@@ -66,8 +66,9 @@ public class Project2 {
 
   /**
    * just sees if there is a -textFile file option in any of the options
-   * if there is, it will remove the next line as the filename, delete that
+   * if there is, it will remove the next arg as the filename, delete that
    * delete the option and return the string, else return null string.
+   * if the next arg is an option or is non-existent, throws error.
    */
   public static String checkForTextFile(ArrayList<String> argList) throws MissingFileName {
     String turnString = null;
@@ -91,7 +92,6 @@ public class Project2 {
    */
   static void checkNamesMatch(String fileName, String CommandName) throws NamesDontMatch {
     if (! fileName.equals(CommandName)) { throw new NamesDontMatch(); }
-//    return true;
   }
 
   /**
