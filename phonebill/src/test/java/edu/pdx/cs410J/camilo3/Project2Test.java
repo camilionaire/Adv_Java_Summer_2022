@@ -55,6 +55,15 @@ class Project2Test {
   }
 
   @Test
+  void stringOfArgsWithOptionOfReadmeTrueWithTextFile() {
+    String[] test = {"-print", "-textFile", "yowza.txt", "-hello-world", "-README", "more things"};
+    Project2 proj = new Project2();
+    ArrayList argList = new ArrayList<> (Arrays.asList("-print", "-hello-world", "-README", "more things"));
+
+    assertEquals(proj.checkForReadme(argList), true);
+  }
+
+  @Test
   void stringOfArgsWithOptionOfReadmeFalseMultipleOptions() {
     ;
     Project2 proj = new Project2();

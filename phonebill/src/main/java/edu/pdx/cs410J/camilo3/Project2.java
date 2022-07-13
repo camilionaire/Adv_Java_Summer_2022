@@ -8,14 +8,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.*;
 
 /**
  * The main class for the CS410J Phone Bill Project
  */
 public class Project2 {
 
-//  public static ArrayList<String> argList;
   /**
    * if -README option is invoked, this method is called and prints the
    * readme file found at README.txt.
@@ -37,13 +35,15 @@ public class Project2 {
    */
   @VisibleForTesting
   static boolean checkForReadme(ArrayList<String> argList) {
+    String prev = null;
     for (String arg : argList) {
       if (arg.equals("-README")) {
         printReadme();
         return true;
-      } else if (! arg.startsWith("-")) {
+      } else if (! arg.startsWith("-") && !prev.equals("-textFile")) {
         return false;
       }
+      prev = arg;
     }
     return false;
   }
@@ -112,5 +112,4 @@ public class Project2 {
       }
     }
   } // end of main
-
-}
+} // end of Project2 class.
