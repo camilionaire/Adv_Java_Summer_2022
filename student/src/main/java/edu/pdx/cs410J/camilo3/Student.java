@@ -16,7 +16,7 @@ public class Student extends Human {
 
   /**
    * Creates a new <code>Student</code>                                             
-   *                                                                                
+   *
    * @param name                                                                    
    *        The student's name                                                      
    * @param classes                                                                 
