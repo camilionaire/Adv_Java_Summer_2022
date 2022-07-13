@@ -4,7 +4,6 @@ import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.PhoneBillParser;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +45,7 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
       PhoneBill aBill = new PhoneBill(customer);
       PhoneCallChecker checker = new PhoneCallChecker();
 
-      // need to insert going through these phonecalls here
+      // need to go through these phonecalls here
       // and add them all to the phonebill class.
       while ((customer = br.readLine()) != null) {
         ArrayList aCallArray = new ArrayList(Arrays.asList(customer.split(" ")));
