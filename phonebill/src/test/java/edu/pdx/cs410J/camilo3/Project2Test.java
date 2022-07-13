@@ -113,4 +113,15 @@ class Project2Test {
     assertEquals(compare, argList);
   }
 
+  @Test
+  void checkForTextFlagError() throws Project2.MissingFileName {
+    Project2 proj = new Project2();
+    String[] test = {"-print", "-textFile", "-hello-world", "-README", "more things"};
+    ArrayList argList = new ArrayList<>(Arrays.asList(test));
+
+    Exception exception = assertThrows(Project2.MissingFileName.class, () -> {
+      proj.checkForTextFile(argList);
+    });
+    assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
+  }
 }

@@ -73,11 +73,10 @@ public class Project2 {
     String turnString = null;
     for (int i=0; i < argList.size(); i++) {
       if (argList.get(i).equals("-textFile")) {
-        if (i+1 < argList.size()) {
+        if (i+1 < argList.size() && ! argList.get(i+1).startsWith("-")) {
           turnString = argList.get(i+1);
           argList.remove(i+1);
           argList.remove(i);
-//          return turnString;
         } else {
           throw new MissingFileName();
         }
