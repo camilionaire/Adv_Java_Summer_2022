@@ -10,6 +10,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TextParserTest {
 
@@ -32,4 +33,15 @@ public class TextParserTest {
     assertThrows(ParserException.class, parser::parse);
   }
 
+  @Test
+  void wrongTimeFormatOnEndTime() {
+    InputStream resource = getClass().getResourceAsStream("wrong-end-time.txt");
+    assertThat(resource, notNullValue());
+
+    TextParser parser = new TextParser(new InputStreamReader(resource));
+    Exception exception = assertThrows(ParserException.class, parser::parse);
+    assertTrue(exception.getMessage().contains(
+            "While parsing phone bill text:\n" +
+                    "INCORRECT FORMATTING OF PHONE NUMBERS"));
+  }
 }

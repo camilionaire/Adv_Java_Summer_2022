@@ -34,7 +34,7 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
       // need to insert going through these phonecalls here
       // and add them all to the phonebill class.
       while ((customer = br.readLine()) != null) {
-        ArrayList aCallArray = new ArrayList(Arrays.asList(customer.split("\\s+")));
+        ArrayList aCallArray = new ArrayList(Arrays.asList(customer.split(",")));
         checker.checkForImproperFormatting(aCallArray);
         PhoneCall aCall = new PhoneCall(
                 aCallArray.get(0).toString(), aCallArray.get(1).toString(),
@@ -46,7 +46,8 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
       return aBill;
 
     } catch (Exception e) { // switched from IOException initially.
-      throw new ParserException("While parsing phone bill text", e);
+//      String msg = e.getMessage();
+      throw new ParserException("While parsing phone bill text:\n" + e.getMessage());
     }
   }
 }
