@@ -124,4 +124,19 @@ class Project2Test {
     });
     assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
   }
+
+  @Test
+  void checkNamesMatchNoErrorThrown() throws Project2.NamesDontMatch {
+    Project2 proj = new Project2();
+    assertTrue(proj.checkNamesMatch("hello", "hello"));
+  }
+
+  @Test
+  void checkNamesMatchErrorThrown() throws Project2.NamesDontMatch {
+    Project2 proj = new Project2();
+    Exception exception = assertThrows(Project2.NamesDontMatch.class, () -> {
+      proj.checkNamesMatch("hello", "goodbye");
+    });
+    assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOUR NAMES DON'T MATCH."));
+  }
 }

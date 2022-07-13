@@ -89,6 +89,17 @@ public class PhoneCallCheckerTest {
     }
 
     @Test
+    void checkFormattingFailsOnFewerThanSix() {
+        PhoneCallChecker checker = new PhoneCallChecker();
+        ArrayList sa = new ArrayList<>(Arrays.asList("831-479-4859", "831-444-4859",
+                "date1", "time1", "time2"));
+        Exception exception = assertThrows(PhoneCallChecker.MissingCommandLineArguments.class, () -> {
+            checker.checkForImproperFormatting(sa);
+        });
+        assertTrue(exception.getMessage().contains("TOO FEW COMMAND LINE ARGUMENTS"));
+    }
+
+    @Test
     void checkFormattingFailsOn7Args() {
         PhoneCallChecker checker = new PhoneCallChecker();
         ArrayList sa = new ArrayList<>(Arrays.asList("831-479-4859", "831-444-4859", "extras",

@@ -65,10 +65,6 @@ public class PhoneCallChecker {
         }
     }
 
-    public static void main(String[] args) {
-
-    }
-
     /**
      * exception that is thrown when there are too many options
      */

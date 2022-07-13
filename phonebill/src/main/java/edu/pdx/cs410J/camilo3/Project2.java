@@ -85,6 +85,15 @@ public class Project2 {
     return turnString;
   }
 
+  @VisibleForTesting
+  /**
+   * wrapper function for throwing error if the names don't match
+   */
+  static boolean checkNamesMatch(String fileName, String CommandName) throws NamesDontMatch {
+    if (! fileName.equals(CommandName)) { throw new NamesDontMatch(); }
+    return true;
+  }
+
   /**
    * main method, can take is arguments from the command line, parses and checks them for
    * validity and prints exception messages if there are any
@@ -134,9 +143,7 @@ public class Project2 {
           aBill = new PhoneBill(ourName);
         }
 
-        if (! aBill.getCustomer().equals(ourName)) {
-          throw new NamesDontMatch();
-        }
+        checkNamesMatch(aBill.getCustomer(), ourName);
 
         aCall = new PhoneCall(
                 argList.get(0), argList.get(1), argList.get(2) + " " + argList.get(3),
@@ -176,7 +183,7 @@ public class Project2 {
    */
   static class NamesDontMatch extends Exception {
     public NamesDontMatch() {
-      super("IT LOOKS LIKE YOU'RE NAMES DON'T MATCH.\n" +
+      super("IT LOOKS LIKE YOUR NAMES DON'T MATCH.\n" +
               "The filename customer and command line customer\n" +
               "do not match.  Please check input and try again.\n" +
               "Thank you.");
