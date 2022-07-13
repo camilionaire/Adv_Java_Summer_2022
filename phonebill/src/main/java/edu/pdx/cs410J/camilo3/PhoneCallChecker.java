@@ -34,6 +34,7 @@ public class PhoneCallChecker {
     }
 
     /**
+     * throws error if there are no command line arguments
      */
     @VisibleForTesting
     static void isArrayZero(ArrayList args) throws MissingCommandLineArguments {
