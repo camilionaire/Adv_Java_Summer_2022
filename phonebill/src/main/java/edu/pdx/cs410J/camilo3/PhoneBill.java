@@ -39,9 +39,7 @@ public PhoneBill(String customer) {
 
   /**
    * addPhoneCall
-   * adds a phone call to a growable array.  array starts as single element and
-   * grows by double each time it expands beyond limits
-   * adds 1 to the number of calls
+   * adds a phone call to a growable List
    * @param call
    *        the call to be added to the phoneCalls list.
    */
@@ -51,9 +49,7 @@ public PhoneBill(String customer) {
   }
 
   /**
-   * returns the array as a copy from the range of # of phone calls and then
-   * turns that into a list and returns that, there is probably a simpler way.
-   * but this seems to work.
+   * returns the phonecalls list as a collection
    */
   @Override
   public Collection<PhoneCall> getPhoneCalls() {
