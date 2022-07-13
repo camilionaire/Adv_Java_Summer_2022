@@ -2,10 +2,7 @@ package edu.pdx.cs410J.camilo3;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -54,14 +51,39 @@ public class Project2 {
    * is the only legal argument left after -README has been read
    */
   public static boolean checkForPrint(ArrayList<String> argList) {
-//    boolean printOption = false;
+    String prev = null;
     for (int i=0; i < argList.size(); i++) {
       if (argList.get(i).equals("-print")) {
         argList.remove(i);
         return true;
+      } else if (! argList.get(i).startsWith("-") && !prev.equals("-textFile")) {
+        return false;
       }
+      prev = argList.get(i);
     }
     return false;
+  }
+
+  /**
+   * just sees if there is a -textFile file option in any of the options
+   * if there is, it will remove the next line as the filename, delete that
+   * delete the option and return the string, else return null string.
+   */
+  public static String checkForTextFile(ArrayList<String> argList) throws MissingFileName {
+    String turnString = null;
+    for (int i=0; i < argList.size(); i++) {
+      if (argList.get(i).equals("-textFile")) {
+        if (i+1 < argList.size()) {
+          turnString = argList.get(i+1);
+          argList.remove(i+1);
+          argList.remove(i);
+//          return turnString;
+        } else {
+          throw new MissingFileName();
+        }
+      }
+    }
+    return turnString;
   }
 
   /**
@@ -90,20 +112,45 @@ public class Project2 {
       // and then creates the actual objects with the formatted array.
       try {
         PhoneCallChecker checker = new PhoneCallChecker();
-
-//        checker.extraOptions(argList);
+        String fileName = checkForTextFile(argList);
 
         checker.isArrayZero(argList);
 
-        aBill = new PhoneBill(argList.get(0));
+        String ourName = argList.get(0);
         argList.remove(0);
 
         checker.checkForImproperFormatting(argList);
+
+        if (fileName != null) {
+          System.out.println("This is where the file logic goes.");
+          File customerFile = new File(fileName);
+          if (customerFile.exists()) {
+            FileReader fr = new FileReader(customerFile);
+            TextParser parser = new TextParser(fr);
+            aBill = parser.parse();
+          } else {
+            aBill = new PhoneBill(ourName);
+          }
+        } else {
+          aBill = new PhoneBill(ourName);
+        }
+
+        if (! aBill.getCustomer().equals(ourName)) {
+          throw new NamesDontMatch();
+        }
 
         aCall = new PhoneCall(
                 argList.get(0), argList.get(1), argList.get(2) + " " + argList.get(3),
                 argList.get(4) + " " + argList.get(5));
         aBill.addPhoneCall(aCall);
+
+        if (fileName != null) {
+          FileWriter fw = new FileWriter(fileName);
+          PrintWriter pw = new PrintWriter(fw);
+          TextDumper td = new TextDumper(pw);
+          td.dump(aBill);
+        }
+
         if (printOption) {
           System.out.println(aCall);
         }
@@ -112,4 +159,29 @@ public class Project2 {
       }
     }
   } // end of main
+
+  /**
+   * exception that is thrown when the file argument is missing.
+   */
+  static class MissingFileName extends Exception {
+    public MissingFileName() {
+      super("IT LOOKS LIKE YOU'RE MISSING A FILENAME.\n" +
+              "proper usage is -textFile file <args>\n" +
+              "please run with -README flag for more details.\n" +
+              "Thank you.");
+    }
+  }
+
+  /**
+   * exception that is thrown when the names don't match.
+   */
+  static class NamesDontMatch extends Exception {
+    public NamesDontMatch() {
+      super("IT LOOKS LIKE YOU'RE NAMES DON'T MATCH.\n" +
+              "The filename customer and command line customer\n" +
+              "do not match.  Please check input and try again.\n" +
+              "Thank you.");
+    }
+  }
+
 } // end of Project2 class.

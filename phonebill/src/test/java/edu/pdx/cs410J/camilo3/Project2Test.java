@@ -99,5 +99,18 @@ class Project2Test {
     assertEquals(proj.checkForPrint(argList), false);
   }
 
+  @Test
+  void checkForTextFlagTrue() throws Project2.MissingFileName {
+    Project2 proj = new Project2();
+    String[] test = {"-print", "-textFile", "yowza.txt", "-hello-world", "-README", "more things"};
+    ArrayList argList = new ArrayList<>(Arrays.asList(test));
+    ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-hello-world", "-README", "more things"}));
+
+    String yowza = proj.checkForTextFile(argList);
+
+    assertEquals(yowza, "yowza.txt");
+
+    assertEquals(compare, argList);
+  }
 
 }
