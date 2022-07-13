@@ -15,10 +15,10 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
   private final Reader reader;
 
   /**
-   * Creates a new <code>PhoneBill</code>
+   * Creates a new <code>TextParser</code>
    *
    * @param reader
-   * the objece of the Reader class that the text parser will be reading from
+   * the object of the Reader class that the text parser will be reading from
    */
   public TextParser(Reader reader) {
     this.reader = reader;
