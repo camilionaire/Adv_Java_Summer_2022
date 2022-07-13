@@ -22,6 +22,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 class Project2Test {
 
+  // ALSO GOING TO ASK IN OFFICE HOURS ABOUT THIS, WHICH IS WHY IS HERE ON TURNIN.
+//  @Test
+//  void testEverythingWorksWonderfully() throws Exception {
+//      Project2 proj = new Project2();
+//      String[] args = new String[] {"Steven", "867-867-5309", "503-222-2222",
+//                    "03/17/2022", "23:11", "03/17/2022", "23:27"};
+//      proj.main(args);
+//
+//  }
   @Test
   void readmeCanBeReadAsResource() throws IOException {
     try (
@@ -84,7 +93,7 @@ class Project2Test {
   }
 
   @Test
-  void checkForPrintFalse() {
+  void checkForPrintTrueAfter() {
     Project2 proj = new Project2();
     ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-print"));
 
@@ -95,6 +104,14 @@ class Project2Test {
   void checkForPrintFalseZero() {
     Project2 proj = new Project2();
     ArrayList argList = new ArrayList<>();
+
+    assertEquals(proj.checkForPrint(argList), false);
+  }
+
+  @Test
+  void checkForPrintFalseOutOfOptions() {
+    Project2 proj = new Project2();
+    ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-second", "third"));
 
     assertEquals(proj.checkForPrint(argList), false);
   }
@@ -123,12 +140,6 @@ class Project2Test {
       proj.checkForTextFile(argList);
     });
     assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
-  }
-
-  @Test
-  void checkNamesMatchNoErrorThrown() throws Project2.NamesDontMatch {
-    Project2 proj = new Project2();
-    assertTrue(proj.checkNamesMatch("hello", "hello"));
   }
 
   @Test

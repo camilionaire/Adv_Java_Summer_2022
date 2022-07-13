@@ -89,9 +89,9 @@ public class Project2 {
   /**
    * wrapper function for throwing error if the names don't match
    */
-  static boolean checkNamesMatch(String fileName, String CommandName) throws NamesDontMatch {
+  static void checkNamesMatch(String fileName, String CommandName) throws NamesDontMatch {
     if (! fileName.equals(CommandName)) { throw new NamesDontMatch(); }
-    return true;
+//    return true;
   }
 
   /**
@@ -130,7 +130,6 @@ public class Project2 {
         checker.checkForImproperFormatting(argList);
 
         if (fileName != null) {
-          System.out.println("This is where the file logic goes.");
           File customerFile = new File(fileName);
           if (customerFile.exists()) {
             FileReader fr = new FileReader(customerFile);
@@ -160,6 +159,7 @@ public class Project2 {
         if (printOption) {
           System.out.println(aCall);
         }
+       // end of big try block which catches all exceptions.
       } catch (Exception e) {
         System.err.println(e.getMessage());
       }
