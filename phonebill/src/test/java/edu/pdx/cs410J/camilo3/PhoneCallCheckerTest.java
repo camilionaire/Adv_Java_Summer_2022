@@ -159,4 +159,14 @@ public class PhoneCallCheckerTest {
         });
         assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF TIMES"));
     }
+
+    @Test
+    void checkAnExtraArgumentThrowsAnError() {
+        PhoneCallChecker checker = new PhoneCallChecker();
+        ArrayList sa = new ArrayList(Arrays.asList("-extra-option", "831-479-4859", "861-227-1838", "03/7/2022", "01:42", "03/07/2022", "001:47"));
+        Exception exception = assertThrows(PhoneCallChecker.TooManyOptions.class, () -> {
+            checker.checkForImproperFormatting(sa);
+        });
+        assertTrue(exception.getMessage().contains("UNRECOGNIZED OPTIONS!"));
+    }
 }

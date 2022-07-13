@@ -38,4 +38,23 @@ public class TextDumperTest {
     PhoneBill read = parser.parse();
     assertThat(read.getCustomer(), equalTo(customer));
   }
+  @Test
+  void canParseTextWithPhoneNumbersByTextDumper(@TempDir File tempDir) throws IOException, ParserException {
+    String customer = "Test Phone Bill";
+    PhoneBill bill = new PhoneBill(customer);
+
+    PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234", "03/2/2022 1:03" ,"3/3/2022 10:39");
+    PhoneCall anotherCall = new PhoneCall("503-867-5309", "800-666-1234", "03/15/2022 1:03" ,"3/15/2022 10:39");
+
+    bill.addPhoneCall(call);
+    bill.addPhoneCall(anotherCall);
+
+    File textFile = new File(tempDir, "apptbook.txt");
+    TextDumper dumper = new TextDumper(new FileWriter(textFile));
+    dumper.dump(bill);
+
+    TextParser parser = new TextParser(new FileReader(textFile));
+    PhoneBill read = parser.parse();
+    assertThat(read.getCustomer(), equalTo(customer));
+  }
 }

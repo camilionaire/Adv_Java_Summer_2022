@@ -64,27 +64,6 @@ public class Project2 {
     return false;
   }
 
-//  /**
-//   * this removes the print statement.
-//   */
-//  public static String[] removePrint(String[] args) {
-//    int place = 0;
-//    for (int i = 0; i < args.length; i++) {
-//      if (args[i].equals("-print")) {
-//        place = i;
-//      }
-//    }
-//    int size = args.length - 1;
-//    String[] retArray = new String[size];
-//    for (int i = 0; i < place; i++) {
-//      retArray[i] = args[i];
-//    }
-//    for (int i = place+1; i < args.length; i++) {
-//      retArray[i] = args[i];
-//    }
-//    return retArray;
-//  }
-
   /**
    * main method, can take is arguments from the command line, parses and checks them for
    * validity and prints exception messages if there are any
