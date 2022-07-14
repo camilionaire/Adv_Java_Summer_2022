@@ -76,7 +76,9 @@ class Project2IT extends InvokeMainTestCase {
     void testEverythingReadsAndPrintsWonderfully() {
         MainMethodResult result = invokeMain(
                 new String[]
-                        {"-print", "-textFile", "src/it/java/edu/pdx/cs410J/camilo3/FORINTEGRATIONTESTING.txt", "Camilo", "867-867-5309", "503-222-2222",
+                        {"-print", "-textFile",
+                                "src/it/resources/edu/pdx/cs410J/camilo3/FORINTEGRATIONTESTING.txt",
+                                "Camilo", "867-867-5309", "503-222-2222",
                                 "03/17/2022", "23:11", "03/17/2022", "23:27"});
         assertThat(result.getTextWrittenToStandardOut(), containsString(
                 "Phone call from 867-867-5309 to 503-222-2222 from 03/17/2022 23:11 to 03/17/2022 23:27"));
