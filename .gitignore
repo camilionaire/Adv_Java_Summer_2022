@@ -1,5 +1,5 @@
 # added for integration testing
-src/it/resources/*
+./src/it/resources/*
 
 # Compiled class file
 *.class
