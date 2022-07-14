@@ -37,7 +37,7 @@ public class Project2 {
       if (arg.equals("-README")) {
         printReadme();
         return true;
-      } else if (! arg.startsWith("-") && !prev.equals("-textFile")) {
+      } else if (! arg.startsWith("-") && (arg == argList.get(0) || !prev.equals("-textFile"))) {
         return false;
       }
       prev = arg;
@@ -47,8 +47,7 @@ public class Project2 {
 
   /**
    * just sees if there is a -print option in any of the options
-   * this currently only checks the first argument if any as that
-   * is the only legal argument left after -README has been read
+   * works with textfile additional possibility
    */
   public static boolean checkForPrint(ArrayList<String> argList) {
     String prev = null;
@@ -56,7 +55,7 @@ public class Project2 {
       if (argList.get(i).equals("-print")) {
         argList.remove(i);
         return true;
-      } else if (! argList.get(i).startsWith("-") && !prev.equals("-textFile")) {
+      } else if (! argList.get(i).startsWith("-") && (i == 0 || !prev.equals("-textFile"))) {
         return false;
       }
       prev = argList.get(i);
