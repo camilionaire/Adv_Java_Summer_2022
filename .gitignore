@@ -1,5 +1,6 @@
 # added for integration testing
 src/it/resources/edu/pdx/cs410J/camilo3/FORINTEGRATIONTESTING.txt
+
 # Compiled class file
 *.class
 
