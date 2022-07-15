@@ -43,7 +43,8 @@ public class AboutMocks {
         Collaborator padre = new Collaborator() {
             @Override
             public void doBusinessStuff() {
-                System.out.println("I am mockingly doing business.");
+                // doesn't really do anything here... but could!
+//                System.out.println("I am mockingly doing business.");
             }
         };
         new ClassUnderTest(padre).doSomething();
