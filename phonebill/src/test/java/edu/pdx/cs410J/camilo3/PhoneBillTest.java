@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class PhoneBillTest {
 
-    SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy H:mm a");
+    SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy H:mm a");
     /**
      * This unit test makes sure something is created when we create the object.
      */
@@ -64,7 +64,7 @@ public class PhoneBillTest {
     void testToSeeThatAddingAPhoneCallWorks() throws ParseException {
         PhoneBill aBill = new PhoneBill("Steven");
         PhoneCall call = new PhoneCall(
-                "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39"));
+                "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39 pm"));
 
         aBill.addPhoneCall(call);
         Collection<PhoneCall> comparePhoneCalls = Arrays.asList(call);
@@ -80,9 +80,9 @@ public class PhoneBillTest {
     void testToSeeThatAddingAPhoneCallWorksForSizeTwo() throws ParseException {
         PhoneBill aBill = new PhoneBill("Steven");
         PhoneCall call = new PhoneCall(
-                "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39"));
+                "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39 pm"));
         PhoneCall call2 = new PhoneCall(
-                "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39"));
+                "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39 pm"));
 
         aBill.addPhoneCall(call);
         aBill.addPhoneCall(call2);
@@ -98,7 +98,7 @@ public class PhoneBillTest {
     void testToSeeThatAddingAPhoneCallAndPrintToStringWorks() throws ParseException {
         PhoneBill aBill = new PhoneBill("Steven");
         PhoneCall call = new PhoneCall(
-                "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39"));
+                "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39 pm"));
 
         aBill.addPhoneCall(call);
 

@@ -47,14 +47,12 @@ class Project3IT extends InvokeMainTestCase {
     @Test
     void testEverythingPrintsWonderfully() {
         MainMethodResult result = invokeMain(
-                new String[]
-                        {"-print", "Steven", "867-867-5309", "503-222-2222",
-                                "03/17/2022", "23:11", "03/17/2022", "23:27"});
+                "-print", "Steven", "867-867-5309", "503-222-2222",
+                "03/17/2022", "11:11", "pm", "03/17/2022", "11:27", "pm");
         assertThat(result.getTextWrittenToStandardOut(), containsString(
-                "Phone call from 867-867-5309 to 503-222-2222 from 03/17/2022 23:11 to 03/17/2022 23:27"));
+                "Phone call from 867-867-5309 to 503-222-2222 from 3/17/2022 11:11 pm to 3/17/2022 11:27 pm"));
     }
 
-    // NOT SURE ABOUT THIS, WILL HAVE TO ASK IN OFFICE HOURS
     /**
      * Tests that invoking the main method with correct arguments
      * and no print option, and it's alright.
@@ -64,7 +62,7 @@ class Project3IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain(
                 new String[]
                         {"Steven", "867-867-5309", "503-222-2222",
-                                "03/17/2022", "23:11", "03/17/2022", "23:27"});
+                                "03/17/2022", "11:11", "pm", "03/17/2022", "11:27", "pm"});
     }
 
     // took this out until I can figure out a better way.
@@ -95,9 +93,9 @@ class Project3IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain(
                 new String[]
                         {"-print", "-textFile", "SHOULDBEDELETED.txt", "Camilo", "867-867-5309", "503-222-2222",
-                                "03/17/2022", "23:11", "03/17/2022", "23:27"});
+                                "03/17/2022", "11:11", "pm", "03/17/2022", "11:27", "pm"});
         assertThat(result.getTextWrittenToStandardOut(), containsString(
-                "Phone call from 867-867-5309 to 503-222-2222 from 03/17/2022 23:11 to 03/17/2022 23:27"));
+                "Phone call from 867-867-5309 to 503-222-2222 from 3/17/2022 11:11 pm to 3/17/2022 11:27 pm"));
 
         File deleteFile = new File("SHOULDBEDELETED.txt");
         deleteFile.delete();

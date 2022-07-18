@@ -46,15 +46,15 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
       PhoneBill aBill = new PhoneBill(customer);
       PhoneCallChecker checker = new PhoneCallChecker();
 
-      SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy H:mm a");
+      SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
       // need to go through these phonecalls here
       // and add them all to the phonebill class.
       while ((customer = br.readLine()) != null) {
         ArrayList aCallArray = new ArrayList(Arrays.asList(customer.split(" ")));
         checker.checkForImproperFormatting(aCallArray);
         PhoneCall aCall = new PhoneCall(
-                        (String) aCallArray.get(0), (String) aCallArray.get(1), sdf.parse(aCallArray.get(2) + " " + aCallArray.get(3)),
-                        sdf.parse(aCallArray.get(4) + " " + aCallArray.get(5)));
+                        (String) aCallArray.get(0), (String) aCallArray.get(1), sdf.parse(aCallArray.get(2) + " " + aCallArray.get(3) + " " + aCallArray.get(4)),
+                        sdf.parse(aCallArray.get(5) + " " + aCallArray.get(6) + " " + aCallArray.get(7)));
         aBill.addPhoneCall(aCall);
       }
 

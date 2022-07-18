@@ -25,12 +25,12 @@ public class PhoneCallChecker {
     }
 
     /**
-     * returns true if time is of the regex form ^[012]?\\d:[0-5]\\d$
+     * returns true if time is of the regex form ^[01]?\\d:[0-5]\\d$
      * false otherwise
      */
     @VisibleForTesting
     static boolean isValidTime(String time) {
-        return Pattern.matches("^[012]?\\d:[0-5]\\d$", time);
+        return Pattern.matches("^[01]?\\d:[0-5]\\d [ap]m$", time);
     }
 
     /**
@@ -53,15 +53,16 @@ public class PhoneCallChecker {
                 ImproperPhoneNumber, ExtraneousCommandLineArguments, TooManyOptions {
         if (args.get(0).toString().startsWith("-")) {
            throw new TooManyOptions();
-        } else if (args.size() < 6) {
+        } else if (args.size() < 8) {
             throw new MissingCommandLineArguments();
-        } else if (args.size() > 6) {
+        } else if (args.size() > 8) {
             throw new ExtraneousCommandLineArguments();
         } else if (! isValidPhoneNumber(args.get(0).toString()) || ! isValidPhoneNumber(args.get(1).toString())) {
             throw new ImproperPhoneNumber();
-        } else if (! isValidDate(args.get(2).toString()) || ! isValidDate(args.get(4).toString())) {
+        } else if (! isValidDate(args.get(2).toString()) || ! isValidDate(args.get(5).toString())) {
             throw new ImproperDate();
-        } else if (! isValidTime(args.get(3).toString()) || ! isValidTime(args.get(5).toString())) {
+        } else if (! isValidTime(args.get(3).toString() + " " + args.get(4).toString()) ||
+                ! isValidTime(args.get(6).toString() + " " + args.get(7).toString())) {
             throw new ImproperTime();
         }
     }
@@ -108,9 +109,9 @@ public class PhoneCallChecker {
     static class ImproperTime extends Exception {
         public ImproperTime() {
             super("INCORRECT FORMATTING OF TIMES\n" +
-                    "should be nn:nn or n:nn where n is a\n" +
+                    "should be nn:nn or n:nn am/pm where n is a\n" +
                     "digit btwn 0-9 seperated by a colon.\n" +
-                    "example: 03:42 or 11:13\n" + "Thank you.");
+                    "example: 03:42 pm or 11:13 am\n" + "Thank you.");
         }
     }
 

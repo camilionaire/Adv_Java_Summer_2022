@@ -144,11 +144,11 @@ public class Project3 {
 
         checkNamesMatch(aBill.getCustomer(), ourName);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy H:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy h:mm a");
 
         aCall = new PhoneCall(
-                argList.get(0), argList.get(1), sdf.parse(argList.get(2) + " " + argList.get(3)),
-                sdf.parse(argList.get(4) + " " + argList.get(5)));
+                argList.get(0), argList.get(1), sdf.parse(argList.get(2) + " " + argList.get(3) + " " + argList.get(4)),
+                sdf.parse(argList.get(5) + " " + argList.get(6) + " " + argList.get(7)));
         aBill.addPhoneCall(aCall);
 
         if (fileName != null) {

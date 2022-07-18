@@ -34,7 +34,7 @@ public class PhoneCall extends AbstractPhoneCall {
    */
 
   public PhoneCall(String caller, String callee, Date begin, Date end) {
-    this.sdf = new SimpleDateFormat("M/dd/yyyy H:mm a");
+    this.sdf = new SimpleDateFormat("M/d/yyyy h:mm a");
     this.callerNumber = caller;
     this.calleeNumber = callee;
     this.beginTime = begin;
@@ -61,7 +61,7 @@ public class PhoneCall extends AbstractPhoneCall {
    */
   @Override
   public String getBeginTimeString() {
-    return sdf.format(this.beginTime).toLowerCase(Locale.ROOT);
+    return sdf.format(this.beginTime).toLowerCase();
   }
 
   /**
@@ -69,7 +69,7 @@ public class PhoneCall extends AbstractPhoneCall {
    */
   @Override
   public String getEndTimeString() {
-    return sdf.format(this.endTime).toLowerCase(Locale.ROOT);
+    return sdf.format(this.endTime).toLowerCase();
   }
 
   /**

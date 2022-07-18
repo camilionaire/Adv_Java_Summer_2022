@@ -35,13 +35,14 @@ public class TextParserTest {
 
   @Test
   void wrongTimeFormatOnEndTime() {
-    InputStream resource = getClass().getResourceAsStream("wrong-end-time.txt");
+    InputStream resource = getClass().getResourceAsStream("wrong-callee-number.txt");
     assertThat(resource, notNullValue());
 
     TextParser parser = new TextParser(new InputStreamReader(resource));
     Exception exception = assertThrows(ParserException.class, parser::parse);
     assertTrue(exception.getMessage().contains(
             "While parsing phone bill text:\n" +
+//                    "INCORRECT FORMATTING OF TIMES"));
                     "INCORRECT FORMATTING OF PHONE NUMBERS"));
   }
 }
