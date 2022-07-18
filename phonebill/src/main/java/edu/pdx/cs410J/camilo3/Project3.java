@@ -9,14 +9,14 @@ import java.util.Arrays;
 /**
  * The main class for the CS410J Phone Bill Project
  */
-public class Project2 {
+public class Project3 {
 
   /**
    * if -README option is invoked, this method is called and prints the
    * readme file found at README.txt.
    */
   private static void printReadme() {
-    try (InputStream readme = Project2.class.getResourceAsStream("README.txt")
+    try (InputStream readme = Project3.class.getResourceAsStream("README.txt")
     ) {
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
       for (String line; (line = reader.readLine()) != null;) {

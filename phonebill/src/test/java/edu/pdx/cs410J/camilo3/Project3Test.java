@@ -20,7 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * written to {@link System#out} and the like.
  */
 
-class Project2Test {
+class Project3Test {
 
   // ALSO GOING TO ASK IN OFFICE HOURS ABOUT THIS, WHICH IS WHY IS HERE ON TURNIN.
 //  @Test
@@ -34,7 +34,7 @@ class Project2Test {
   @Test
   void readmeCanBeReadAsResource() throws IOException {
     try (
-      InputStream readme = Project2.class.getResourceAsStream("README.txt")
+      InputStream readme = Project3.class.getResourceAsStream("README.txt")
     ) {
       assertThat(readme, not(nullValue()));
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
@@ -49,7 +49,7 @@ class Project2Test {
   @Test
   void stringOfArgsWithOptionOfReadmeTrueSingleOption() {
 
-    Project2 proj = new Project2();
+    Project3 proj = new Project3();
     ArrayList argList = new ArrayList<>(Arrays.asList("-README"));
 
     assertEquals(proj.checkForReadme(argList), true);
@@ -57,7 +57,7 @@ class Project2Test {
   @Test
   void stringOfArgsWithOptionOfReadmeTrueMultipleOptions() {
     String[] test = {"-print", "-hello-world", "-README", "more things"};
-    Project2 proj = new Project2();
+    Project3 proj = new Project3();
     ArrayList argList = new ArrayList<> (Arrays.asList("-print", "-hello-world", "-README", "more things"));
 
     assertEquals(proj.checkForReadme(argList), true);
@@ -66,7 +66,7 @@ class Project2Test {
   @Test
   void stringOfArgsWithOptionOfReadmeTrueWithTextFile() {
     String[] test = {"-print", "-textFile", "yowza.txt", "-hello-world", "-README", "more things"};
-    Project2 proj = new Project2();
+    Project3 proj = new Project3();
     ArrayList argList = new ArrayList<> (Arrays.asList("-print", "-hello-world", "-README", "more things"));
 
     assertEquals(proj.checkForReadme(argList), true);
@@ -75,7 +75,7 @@ class Project2Test {
   @Test
   void stringOfArgsWithOptionOfReadmeFalseMultipleOptions() {
     ;
-    Project2 proj = new Project2();
+    Project3 proj = new Project3();
     ArrayList argList = new ArrayList<>(Arrays.asList("-print", "-hello-world", "Robert Paulson", "-README"));
 
     assertEquals(proj.checkForReadme(argList), false);
@@ -86,7 +86,7 @@ class Project2Test {
    */
   @Test
   void checkForPrintTrue() {
-    Project2 proj = new Project2();
+    Project3 proj = new Project3();
     ArrayList argList = new ArrayList<>(Arrays.asList("-print", "-first"));
 
     assertEquals(proj.checkForPrint(argList), true);
@@ -94,7 +94,7 @@ class Project2Test {
 
   @Test
   void checkForPrintTrueAfter() {
-    Project2 proj = new Project2();
+    Project3 proj = new Project3();
     ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-print"));
 
     assertEquals(proj.checkForPrint(argList), true);
@@ -102,7 +102,7 @@ class Project2Test {
 
   @Test
   void checkForPrintFalseZero() {
-    Project2 proj = new Project2();
+    Project3 proj = new Project3();
     ArrayList argList = new ArrayList<>();
 
     assertEquals(proj.checkForPrint(argList), false);
@@ -110,15 +110,15 @@ class Project2Test {
 
   @Test
   void checkForPrintFalseOutOfOptions() {
-    Project2 proj = new Project2();
+    Project3 proj = new Project3();
     ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-second", "third"));
 
     assertEquals(proj.checkForPrint(argList), false);
   }
 
   @Test
-  void checkForTextFlagTrue() throws Project2.MissingFileName {
-    Project2 proj = new Project2();
+  void checkForTextFlagTrue() throws Project3.MissingFileName {
+    Project3 proj = new Project3();
     String[] test = {"-print", "-textFile", "yowza.txt", "-hello-world", "-README", "more things"};
     ArrayList argList = new ArrayList<>(Arrays.asList(test));
     ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-hello-world", "-README", "more things"}));
@@ -131,21 +131,21 @@ class Project2Test {
   }
 
   @Test
-  void checkForTextFlagError() throws Project2.MissingFileName {
-    Project2 proj = new Project2();
+  void checkForTextFlagError() throws Project3.MissingFileName {
+    Project3 proj = new Project3();
     String[] test = {"-print", "-textFile", "-hello-world", "-README", "more things"};
     ArrayList argList = new ArrayList<>(Arrays.asList(test));
 
-    Exception exception = assertThrows(Project2.MissingFileName.class, () -> {
+    Exception exception = assertThrows(Project3.MissingFileName.class, () -> {
       proj.checkForTextFile(argList);
     });
     assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
   }
 
   @Test
-  void checkNamesMatchErrorThrown() throws Project2.NamesDontMatch {
-    Project2 proj = new Project2();
-    Exception exception = assertThrows(Project2.NamesDontMatch.class, () -> {
+  void checkNamesMatchErrorThrown() throws Project3.NamesDontMatch {
+    Project3 proj = new Project3();
+    Exception exception = assertThrows(Project3.NamesDontMatch.class, () -> {
       proj.checkNamesMatch("hello", "goodbye");
     });
     assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOUR NAMES DON'T MATCH."));
