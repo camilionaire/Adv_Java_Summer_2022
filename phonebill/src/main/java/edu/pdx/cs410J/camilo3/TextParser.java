@@ -5,6 +5,7 @@ import edu.pdx.cs410J.PhoneBillParser;
 
 import java.io.BufferedReader;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -45,15 +46,15 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
       PhoneBill aBill = new PhoneBill(customer);
       PhoneCallChecker checker = new PhoneCallChecker();
 
+      SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy H:mm a");
       // need to go through these phonecalls here
       // and add them all to the phonebill class.
       while ((customer = br.readLine()) != null) {
         ArrayList aCallArray = new ArrayList(Arrays.asList(customer.split(" ")));
         checker.checkForImproperFormatting(aCallArray);
         PhoneCall aCall = new PhoneCall(
-                aCallArray.get(0).toString(), aCallArray.get(1).toString(),
-                aCallArray.get(2) + " " + aCallArray.get(3),
-                aCallArray.get(4) + " " + aCallArray.get(5));
+                        (String) aCallArray.get(0), (String) aCallArray.get(1), sdf.parse(aCallArray.get(2) + " " + aCallArray.get(3)),
+                        sdf.parse(aCallArray.get(4) + " " + aCallArray.get(5)));
         aBill.addPhoneCall(aCall);
       }
 

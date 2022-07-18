@@ -3,6 +3,7 @@ package edu.pdx.cs410J.camilo3;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -143,9 +144,11 @@ public class Project3 {
 
         checkNamesMatch(aBill.getCustomer(), ourName);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy H:mm a");
+
         aCall = new PhoneCall(
-                argList.get(0), argList.get(1), argList.get(2) + " " + argList.get(3),
-                argList.get(4) + " " + argList.get(5));
+                argList.get(0), argList.get(1), sdf.parse(argList.get(2) + " " + argList.get(3)),
+                sdf.parse(argList.get(4) + " " + argList.get(5)));
         aBill.addPhoneCall(aCall);
 
         if (fileName != null) {

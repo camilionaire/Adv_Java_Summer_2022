@@ -2,15 +2,22 @@ package edu.pdx.cs410J.camilo3;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * The class represents a phone call. It is made up of a
- * callerNumber, calleeNumber, beginTimeString, and endTimeString
+ * callerNumber, calleeNumber, beginTime, and endTime
  */
 public class PhoneCall extends AbstractPhoneCall {
+
+  private SimpleDateFormat sdf;
   private String callerNumber;
   private String calleeNumber;
-  private String beginTimeString;
-  private String endTimeString;
+  private Date beginTime;
+  private Date endTime;
   /**
    * Creates a new <code>Student</code>
    *
@@ -26,11 +33,12 @@ public class PhoneCall extends AbstractPhoneCall {
    *        The time the phone call was finished as a String.
    */
 
-  public PhoneCall(String caller, String callee, String begin, String end) {
+  public PhoneCall(String caller, String callee, Date begin, Date end) {
+    this.sdf = new SimpleDateFormat("M/dd/yyyy H:mm a");
     this.callerNumber = caller;
     this.calleeNumber = callee;
-    this.beginTimeString = begin;
-    this.endTimeString = end;
+    this.beginTime = begin;
+    this.endTime = end;
   }
   /**
    * getCaller() returns the callerNumber String.
@@ -49,18 +57,34 @@ public class PhoneCall extends AbstractPhoneCall {
   }
 
   /**
-   * getBeginTimeString() returns the beginTimeString as a String.
+   * getBeginTimeString() returns the beginTime as a String.
    */
   @Override
   public String getBeginTimeString() {
-    return this.beginTimeString;
+    return sdf.format(this.beginTime).toLowerCase(Locale.ROOT);
   }
 
   /**
-   * getEndTimeString() returns the endTimeString as a String.
+   * getEndTimeString() returns the endTime as a String.
    */
   @Override
   public String getEndTimeString() {
-    return this.endTimeString;
+    return sdf.format(this.endTime).toLowerCase(Locale.ROOT);
+  }
+
+  /**
+   * getBeginTime() returns the beginTime as a Date.
+   */
+  @Override
+  public Date getBeginTime() {
+    return this.beginTime;
+  }
+
+  /**
+   * getEndTime() returns the endTime as a Date.
+   */
+  @Override
+  public Date getEndTime() {
+    return this.endTime;
   }
 }
