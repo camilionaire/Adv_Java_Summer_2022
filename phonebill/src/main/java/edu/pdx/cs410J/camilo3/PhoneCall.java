@@ -2,6 +2,7 @@ package edu.pdx.cs410J.camilo3;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,7 +14,7 @@ import java.util.Locale;
  */
 public class PhoneCall extends AbstractPhoneCall {
 
-  private SimpleDateFormat sdf;
+  private DateFormat df;
   private String callerNumber;
   private String calleeNumber;
   private Date beginTime;
@@ -34,7 +35,7 @@ public class PhoneCall extends AbstractPhoneCall {
    */
 
   public PhoneCall(String caller, String callee, Date begin, Date end) {
-    this.sdf = new SimpleDateFormat("M/d/yyyy h:mm a");
+    this.df = DateFormat.getDateInstance(DateFormat.SHORT);
     this.callerNumber = caller;
     this.calleeNumber = callee;
     this.beginTime = begin;
@@ -61,7 +62,7 @@ public class PhoneCall extends AbstractPhoneCall {
    */
   @Override
   public String getBeginTimeString() {
-    return sdf.format(this.beginTime).toLowerCase();
+    return df.format(this.beginTime);
   }
 
   /**
@@ -69,7 +70,7 @@ public class PhoneCall extends AbstractPhoneCall {
    */
   @Override
   public String getEndTimeString() {
-    return sdf.format(this.endTime).toLowerCase();
+    return df.format(this.endTime);
   }
 
   /**

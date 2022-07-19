@@ -5,6 +5,7 @@ import edu.pdx.cs410J.PhoneBillDumper;
 
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 
 /**
@@ -32,6 +33,7 @@ public class TextDumper implements PhoneBillDumper<PhoneBill> {
    */
   @Override
   public void dump(PhoneBill bill) {
+    SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
     try (
       PrintWriter pw = new PrintWriter(this.writer)
     ) {
@@ -40,7 +42,8 @@ public class TextDumper implements PhoneBillDumper<PhoneBill> {
       Collection<PhoneCall> theCalls = bill.getPhoneCalls();
       for (PhoneCall aCall : theCalls) {
         pw.println(aCall.getCaller() + " " + aCall.getCallee() +
-                " " + aCall.getBeginTimeString() + " " + aCall.getEndTimeString());
+                " " + sdf.format(aCall.getBeginTime()).toLowerCase()
+                + " " + sdf.format(aCall.getEndTime()).toLowerCase());
       }
       pw.flush();
     }

@@ -47,14 +47,14 @@ public class PhoneCallTest {
   void testToSeeThatBeginTimeIsSetAndGetBeginTimeStringWorks() throws ParseException {
     PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234",
             sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
-    assertThat(call.getBeginTimeString(), containsString("3/2/2022 1:03 am"));
+    assertThat(call.getBeginTimeString(), containsString("3/2/22"));
   }
 
   @Test
   void testToSeeThatEndTimeIsSetAndGetEndTimeStringWorks() throws ParseException {
     PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234",
             sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
-    assertThat(call.getEndTimeString(), containsString("3/15/2022 10:39 am"));
+    assertThat(call.getEndTimeString(), containsString("3/15/22"));
   }
 
   @Test
@@ -62,17 +62,17 @@ public class PhoneCallTest {
     PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234",
             sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
 
-    assertThat(call.toString(), containsString( "Phone call from 503-867-5309 to 800-666-1234 from 3/2/2022 1:03 am to 3/15/2022 10:39 am"));
+    assertThat(call.toString(), containsString( "Phone call from 503-867-5309 to 800-666-1234 from 3/2/22 to 3/15/22"));
   }
   @Test
-  void forProject1ItIsOkayIfGetBeginTimeReturnsNull() throws ParseException {
+  void forProject1NowGetBeginTimeReturnsStuff() throws ParseException {
     PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234",
             sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
     assertTrue(call.getBeginTime().equals(sdf.parse("03/02/2022 1:03 am")));
   }
 
   @Test
-  void forProject1ItIsOkayIfGetEndTimeReturnsNull() throws ParseException {
+  void forProject1NowGetEndTimeReturnsStuff() throws ParseException {
     PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234",
             sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
     assertEquals(call.getEndTime(), sdf.parse("3/15/2022 10:39 am"));

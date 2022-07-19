@@ -50,7 +50,7 @@ class Project3IT extends InvokeMainTestCase {
                 "-print", "Steven", "867-867-5309", "503-222-2222",
                 "03/17/2022", "11:11", "pm", "03/17/2022", "11:27", "pm");
         assertThat(result.getTextWrittenToStandardOut(), containsString(
-                "Phone call from 867-867-5309 to 503-222-2222 from 3/17/2022 11:11 pm to 3/17/2022 11:27 pm"));
+                "Phone call from 867-867-5309 to 503-222-2222 from 3/17/22 to 3/17/22"));
     }
 
     /**
@@ -60,9 +60,8 @@ class Project3IT extends InvokeMainTestCase {
     @Test
     void testEverythingWorksWonderfully() throws Exception {
         MainMethodResult result = invokeMain(
-                new String[]
-                        {"Steven", "867-867-5309", "503-222-2222",
-                                "03/17/2022", "11:11", "pm", "03/17/2022", "11:27", "pm"});
+                "Steven", "867-867-5309", "503-222-2222",
+                "03/17/2022", "11:11", "pm", "03/17/2022", "11:27", "pm");
     }
 
     // took this out until I can figure out a better way.
@@ -74,11 +73,10 @@ class Project3IT extends InvokeMainTestCase {
 //    @Test
 //    void testEverythingReadsAndPrintsWonderfully() {
 //        MainMethodResult result = invokeMain(
-//                new String[]
-//                        {"-print", "-textFile",
-//                                "src/it/resources/edu/pdx/cs410J/camilo3/FORINTEGRATIONTESTING.txt",
-//                                "Camilo", "867-867-5309", "503-222-2222",
-//                                "03/17/2022", "23:11", "03/17/2022", "23:27"});
+//                "-print", "-textFile",
+//                "src/it/resources/edu/pdx/cs410J/camilo3/FORINTEGRATIONTESTING.txt",
+//                "Camilo", "867-867-5309", "503-222-2222",
+//                "03/17/2022", "23:11", "03/17/2022", "23:27");
 //        assertThat(result.getTextWrittenToStandardOut(), containsString(
 //                "Phone call from 867-867-5309 to 503-222-2222 from 03/17/2022 23:11 to 03/17/2022 23:27"));
 //    }
@@ -91,11 +89,10 @@ class Project3IT extends InvokeMainTestCase {
     @Test
     void testEverythingReadsAndPrintsWonderfullyFileDoesNotExist() {
         MainMethodResult result = invokeMain(
-                new String[]
-                        {"-print", "-textFile", "SHOULDBEDELETED.txt", "Camilo", "867-867-5309", "503-222-2222",
-                                "03/17/2022", "11:11", "pm", "03/17/2022", "11:27", "pm"});
+                "-print", "-textFile", "SHOULDBEDELETED.txt", "Camilo", "867-867-5309", "503-222-2222",
+                "03/17/2022", "11:11", "pm", "03/17/2022", "11:27", "pm");
         assertThat(result.getTextWrittenToStandardOut(), containsString(
-                "Phone call from 867-867-5309 to 503-222-2222 from 3/17/2022 11:11 pm to 3/17/2022 11:27 pm"));
+                "Phone call from 867-867-5309 to 503-222-2222 from 3/17/22 to 3/17/22"));
 
         File deleteFile = new File("SHOULDBEDELETED.txt");
         deleteFile.delete();
