@@ -62,7 +62,8 @@ public class PhoneCallTest {
     PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234",
             sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
 
-    assertThat(call.toString(), containsString( "Phone call from 503-867-5309 to 800-666-1234 from 3/2/22 to 3/15/22"));
+    assertThat(call.toString(), containsString(
+            "Phone call from 503-867-5309 to 800-666-1234 from 3/2/22, 1:03 AM to 3/15/22, 10:39 AM"));
   }
   @Test
   void forProject1NowGetBeginTimeReturnsStuff() throws ParseException {

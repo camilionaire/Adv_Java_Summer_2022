@@ -50,7 +50,7 @@ class Project3IT extends InvokeMainTestCase {
                 "-print", "Steven", "867-867-5309", "503-222-2222",
                 "03/17/2022", "11:11", "pm", "03/17/2022", "11:27", "pm");
         assertThat(result.getTextWrittenToStandardOut(), containsString(
-                "Phone call from 867-867-5309 to 503-222-2222 from 3/17/22 to 3/17/22"));
+                "Phone call from 867-867-5309 to 503-222-2222 from 3/17/22, 11:11 PM to 3/17/22, 11:27 PM"));
     }
 
     /**
@@ -92,7 +92,7 @@ class Project3IT extends InvokeMainTestCase {
                 "-print", "-textFile", "SHOULDBEDELETED.txt", "Camilo", "867-867-5309", "503-222-2222",
                 "03/17/2022", "11:11", "pm", "03/17/2022", "11:27", "pm");
         assertThat(result.getTextWrittenToStandardOut(), containsString(
-                "Phone call from 867-867-5309 to 503-222-2222 from 3/17/22 to 3/17/22"));
+                "Phone call from 867-867-5309 to 503-222-2222 from 3/17/22, 11:11 PM to 3/17/22, 11:27 PM"));
 
         File deleteFile = new File("SHOULDBEDELETED.txt");
         deleteFile.delete();

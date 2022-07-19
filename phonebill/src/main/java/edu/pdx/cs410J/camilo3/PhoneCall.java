@@ -35,7 +35,7 @@ public class PhoneCall extends AbstractPhoneCall {
    */
 
   public PhoneCall(String caller, String callee, Date begin, Date end) {
-    this.df = DateFormat.getDateInstance(DateFormat.SHORT);
+    this.df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
     this.callerNumber = caller;
     this.calleeNumber = callee;
     this.beginTime = begin;
