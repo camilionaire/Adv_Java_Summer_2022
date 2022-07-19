@@ -78,4 +78,31 @@ public class PhoneCallTest {
             sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
     assertEquals(call.getEndTime(), sdf.parse("3/15/2022 10:39 am"));
   }
+
+  @Test
+  void compareToPutsOutANegativeTest() throws ParseException {
+    PhoneCall call1 = new PhoneCall("503-867-5309", "800-666-1234",
+            sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
+    PhoneCall call2 = new PhoneCall("503-867-5309", "800-666-1234",
+            sdf.parse("03/1/2022 1:03 am"), sdf.parse("3/02/2022 10:39 am"));
+    assertEquals(call2.compareTo(call1), -1);
+  }
+
+  @Test
+  void compareToPutsOutAPositiveTest() throws ParseException {
+    PhoneCall call1 = new PhoneCall("503-867-5308", "800-666-1234",
+            sdf.parse("03/1/2022 1:03 am"), sdf.parse("3/2/2022 10:37 am"));
+    PhoneCall call2 = new PhoneCall("503-867-5309", "800-666-1234",
+            sdf.parse("03/1/2022 1:03 am"), sdf.parse("3/02/2022 10:39 am"));
+    assertEquals(call2.compareTo(call1), 1);
+  }
+
+  @Test
+  void compareToPutsOutAZeroTest() throws ParseException {
+    PhoneCall call1 = new PhoneCall("503-867-5309", "800-666-1234",
+            sdf.parse("03/1/2022 1:03 am"), sdf.parse("3/2/2022 10:37 am"));
+    PhoneCall call2 = new PhoneCall("503-867-5309", "800-666-1234",
+            sdf.parse("03/1/2022 1:03 am"), sdf.parse("3/02/2022 10:39 am"));
+    assertEquals(call2.compareTo(call1), 0);
+  }
 }

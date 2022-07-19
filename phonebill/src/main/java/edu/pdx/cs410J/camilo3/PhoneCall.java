@@ -5,6 +5,7 @@ import edu.pdx.cs410J.AbstractPhoneCall;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -12,7 +13,7 @@ import java.util.Locale;
  * The class represents a phone call. It is made up of a
  * callerNumber, calleeNumber, beginTime, and endTime
  */
-public class PhoneCall extends AbstractPhoneCall {
+public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall> {
 
   private DateFormat df;
   private String callerNumber;
@@ -41,6 +42,17 @@ public class PhoneCall extends AbstractPhoneCall {
     this.beginTime = begin;
     this.endTime = end;
   }
+
+  @Override
+  public int compareTo(PhoneCall c2) {
+    if (this.beginTime.compareTo(c2.getBeginTime()) != 0) {
+      return this.beginTime.compareTo(c2.getBeginTime());
+    } else {
+      return this.callerNumber.compareTo(c2.getCaller());
+    }
+  }
+
+
   /**
    * getCaller() returns the callerNumber String.
    */
