@@ -1,6 +1,10 @@
 package edu.pdx.cs410J.camilo3;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -46,5 +50,15 @@ class Project3Test {
         } catch (Exception e) {
             fail();
         }
+    }
+
+    @Test
+    void checkAnExtraArgumentThrowsAnError() {
+        Project3 proj = new Project3();
+        ArrayList sa = new ArrayList(Arrays.asList("-extra-option", "831-479-4859", "861-227-1838", "03/7/2022", "01:42", "am", "03/07/2022", "001:47", "pm"));
+        Exception exception = assertThrows(Project3.TooManyOptions.class, () -> {
+            proj.checkOutOfOptions(sa);
+        });
+        assertTrue(exception.getMessage().contains("UNRECOGNIZED OPTIONS!"));
     }
 }

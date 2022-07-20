@@ -65,6 +65,8 @@ public class PhoneCallCheckerTest {
 
         assertEquals(checker.isValidTime("11:13 pm"), true);
         assertEquals(checker.isValidTime("09:59 am"), true);
+        assertEquals(checker.isValidTime("11:13 PM"), true);
+        assertEquals(checker.isValidTime("09:59 AM"), true);
     }
 
     @Test
@@ -73,6 +75,7 @@ public class PhoneCallCheckerTest {
 
         assertEquals(checker.isValidTime("003/02/1901"), false);
         assertEquals(checker.isValidTime("45:99"), false);
+        assertEquals(checker.isValidTime("5:19 pM"), false);
     }
 
     /**
@@ -85,7 +88,7 @@ public class PhoneCallCheckerTest {
         Exception exception = assertThrows(PhoneCallChecker.MissingCommandLineArguments.class, () -> {
             checker.isArrayZero(sa);
         });
-        assertTrue(exception.getMessage().contains("TOO FEW COMMAND LINE ARGUMENTS"));
+        assertTrue(exception.getMessage().contains("TOO FEW ARGUMENTS"));
     }
 
     @Test
@@ -96,7 +99,7 @@ public class PhoneCallCheckerTest {
         Exception exception = assertThrows(PhoneCallChecker.MissingCommandLineArguments.class, () -> {
             checker.checkForImproperFormatting(sa);
         });
-        assertTrue(exception.getMessage().contains("TOO FEW COMMAND LINE ARGUMENTS"));
+        assertTrue(exception.getMessage().contains("TOO FEW ARGUMENTS"));
     }
 
     @Test
@@ -107,7 +110,7 @@ public class PhoneCallCheckerTest {
         Exception exception = assertThrows(PhoneCallChecker.ExtraneousCommandLineArguments.class, () -> {
             checker.checkForImproperFormatting(sa);
         });
-        assertTrue(exception.getMessage().contains("TOO MANY COMMAND LINE ARGUMENTS"));
+        assertTrue(exception.getMessage().contains("TOO MANY ARGUMENTS"));
     }
 
     @Test
@@ -169,16 +172,6 @@ public class PhoneCallCheckerTest {
             checker.checkForImproperFormatting(sa);
         });
         assertTrue(exception.getMessage().contains("INCORRECT FORMATTING OF TIMES"));
-    }
-
-    @Test
-    void checkAnExtraArgumentThrowsAnError() {
-        PhoneCallChecker checker = new PhoneCallChecker();
-        ArrayList sa = new ArrayList(Arrays.asList("-extra-option", "831-479-4859", "861-227-1838", "03/7/2022", "01:42", "am", "03/07/2022", "001:47", "pm"));
-        Exception exception = assertThrows(PhoneCallChecker.TooManyOptions.class, () -> {
-            checker.checkForImproperFormatting(sa);
-        });
-        assertTrue(exception.getMessage().contains("UNRECOGNIZED OPTIONS!"));
     }
 
     @Test

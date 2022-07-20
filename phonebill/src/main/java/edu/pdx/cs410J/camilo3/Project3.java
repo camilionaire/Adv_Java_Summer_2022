@@ -20,6 +20,16 @@ public class Project3 {
     if (! fileName.equals(CommandName)) { throw new NamesDontMatch(); }
   }
 
+  @VisibleForTesting
+  /**
+   * wrapper function for throwing error if there are too many options
+   */
+  static void checkOutOfOptions(ArrayList<String> args) throws TooManyOptions {
+    if (args.get(0).startsWith("-")) {
+      throw new TooManyOptions();
+    }
+  }
+
   /**
    * main method, can take is arguments from the command line, parses and checks them for
    * validity and prints exception messages if there are any
@@ -50,13 +60,18 @@ public class Project3 {
         PhoneCallChecker checker = new PhoneCallChecker();
         String fileName = optChecker.checkForTextFile(argList);
         String prettyFileName = optChecker.checkForPrettyFile(argList);
+        String ourName;
 
-        checker.isArrayZero(argList);
+        try {
+          checker.isArrayZero(argList);
+          checkOutOfOptions(argList);
+          ourName = argList.get(0);
+          argList.remove(0);
+          checker.checkForImproperFormatting(argList);
+        } catch (Exception e) {
+          throw new CommandLineException(e.getMessage());
+        }
 
-        String ourName = argList.get(0);
-        argList.remove(0);
-
-        checker.checkForImproperFormatting(argList);
 
         // this looks for the file to open and load, or it
         // just makes a new file...
@@ -94,6 +109,7 @@ public class Project3 {
             StringWriter sw = new StringWriter();
             PrettyPrinter pp = new PrettyPrinter(sw);
             pp.dump(aBill);
+            System.out.println();
             System.out.println(sw);
           } else {
             FileWriter fw = new FileWriter(prettyFileName);
@@ -112,6 +128,29 @@ public class Project3 {
       }
     }
   } // end of main
+
+  /**
+   * exception that is thrown when the names don't match.
+   */
+  static class CommandLineException extends Exception {
+    public CommandLineException(String msg) {
+      super("While parsing the command line, there were irregularities\n" +
+              "usage: java -jar target/phonebill-2022.0.0.jar [options] <args>\n" +
+              "Run with the '-README' flag enabled for proper usage.\n" +
+              "Error message shown was:\n" + msg);
+    }
+  }
+
+  /**
+   * exception that is thrown when there are too many options
+   */
+  static class TooManyOptions extends Exception {
+    public TooManyOptions() {
+      super( "UNRECOGNIZED OPTIONS!\n" +
+              "Only options currently available are -print,\n" +
+              "-README, -textFile file, and -pretty (- or file)");
+    }
+  }
 
   /**
    * exception that is thrown when the names don't match.

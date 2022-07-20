@@ -61,7 +61,11 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
       return aBill;
 
     } catch (Exception e) { // switched from IOException initially.
-      throw new ParserException("While parsing phone bill text:\n" + e.getMessage());
+      throw new ParserException("While parsing phone bill text an error was encountered.\n" +
+              "One or more of the phone call listings was improperly formatted.\n" +
+              "Proper usage: caller callee mm/dd/yyyy hh:mm a/pm mm/dd/yyyy hh:mm a/pm\n" +
+              "Error was as shown:\n" +
+              e.getMessage());
     }
   }
 }

@@ -37,7 +37,7 @@ public class PhoneCallChecker {
      */
     @VisibleForTesting
     static boolean isValidTime(String time) {
-        return Pattern.matches("^[01]?\\d:[0-5]\\d [AaPp][Mm]$", time);
+        return Pattern.matches("^[01]?\\d:[0-5]\\d ([AP]M|[ap]m)$", time);
     }
 
     /**
@@ -69,11 +69,9 @@ public class PhoneCallChecker {
      */
     static void checkForImproperFormatting(ArrayList<String> args)
             throws MissingCommandLineArguments, ImproperTime, ImproperDate,
-            ImproperPhoneNumber, ExtraneousCommandLineArguments, TooManyOptions,
+            ImproperPhoneNumber, ExtraneousCommandLineArguments,
             ParseException, EndIsBeforeStart {
-        if (args.get(0).startsWith("-")) {
-           throw new TooManyOptions();
-        } else if (args.size() < 8) {
+        if (args.size() < 8) {
             throw new MissingCommandLineArguments();
         } else if (args.size() > 8) {
             throw new ExtraneousCommandLineArguments();
@@ -108,18 +106,6 @@ public class PhoneCallChecker {
     }
 
     /**
-     * exception that is thrown when there are too many options
-     */
-    static class TooManyOptions extends Exception {
-        public TooManyOptions() {
-            super( "UNRECOGNIZED OPTIONS!\n" +
-                    "Only options currently available are -print\n" +
-                    "-README and -textFile file\n" +
-                    "Please run with option -README for more options.");
-        }
-    }
-
-    /**
      * exception that is thrown when the phone number arguments are messed up.
      */
     static class ImproperPhoneNumber extends Exception {
@@ -149,9 +135,9 @@ public class PhoneCallChecker {
     static class ImproperTime extends Exception {
         public ImproperTime() {
             super("INCORRECT FORMATTING OF TIMES\n" +
-                    "should be nn:nn or n:nn am/pm where n is a\n" +
-                    "digit btwn 0-9 seperated by a colon.\n" +
-                    "example: 03:42 pm or 11:13 am\n" + "Thank you.");
+                    "should be nn:nn or n:nn (AM/am/PM/pm) where n is a\n" +
+                    "digit between 0-9 seperated by a colon.\n" +
+                    "example: 03:42 pm or 11:13 AM\n" + "Thank you.");
         }
     }
 
@@ -160,9 +146,7 @@ public class PhoneCallChecker {
      */
     static class ExtraneousCommandLineArguments extends Exception {
         public ExtraneousCommandLineArguments() {
-            super( "TOO MANY COMMAND LINE ARGUMENTS\n" +
-                    "usage: java -jar target/phonebill-2022.0.0.jar [options] <args>\n" +
-                    "Please use option -README for complete list of options and args.");
+            super( "TOO MANY ARGUMENTS");
         }
     }
     /**
@@ -171,9 +155,7 @@ public class PhoneCallChecker {
     @VisibleForTesting
     static class MissingCommandLineArguments extends Exception {
         public MissingCommandLineArguments() {
-            super( "TOO FEW COMMAND LINE ARGUMENTS\n" +
-                    "usage: java -jar target/phonebill-2022.0.0.jar [options] <args>\n" +
-                    "Please use option -README for complete list of options and args.");
+            super("TOO FEW ARGUMENTS");
         }
     }
 
