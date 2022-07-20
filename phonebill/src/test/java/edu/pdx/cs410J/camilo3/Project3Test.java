@@ -15,6 +15,7 @@ class Project3Test {
     /**
      * Just runs the current standard assumed command line inputs into the
      * project 3 and makes sure no bells or whistles sound off
+     * maybe it is kind of an integration test in a way...
      */
   @Test
   void testEverythingWorksWonderfully() {
