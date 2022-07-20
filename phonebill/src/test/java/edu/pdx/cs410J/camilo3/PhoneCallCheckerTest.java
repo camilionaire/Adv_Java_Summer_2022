@@ -180,4 +180,14 @@ public class PhoneCallCheckerTest {
         });
         assertTrue(exception.getMessage().contains("UNRECOGNIZED OPTIONS!"));
     }
+
+    @Test
+    void checkEndTimeBeforeStartTimeThrowsAnError() {
+        PhoneCallChecker checker = new PhoneCallChecker();
+        ArrayList sa = new ArrayList(Arrays.asList("831-479-4859", "861-227-1838", "03/8/2022", "01:42", "am", "03/07/2022", "1:47", "pm"));
+        Exception exception = assertThrows(PhoneCallChecker.EndIsBeforeStart.class, () -> {
+            checker.checkForImproperFormatting(sa);
+        });
+        assertTrue(exception.getMessage().contains("END TIME IS BEFORE START!"));
+    }
 }

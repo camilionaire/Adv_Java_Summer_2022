@@ -37,4 +37,14 @@ class Project3Test {
     });
     assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOUR NAMES DON'T MATCH."));
   }
+
+    @Test
+    void checkNamesMatchNothingThrown() {
+        Project3 proj = new Project3();
+        try {
+            proj.checkNamesMatch("aloha.txt", "aloha.txt");
+        } catch (Exception e) {
+            fail();
+        }
+    }
 }

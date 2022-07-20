@@ -33,7 +33,7 @@ public class TextDumperTest {
     String customer = "Test Phone Bill";
     PhoneBill bill = new PhoneBill(customer);
 
-    File textFile = new File(tempDir, "apptbook.txt");
+    File textFile = new File(tempDir, "tmpPhoneBill.txt");
     TextDumper dumper = new TextDumper(new FileWriter(textFile));
     dumper.dump(bill);
 
@@ -47,14 +47,14 @@ public class TextDumperTest {
     PhoneBill bill = new PhoneBill(customer);
 
     PhoneCall call = new PhoneCall("503-867-5309", "800-666-1234",
-            sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
+            sdf.parse("03/2/2022 1:07 am"), sdf.parse("3/04/2022 10:39 am"));
     PhoneCall anotherCall = new PhoneCall("503-867-5309", "800-666-1234",
-            sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
+            sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/02/2022 10:39 am"));
 
     bill.addPhoneCall(call);
     bill.addPhoneCall(anotherCall);
 
-    File textFile = new File(tempDir, "apptbook.txt");
+    File textFile = new File(tempDir, "tmpPhoneBill.txt");
     TextDumper dumper = new TextDumper(new FileWriter(textFile));
     dumper.dump(bill);
 

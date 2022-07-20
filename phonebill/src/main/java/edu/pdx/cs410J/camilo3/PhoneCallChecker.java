@@ -2,7 +2,11 @@ package edu.pdx.cs410J.camilo3;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 public class PhoneCallChecker {
@@ -30,7 +34,18 @@ public class PhoneCallChecker {
      */
     @VisibleForTesting
     static boolean isValidTime(String time) {
-        return Pattern.matches("^[01]?\\d:[0-5]\\d [ap]m$", time);
+        return Pattern.matches("^[01]?\\d:[0-5]\\d [AaPp][Mm]$", time);
+    }
+
+    /**
+     *
+     */
+    @VisibleForTesting
+    static boolean isStartBeforeEnd(Date start, Date end) {
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(
+                end.getTime() - start.getTime());
+        if (seconds >= 0L) { return true; }
+        else { return false;}
     }
 
     /**
@@ -48,22 +63,43 @@ public class PhoneCallChecker {
      * makes sure each individual argument is in the correct format,
      * responds with an exception depending on which argument is invalid.
      */
-    static void checkForImproperFormatting(ArrayList args)
+    static void checkForImproperFormatting(ArrayList<String> args)
             throws MissingCommandLineArguments, ImproperTime, ImproperDate,
-                ImproperPhoneNumber, ExtraneousCommandLineArguments, TooManyOptions {
-        if (args.get(0).toString().startsWith("-")) {
+            ImproperPhoneNumber, ExtraneousCommandLineArguments, TooManyOptions,
+            ParseException, EndIsBeforeStart {
+        if (args.get(0).startsWith("-")) {
            throw new TooManyOptions();
         } else if (args.size() < 8) {
             throw new MissingCommandLineArguments();
         } else if (args.size() > 8) {
             throw new ExtraneousCommandLineArguments();
-        } else if (! isValidPhoneNumber(args.get(0).toString()) || ! isValidPhoneNumber(args.get(1).toString())) {
+        } else if (! isValidPhoneNumber(args.get(0)) ||
+                ! isValidPhoneNumber(args.get(1))) {
             throw new ImproperPhoneNumber();
-        } else if (! isValidDate(args.get(2).toString()) || ! isValidDate(args.get(5).toString())) {
+        } else if (! isValidDate(args.get(2)) ||
+                ! isValidDate(args.get(5))) {
             throw new ImproperDate();
-        } else if (! isValidTime(args.get(3).toString() + " " + args.get(4).toString()) ||
-                ! isValidTime(args.get(6).toString() + " " + args.get(7).toString())) {
+        } else if (! isValidTime(args.get(3) + " " + args.get(4)) ||
+                ! isValidTime(args.get(6) + " " + args.get(7))) {
             throw new ImproperTime();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+        Date start = sdf.parse(args.get(2) + " " + args.get(3) + " " + args.get(4));
+        Date end = sdf.parse(args.get(5) + " " + args.get(6) + " " + args.get(7));
+        if ( ! isStartBeforeEnd(start, end)) {
+            throw new EndIsBeforeStart();
+        }
+    }
+
+    /**
+     * exception that is thrown when end time is before start
+     */
+    static class EndIsBeforeStart extends Exception {
+        public EndIsBeforeStart() {
+            super( "END TIME IS BEFORE START!\n" +
+                    "When we were examining the phonecall\n," +
+                    "we noticed the end time is before the start time.\n" +
+                    "Please check your input or laws of physics.");
         }
     }
 
@@ -75,7 +111,7 @@ public class PhoneCallChecker {
             super( "UNRECOGNIZED OPTIONS!\n" +
                     "Only options currently available are -print\n" +
                     "-README and -textFile file\n" +
-                    "Please run with option -REAME for more options.");
+                    "Please run with option -README for more options.");
         }
     }
 
