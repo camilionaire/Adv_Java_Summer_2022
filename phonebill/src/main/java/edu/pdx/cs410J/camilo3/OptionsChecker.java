@@ -8,6 +8,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * a class for doing a lot of validation on the individual options
+ * and arguments
+ */
 public class OptionsChecker {
 
     /**

@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+/**
+ * a class for doing a lot of validation on the individual phone calls
+ */
 public class PhoneCallChecker {
 
     /**
