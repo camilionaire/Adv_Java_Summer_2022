@@ -14,8 +14,9 @@ public class OptionsChecker {
      * if -README option is invoked, this method is called and prints the
      * readme file found at README.txt.
      */
-    private static void printReadme() {
-        try (InputStream readme = Project3.class.getResourceAsStream("README.txt")
+    @VisibleForTesting
+    static void printReadme(String fileName) {
+        try (InputStream readme = Project3.class.getResourceAsStream(fileName)
         ) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
             for (String line; (line = reader.readLine()) != null;) {
@@ -34,7 +35,7 @@ public class OptionsChecker {
         String prev = null;
         for (String arg : argList) {
             if (arg.equals("-README")) {
-                printReadme();
+                printReadme("README.txt");
                 return true;
             } else if (! arg.startsWith("-") &&
                     (arg == argList.get(0) ||

@@ -85,6 +85,15 @@ public class OptionsCheckerTest {
     }
 
     @Test
+    void checkForPrintTrueAfterEverything() {
+        OptionsChecker optCh = new OptionsChecker();
+        ArrayList argList = new ArrayList<>(Arrays.asList(
+                "-first", "-textFile", "aFile.txt", "-pretty", "pretty/file.txt", "-print"));
+
+        assertEquals(optCh.checkForPrint(argList), true);
+    }
+
+    @Test
     void checkForPrintFalseZero() {
         OptionsChecker optCh = new OptionsChecker();
         ArrayList argList = new ArrayList<>();
@@ -119,9 +128,35 @@ public class OptionsCheckerTest {
     }
 
     @Test
+    void checkForTextFlagTrueAfterPretty() throws OptionsChecker.MissingFileName {
+        OptionsChecker optCh = new OptionsChecker();
+        String[] test = {"-print", "-pretty", "a/pretty/file.txt", "-textFile", "yowza.txt", "-hello-world", "-README", "more things"};
+        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-pretty", "a/pretty/file.txt", "-hello-world", "-README", "more things"}));
+
+        String yowza = optCh.checkForTextFile(argList);
+
+        assertEquals(yowza, "yowza.txt");
+
+        assertEquals(compare, argList);
+    }
+
+    @Test
     void checkForTextFlagError() throws OptionsChecker.MissingFileName {
         OptionsChecker optCh = new OptionsChecker();
         String[] test = {"-print", "-textFile", "-hello-world", "-README", "more things"};
+        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+
+        Exception exception = assertThrows(OptionsChecker.MissingFileName.class, () -> {
+            optCh.checkForTextFile(argList);
+        });
+        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
+    }
+
+    @Test
+    void checkForTextFlagErrorLastArg() throws OptionsChecker.MissingFileName {
+        OptionsChecker optCh = new OptionsChecker();
+        String[] test = {"-print", "-some-option", "-textFile"};
         ArrayList argList = new ArrayList<>(Arrays.asList(test));
 
         Exception exception = assertThrows(OptionsChecker.MissingFileName.class, () -> {
@@ -141,6 +176,20 @@ public class OptionsCheckerTest {
         String[] test = {"-print", "-pretty", "yowza.txt", "-hello-world", "-README", "more things"};
         ArrayList argList = new ArrayList<>(Arrays.asList(test));
         ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-hello-world", "-README", "more things"}));
+
+        String yowza = optCh.checkForPrettyFile(argList);
+
+        assertEquals(yowza, "yowza.txt");
+
+        assertEquals(compare, argList);
+    }
+
+    @Test
+    void checkForPrettyFlagTrueAfterTextFile() throws OptionsChecker.MissingFileName {
+        OptionsChecker optCh = new OptionsChecker();
+        String[] test = {"-print", "-textFile", "some/silly/file.txt", "-pretty", "yowza.txt", "-hello-world", "-README", "more things"};
+        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-textFile", "some/silly/file.txt", "-hello-world", "-README", "more things"}));
 
         String yowza = optCh.checkForPrettyFile(argList);
 
@@ -174,4 +223,30 @@ public class OptionsCheckerTest {
         });
         assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
     }
+
+    @Test
+    void checkForPrettyLastArgError() throws OptionsChecker.MissingFileName {
+        OptionsChecker optCh = new OptionsChecker();
+        String[] test = {"-print", "-pretty"};
+        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+
+        Exception exception = assertThrows(OptionsChecker.MissingFileName.class, () -> {
+            optCh.checkForPrettyFile(argList);
+        });
+        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
+    }
+
+
+    // this doesn't work... will probably go to office hours to figure out why
+//    /**
+//     * this test hopefully tests that stupid error that's keeping me
+//     * from 100% code test coverage on jacoco... not that that is important.
+//     */
+//    @Test
+//    void checkForBadReadMe() {
+//        OptionsChecker optCh = new OptionsChecker();
+//        Exception exception = assertThrows(RuntimeException.class, () -> {
+//            optCh.printReadme("does-not-exist.txt");
+//        });
+//    }
 }
