@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AbstractPhoneBill;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,6 +47,9 @@ public PhoneBill(String customer) {
   @Override
   public void addPhoneCall(PhoneCall call) {
     phoneCalls.add(call);
+    // not sure if this is the right place for this or maybe just every time
+    // the collection gets gotten by getPhoneCalls() method.
+    Collections.sort(phoneCalls);
   }
 
   /**

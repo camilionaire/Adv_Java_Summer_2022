@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class PhoneCallTest {
 
-  SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy H:mm a");
+  SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy h:mm a");
   /**
    * This unit test makes sure something is created.
    */
@@ -84,12 +85,14 @@ public class PhoneCallTest {
     PhoneCall call1 = new PhoneCall("503-867-5309", "800-666-1234",
             sdf.parse("03/2/2022 1:03 am"), sdf.parse("3/15/2022 10:39 am"));
     PhoneCall call2 = new PhoneCall("503-867-5309", "800-666-1234",
-            sdf.parse("03/1/2022 1:03 am"), sdf.parse("3/02/2022 10:39 am"));
+            sdf.parse("03/2/2022 12:03 am"), sdf.parse("3/02/2022 10:39 am"));
+
     assertEquals(call2.compareTo(call1), -1);
   }
 
   @Test
   void compareToPutsOutAPositiveTest() throws ParseException {
+    // 9 in phone number comes after 8 in phone number
     PhoneCall call1 = new PhoneCall("503-867-5308", "800-666-1234",
             sdf.parse("03/1/2022 1:03 am"), sdf.parse("3/2/2022 10:37 am"));
     PhoneCall call2 = new PhoneCall("503-867-5309", "800-666-1234",

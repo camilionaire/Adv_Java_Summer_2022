@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -16,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class PhoneBillTest {
 
-    SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy H:mm a");
+    SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy h:mm a");
     /**
      * This unit test makes sure something is created when we create the object.
      */
@@ -88,6 +89,25 @@ public class PhoneBillTest {
         aBill.addPhoneCall(call2);
 
         assertEquals(aBill.getPhoneCalls().size(), 2);
+    }
+
+    /**
+     * This unit test makes sure getPhoneCalls works when we add 2 phoneCalls
+     */
+    @Test
+    void testToSeeThatTwoPhoneCallsGetOrderedCorrectlyInArray() throws ParseException {
+        PhoneBill aBill = new PhoneBill("Steven");
+        PhoneCall call = new PhoneCall(
+                "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 pm") ,sdf.parse("3/02/2022 10:39 pm"));
+        PhoneCall call2 = new PhoneCall(
+                "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 12:01 pm") ,sdf.parse("3/02/2022 10:39 pm"));
+
+        aBill.addPhoneCall(call);
+        aBill.addPhoneCall(call2);
+
+        ArrayList<PhoneCall> ordList = (ArrayList<PhoneCall>) aBill.getPhoneCalls();
+        assertEquals(ordList.size(), 2);
+        assertTrue(ordList.get(0).equals(call2));
     }
 
     /**

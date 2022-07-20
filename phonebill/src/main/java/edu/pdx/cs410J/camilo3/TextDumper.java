@@ -16,7 +16,7 @@ public class TextDumper implements PhoneBillDumper<PhoneBill> {
   private final Writer writer;
 
   /**
-   * Creates a new <code>TextParser</code>
+   * Creates a new <code>TextDumper</code>
    *
    * @param writer
    *      the object of the Writer class that the text parser will be writing to

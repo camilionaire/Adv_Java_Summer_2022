@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class TextDumperTest {
 
-  SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy H:mm a");
+  SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
   @Test
   void appointmentBookOwnerIsDumpedInTextFormat() {
     String customer = "Test Phone Bill";
