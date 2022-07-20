@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AbstractPhoneBill;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,12 +41,16 @@ public PhoneBill(String customer) {
   /**
    * addPhoneCall
    * adds a phone call to a growable List
+   * now sorts every single time you add something to it, what a waste.
    * @param call
    *        the call to be added to the phoneCalls list.
    */
   @Override
   public void addPhoneCall(PhoneCall call) {
     phoneCalls.add(call);
+    // not sure if this is the right place for this or maybe just every time
+    // the collection gets gotten by getPhoneCalls() method.
+    Collections.sort(phoneCalls);
   }
 
   /**

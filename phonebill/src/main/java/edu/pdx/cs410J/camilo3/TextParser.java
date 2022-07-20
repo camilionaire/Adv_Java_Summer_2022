@@ -5,6 +5,7 @@ import edu.pdx.cs410J.PhoneBillParser;
 
 import java.io.BufferedReader;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -45,22 +46,26 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
       PhoneBill aBill = new PhoneBill(customer);
       PhoneCallChecker checker = new PhoneCallChecker();
 
+      SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
       // need to go through these phonecalls here
       // and add them all to the phonebill class.
       while ((customer = br.readLine()) != null) {
         ArrayList aCallArray = new ArrayList(Arrays.asList(customer.split(" ")));
         checker.checkForImproperFormatting(aCallArray);
         PhoneCall aCall = new PhoneCall(
-                aCallArray.get(0).toString(), aCallArray.get(1).toString(),
-                aCallArray.get(2) + " " + aCallArray.get(3),
-                aCallArray.get(4) + " " + aCallArray.get(5));
+                        (String) aCallArray.get(0), (String) aCallArray.get(1), sdf.parse(aCallArray.get(2) + " " + aCallArray.get(3) + " " + aCallArray.get(4)),
+                        sdf.parse(aCallArray.get(5) + " " + aCallArray.get(6) + " " + aCallArray.get(7)));
         aBill.addPhoneCall(aCall);
       }
 
       return aBill;
 
     } catch (Exception e) { // switched from IOException initially.
-      throw new ParserException("While parsing phone bill text:\n" + e.getMessage());
+      throw new ParserException("While parsing phone bill text an error was encountered.\n" +
+              "One or more of the phone call listings was improperly formatted.\n" +
+              "Proper usage: caller callee mm/dd/yyyy hh:mm a/pm mm/dd/yyyy hh:mm a/pm\n" +
+              "Error was as shown:\n" +
+              e.getMessage());
     }
   }
 }

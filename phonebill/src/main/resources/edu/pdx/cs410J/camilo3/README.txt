@@ -18,6 +18,8 @@ calleeNumber:   Phone number of person who was called
 begin:          Date and time call began (24-hour time)
 end:            Date and time call ended (24-hour time)
 options are (options may appear in any order):
+-pretty file    Pretty print the phone bill to a text file
+                or standard out (file -).
 -textFile file  Where to read/write the phone bill
 -print:         Prints a description of the new phone call
 -README         Prints a README for this project and exits

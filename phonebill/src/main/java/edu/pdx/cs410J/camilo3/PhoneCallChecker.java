@@ -2,9 +2,16 @@ package edu.pdx.cs410J.camilo3;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+/**
+ * a class for doing a lot of validation on the individual phone calls
+ */
 public class PhoneCallChecker {
 
     /**
@@ -25,12 +32,24 @@ public class PhoneCallChecker {
     }
 
     /**
-     * returns true if time is of the regex form ^[012]?\\d:[0-5]\\d$
+     * returns true if time is of the regex form ^[01]?\\d:[0-5]\\d$
      * false otherwise
      */
     @VisibleForTesting
     static boolean isValidTime(String time) {
-        return Pattern.matches("^[012]?\\d:[0-5]\\d$", time);
+        return Pattern.matches("^[01]?\\d:[0-5]\\d ([AP]M|[ap]m)$", time);
+    }
+
+    /**
+     * returns true if the start is before or equal to the end
+     * false otherwise
+     */
+    @VisibleForTesting
+    static boolean isStartBeforeEnd(Date start, Date end) {
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(
+                end.getTime() - start.getTime());
+        if (seconds >= 0L) { return true; }
+        else { return false;}
     }
 
     /**
@@ -48,33 +67,41 @@ public class PhoneCallChecker {
      * makes sure each individual argument is in the correct format,
      * responds with an exception depending on which argument is invalid.
      */
-    static void checkForImproperFormatting(ArrayList args)
+    static void checkForImproperFormatting(ArrayList<String> args)
             throws MissingCommandLineArguments, ImproperTime, ImproperDate,
-                ImproperPhoneNumber, ExtraneousCommandLineArguments, TooManyOptions {
-        if (args.get(0).toString().startsWith("-")) {
-           throw new TooManyOptions();
-        } else if (args.size() < 6) {
+            ImproperPhoneNumber, ExtraneousCommandLineArguments,
+            ParseException, EndIsBeforeStart {
+        if (args.size() < 8) {
             throw new MissingCommandLineArguments();
-        } else if (args.size() > 6) {
+        } else if (args.size() > 8) {
             throw new ExtraneousCommandLineArguments();
-        } else if (! isValidPhoneNumber(args.get(0).toString()) || ! isValidPhoneNumber(args.get(1).toString())) {
+        } else if (! isValidPhoneNumber(args.get(0)) ||
+                ! isValidPhoneNumber(args.get(1))) {
             throw new ImproperPhoneNumber();
-        } else if (! isValidDate(args.get(2).toString()) || ! isValidDate(args.get(4).toString())) {
+        } else if (! isValidDate(args.get(2)) ||
+                ! isValidDate(args.get(5))) {
             throw new ImproperDate();
-        } else if (! isValidTime(args.get(3).toString()) || ! isValidTime(args.get(5).toString())) {
+        } else if (! isValidTime(args.get(3) + " " + args.get(4)) ||
+                ! isValidTime(args.get(6) + " " + args.get(7))) {
             throw new ImproperTime();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+        Date start = sdf.parse(args.get(2) + " " + args.get(3) + " " + args.get(4));
+        Date end = sdf.parse(args.get(5) + " " + args.get(6) + " " + args.get(7));
+        if ( ! isStartBeforeEnd(start, end)) {
+            throw new EndIsBeforeStart();
         }
     }
 
     /**
-     * exception that is thrown when there are too many options
+     * exception that is thrown when end time is before start
      */
-    static class TooManyOptions extends Exception {
-        public TooManyOptions() {
-            super( "UNRECOGNIZED OPTIONS!\n" +
-                    "Only options currently available are -print\n" +
-                    "-README and -textFile file\n" +
-                    "Please run with option -REAME for more options.");
+    static class EndIsBeforeStart extends Exception {
+        public EndIsBeforeStart() {
+            super( "END TIME IS BEFORE START!\n" +
+                    "When we were examining the phonecall\n," +
+                    "we noticed the end time is before the start time.\n" +
+                    "Please check your input or laws of physics.");
         }
     }
 
@@ -108,9 +135,9 @@ public class PhoneCallChecker {
     static class ImproperTime extends Exception {
         public ImproperTime() {
             super("INCORRECT FORMATTING OF TIMES\n" +
-                    "should be nn:nn or n:nn where n is a\n" +
-                    "digit btwn 0-9 seperated by a colon.\n" +
-                    "example: 03:42 or 11:13\n" + "Thank you.");
+                    "should be nn:nn or n:nn (AM/am/PM/pm) where n is a\n" +
+                    "digit between 0-9 seperated by a colon.\n" +
+                    "example: 03:42 pm or 11:13 AM\n" + "Thank you.");
         }
     }
 
@@ -119,9 +146,7 @@ public class PhoneCallChecker {
      */
     static class ExtraneousCommandLineArguments extends Exception {
         public ExtraneousCommandLineArguments() {
-            super( "TOO MANY COMMAND LINE ARGUMENTS\n" +
-                    "usage: java -jar target/phonebill-2022.0.0.jar [options] <args>\n" +
-                    "Please use option -README for complete list of options and args.");
+            super( "TOO MANY ARGUMENTS");
         }
     }
     /**
@@ -130,9 +155,7 @@ public class PhoneCallChecker {
     @VisibleForTesting
     static class MissingCommandLineArguments extends Exception {
         public MissingCommandLineArguments() {
-            super( "TOO FEW COMMAND LINE ARGUMENTS\n" +
-                    "usage: java -jar target/phonebill-2022.0.0.jar [options] <args>\n" +
-                    "Please use option -README for complete list of options and args.");
+            super("TOO FEW ARGUMENTS");
         }
     }
 
