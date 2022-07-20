@@ -38,7 +38,8 @@ public class PhoneCallChecker {
     }
 
     /**
-     *
+     * returns true if the start is before or equal to the end
+     * false otherwise
      */
     @VisibleForTesting
     static boolean isStartBeforeEnd(Date start, Date end) {

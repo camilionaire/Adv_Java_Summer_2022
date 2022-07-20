@@ -41,6 +41,7 @@ public PhoneBill(String customer) {
   /**
    * addPhoneCall
    * adds a phone call to a growable List
+   * now sorts every single time you add something to it, what a waste.
    * @param call
    *        the call to be added to the phoneCalls list.
    */

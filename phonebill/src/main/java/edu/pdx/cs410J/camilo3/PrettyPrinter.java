@@ -29,6 +29,7 @@ public class PrettyPrinter implements PhoneBillDumper {
      * @param bill
      *      the bill that dump will be reading from and pretty printing to writer.
      * parses the phonebill that is given as an argument
+     * makes everything look so gosh darn good.
      */
     @Override
     public void dump(AbstractPhoneBill bill) {

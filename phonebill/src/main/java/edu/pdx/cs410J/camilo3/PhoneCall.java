@@ -43,6 +43,12 @@ public class PhoneCall extends AbstractPhoneCall implements Comparable<PhoneCall
     this.endTime = end;
   }
 
+  /**
+   * overrides the compareTo implementation of Comparable
+   * compares begin time followed by caller phone number
+   * @param c2 the object to be compared.
+   * @return
+   */
   @Override
   public int compareTo(PhoneCall c2) {
     if (this.beginTime.compareTo(c2.getBeginTime()) != 0) {
