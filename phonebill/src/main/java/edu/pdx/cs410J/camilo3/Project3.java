@@ -62,6 +62,8 @@ public class Project3 {
         String prettyFileName = optChecker.checkForPrettyFile(argList);
         String ourName;
 
+        // checks for handling on the command line and then passes that
+        // to a formatted command line exception to be thrown and outputted
         try {
           checker.isArrayZero(argList);
           checkOutOfOptions(argList);
@@ -90,6 +92,7 @@ public class Project3 {
 
         checkNamesMatch(aBill.getCustomer(), ourName);
 
+        // the date format that we are using...
         SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy h:mm a");
 
         aCall = new PhoneCall(

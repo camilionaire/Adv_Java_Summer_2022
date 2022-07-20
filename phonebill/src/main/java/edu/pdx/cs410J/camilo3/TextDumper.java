@@ -1,6 +1,5 @@
 package edu.pdx.cs410J.camilo3;
 
-import edu.pdx.cs410J.AppointmentBookDumper;
 import edu.pdx.cs410J.PhoneBillDumper;
 
 import java.io.PrintWriter;
@@ -29,7 +28,6 @@ public class TextDumper implements PhoneBillDumper<PhoneBill> {
    * @param bill
    *      the bill that dump will be reading from and dumping to writer.
    * parses the phonebill that is given as an argument
-   * i didn't think i needed error handling here but am not sure.
    */
   @Override
   public void dump(PhoneBill bill) {

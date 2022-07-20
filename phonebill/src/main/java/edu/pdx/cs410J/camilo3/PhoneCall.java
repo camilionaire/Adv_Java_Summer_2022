@@ -3,11 +3,7 @@ package edu.pdx.cs410J.camilo3;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * The class represents a phone call. It is made up of a

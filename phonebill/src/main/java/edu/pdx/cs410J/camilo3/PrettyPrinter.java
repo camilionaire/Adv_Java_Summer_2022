@@ -3,7 +3,6 @@ package edu.pdx.cs410J.camilo3;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.PhoneBillDumper;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
@@ -53,6 +52,7 @@ public class PrettyPrinter implements PhoneBillDumper {
                         "  " + aCall.getCallee() +
                         "  " + sdf.format(begin) +
                         "  " + sdf.format(end) +
+                        // could edit to be responsive for 1 min?....
                         "  " + minutes + " mins");
             }
             pw.flush();
