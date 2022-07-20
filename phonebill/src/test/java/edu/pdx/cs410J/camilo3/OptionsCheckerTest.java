@@ -129,4 +129,49 @@ public class OptionsCheckerTest {
         });
         assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
     }
+
+    /**
+     * These next couple test out the check for pretty in the options
+     * basically just a copy replace of the TextFlag tests above.
+     * @throws OptionsChecker.MissingFileName
+     */
+    @Test
+    void checkForPrettyFlagTrue() throws OptionsChecker.MissingFileName {
+        OptionsChecker optCh = new OptionsChecker();
+        String[] test = {"-print", "-pretty", "yowza.txt", "-hello-world", "-README", "more things"};
+        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-hello-world", "-README", "more things"}));
+
+        String yowza = optCh.checkForPrettyFile(argList);
+
+        assertEquals(yowza, "yowza.txt");
+
+        assertEquals(compare, argList);
+    }
+
+    @Test
+    void checkForPrettyFlagTrueForHyphen() throws OptionsChecker.MissingFileName {
+        OptionsChecker optCh = new OptionsChecker();
+        String[] test = {"-print", "-pretty", "-", "-hello-world", "-README", "more things"};
+        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-hello-world", "-README", "more things"}));
+
+        String yowza = optCh.checkForPrettyFile(argList);
+
+        assertEquals(yowza, "-");
+
+        assertEquals(compare, argList);
+    }
+
+    @Test
+    void checkForPrettyFlagError() throws OptionsChecker.MissingFileName {
+        OptionsChecker optCh = new OptionsChecker();
+        String[] test = {"-print", "-pretty", "-hello-world", "-README", "more things"};
+        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+
+        Exception exception = assertThrows(OptionsChecker.MissingFileName.class, () -> {
+            optCh.checkForPrettyFile(argList);
+        });
+        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
+    }
 }

@@ -36,7 +36,9 @@ public class OptionsChecker {
             if (arg.equals("-README")) {
                 printReadme();
                 return true;
-            } else if (! arg.startsWith("-") && (arg == argList.get(0) || !prev.equals("-textFile"))) {
+            } else if (! arg.startsWith("-") &&
+                    (arg == argList.get(0) ||
+                            (!prev.equals("-textFile") && !prev.equals("-pretty")))) {
                 return false;
             }
             prev = arg;
@@ -54,7 +56,8 @@ public class OptionsChecker {
             if (argList.get(i).equals("-print")) {
                 argList.remove(i);
                 return true;
-            } else if (! argList.get(i).startsWith("-") && (i == 0 || !prev.equals("-textFile"))) {
+            } else if (! argList.get(i).startsWith("-") &&
+                    (i == 0 || ( !prev.equals("-textFile") && !prev.equals("-pretty")))) {
                 return false;
             }
             prev = argList.get(i);
@@ -69,19 +72,57 @@ public class OptionsChecker {
      * if the next arg is an option or is non-existent, throws error.
      */
     public static String checkForTextFile(ArrayList<String> argList) throws MissingFileName {
+        String prev = null;
         String turnString = null;
         for (int i=0; i < argList.size(); i++) {
-            if (argList.get(i).equals("-textFile")) {
+            String curr = argList.get(i);
+            if (curr.equals("-textFile")) {
                 // if we haven't reached the end of the args
                 // and the next arg isn't an option
-                if (i+1 < argList.size() && ! argList.get(i+1).startsWith("-")) {
+                if (i + 1 < argList.size() && !argList.get(i + 1).startsWith("-")) {
+                    turnString = argList.get(i + 1);
+                    argList.remove(i + 1);
+                    argList.remove(i);
+                } else {
+                    throw new MissingFileName();
+                }
+            } else if (! curr.startsWith("-") &&
+                    (i == 0 || !prev.equals("-pretty"))) {
+                    break;
+                }
+                prev = curr;
+        }
+        return turnString;
+    }
+
+    /**
+     * just sees if there is a -pretty option in any of the options
+     * if there is, it will remove the next arg as the filename/'-', delete that
+     * delete the option and return the string, else return null string.
+     * if the next arg is an option or is non-existent, throws error.
+     */
+    public static String checkForPrettyFile(ArrayList<String> argList) throws MissingFileName {
+        String turnString = null;
+        String prev = null;
+        for (int i=0; i < argList.size(); i++) {
+            String curr = argList.get(i);
+            if (curr.equals("-pretty")) {
+                // if we haven't reached the end of the args
+                // and the next arg isn't an option or is '-'
+                if (i+1 < argList.size() &&
+                        (argList.get(i+1).equals("-") ||
+                                ! argList.get(i+1).startsWith("-"))) {
                     turnString = argList.get(i+1);
                     argList.remove(i+1);
                     argList.remove(i);
                 } else {
                     throw new MissingFileName();
                 }
+            } else if (! curr.startsWith("-") &&
+                    (i == 0 || !prev.equals("-textFile"))) {
+                break;
             }
+            prev = curr;
         }
         return turnString;
     }
