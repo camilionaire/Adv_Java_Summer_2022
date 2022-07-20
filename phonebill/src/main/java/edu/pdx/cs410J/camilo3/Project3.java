@@ -49,6 +49,7 @@ public class Project3 {
       try {
         PhoneCallChecker checker = new PhoneCallChecker();
         String fileName = optChecker.checkForTextFile(argList);
+        String prettyFileName = optChecker.checkForPrettyFile(argList);
 
         checker.isArrayZero(argList);
 
@@ -57,6 +58,8 @@ public class Project3 {
 
         checker.checkForImproperFormatting(argList);
 
+        // this looks for the file to open and load, or it
+        // just makes a new file...
         if (fileName != null) {
           File customerFile = new File(fileName);
           if (customerFile.exists()) {
@@ -84,6 +87,20 @@ public class Project3 {
           PrintWriter pw = new PrintWriter(fw);
           TextDumper td = new TextDumper(pw);
           td.dump(aBill);
+        }
+
+        if (prettyFileName != null) {
+          if (prettyFileName.equals("-")) {
+            StringWriter sw = new StringWriter();
+            PrettyPrinter pp = new PrettyPrinter(sw);
+            pp.dump(aBill);
+            System.out.println(sw);
+          } else {
+            FileWriter fw = new FileWriter(prettyFileName);
+            PrintWriter pw = new PrintWriter(fw);
+            PrettyPrinter pp = new PrettyPrinter(pw);
+            pp.dump(aBill);
+          }
         }
 
         if (printOption) {
