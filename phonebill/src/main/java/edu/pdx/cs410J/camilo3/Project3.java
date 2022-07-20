@@ -12,80 +12,6 @@ import java.util.Arrays;
  */
 public class Project3 {
 
-  /**
-   * if -README option is invoked, this method is called and prints the
-   * readme file found at README.txt.
-   */
-  private static void printReadme() {
-    try (InputStream readme = Project3.class.getResourceAsStream("README.txt")
-    ) {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
-      for (String line; (line = reader.readLine()) != null;) {
-        System.out.println(line);
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  /**
-   * just sees if there is a -README option in any of the options
-   */
-  @VisibleForTesting
-  static boolean checkForReadme(ArrayList<String> argList) {
-    String prev = null;
-    for (String arg : argList) {
-      if (arg.equals("-README")) {
-        printReadme();
-        return true;
-      } else if (! arg.startsWith("-") && (arg == argList.get(0) || !prev.equals("-textFile"))) {
-        return false;
-      }
-      prev = arg;
-    }
-    return false;
-  }
-
-  /**
-   * just sees if there is a -print option in any of the options
-   * works with textfile additional possibility
-   */
-  public static boolean checkForPrint(ArrayList<String> argList) {
-    String prev = null;
-    for (int i=0; i < argList.size(); i++) {
-      if (argList.get(i).equals("-print")) {
-        argList.remove(i);
-        return true;
-      } else if (! argList.get(i).startsWith("-") && (i == 0 || !prev.equals("-textFile"))) {
-        return false;
-      }
-      prev = argList.get(i);
-    }
-    return false;
-  }
-
-  /**
-   * just sees if there is a -textFile file option in any of the options
-   * if there is, it will remove the next arg as the filename, delete that
-   * delete the option and return the string, else return null string.
-   * if the next arg is an option or is non-existent, throws error.
-   */
-  public static String checkForTextFile(ArrayList<String> argList) throws MissingFileName {
-    String turnString = null;
-    for (int i=0; i < argList.size(); i++) {
-      if (argList.get(i).equals("-textFile")) {
-        if (i+1 < argList.size() && ! argList.get(i+1).startsWith("-")) {
-          turnString = argList.get(i+1);
-          argList.remove(i+1);
-          argList.remove(i);
-        } else {
-          throw new MissingFileName();
-        }
-      }
-    }
-    return turnString;
-  }
-
   @VisibleForTesting
   /**
    * wrapper function for throwing error if the names don't match
@@ -107,20 +33,22 @@ public class Project3 {
     PhoneCall aCall;
     ArrayList<String> argList = new ArrayList<String>(Arrays.asList(args));
 
+    OptionsChecker optChecker = new OptionsChecker();
+
     // runs through options and checks for a -README
-    readme = checkForReadme(argList);
+    readme = optChecker.checkForReadme(argList);
 
     // if there is no readme, we check for -print
     if (!readme) {
       // checks only first item for -print, since only 2 possible
       // options are viable, throws false otherwise.
-      printOption = checkForPrint(argList);
+      printOption = optChecker.checkForPrint(argList);
 
       // this part checks for the formatting.
       // and then creates the actual objects with the formatted array.
       try {
         PhoneCallChecker checker = new PhoneCallChecker();
-        String fileName = checkForTextFile(argList);
+        String fileName = optChecker.checkForTextFile(argList);
 
         checker.isArrayZero(argList);
 
@@ -167,18 +95,6 @@ public class Project3 {
       }
     }
   } // end of main
-
-  /**
-   * exception that is thrown when the file argument is missing.
-   */
-  static class MissingFileName extends Exception {
-    public MissingFileName() {
-      super("IT LOOKS LIKE YOU'RE MISSING A FILENAME.\n" +
-              "proper usage is -textFile file <args>\n" +
-              "please run with -README flag for more details.\n" +
-              "Thank you.");
-    }
-  }
 
   /**
    * exception that is thrown when the names don't match.
