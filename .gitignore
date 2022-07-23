@@ -1,6 +1,3 @@
-# added for integration testing
-./src/it/resources
-
 # Compiled class file
 *.class
 
