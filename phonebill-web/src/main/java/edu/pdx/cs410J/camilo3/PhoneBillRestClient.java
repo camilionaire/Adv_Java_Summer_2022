@@ -56,6 +56,18 @@ public class PhoneBillRestClient {
    */
   public String getPhoneBill(String customer) throws IOException, ParserException {
     Response response = http.get(Map.of("customer", customer));
+    return getPrettyString(response);
+  }
+
+  /**
+   * Returns the pretty print version of the phonebill
+   */
+  public String getPartialPhoneBill(String customer, String begin, String end) throws IOException, ParserException {
+    Response response = http.get(Map.of("customer", customer, "begin", begin, "end", end));
+    return getPrettyString(response);
+  }
+
+  private String getPrettyString(Response response) throws ParserException {
     throwExceptionIfNotOkayHttpStatus(response);
     String content = response.getContent();
 
@@ -66,7 +78,7 @@ public class PhoneBillRestClient {
     return sw.toString();
   }
 
-//    public void addDictionaryEntry(String word, String definition) throws IOException {
+  //    public void addDictionaryEntry(String word, String definition) throws IOException {
 //      Response response = http.post(Map.of("word", word, "definition", definition));
 //      throwExceptionIfNotOkayHttpStatus(response);
 //    }

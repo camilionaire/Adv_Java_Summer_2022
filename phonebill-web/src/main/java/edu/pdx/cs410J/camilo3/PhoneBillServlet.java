@@ -90,7 +90,7 @@ public class PhoneBillServlet extends HttpServlet
         }
 
         String callee = getParameter(CALLEE_PARAMETER, request );
-        if ( caller == null) {
+        if ( callee == null) {
             missingRequiredParameter( response, CALLEE_PARAMETER );
             return;
         }
@@ -255,8 +255,7 @@ public class PhoneBillServlet extends HttpServlet
     static boolean time1IsBeforeTime2(Date time1, Date time2) {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(
                 time2.getTime() - time1.getTime());
-        if (seconds >= 0L) { return true; }
-        else { return false;}
+        return seconds >= 0L;
     }
 //    @VisibleForTesting
 //    String getDefinition(String word) {
