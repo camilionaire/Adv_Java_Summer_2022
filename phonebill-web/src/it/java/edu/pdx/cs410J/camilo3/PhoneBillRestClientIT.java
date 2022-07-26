@@ -40,26 +40,26 @@ class PhoneBillRestClientIT {
     assertThat(dictionary.size(), equalTo(0));
   }
 
-  @Test
-  void test2DefineOneWord() throws IOException, ParserException {
-    PhoneBillRestClient client = newPhoneBillRestClient();
-    String testWord = "TEST WORD";
-    String testDefinition = "TEST DEFINITION";
-    client.addDictionaryEntry(testWord, testDefinition);
-
-    String definition = client.getDefinition(testWord);
-    assertThat(definition, equalTo(testDefinition));
-  }
-
-  @Test
-  void test4EmptyWordThrowsException() {
-    PhoneBillRestClient client = newPhoneBillRestClient();
-    String emptyString = "";
-
-    RestException ex =
-      assertThrows(RestException.class, () -> client.addDictionaryEntry(emptyString, emptyString));
-    assertThat(ex.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
-    assertThat(ex.getMessage(), equalTo(Messages.missingRequiredParameter("word")));
-  }
+//  @Test
+//  void test2DefineOneWord() throws IOException, ParserException {
+//    PhoneBillRestClient client = newPhoneBillRestClient();
+//    String testWord = "TEST WORD";
+//    String testDefinition = "TEST DEFINITION";
+//    client.addDictionaryEntry(testWord, testDefinition);
+//
+//    String definition = client.getDefinition(testWord);
+//    assertThat(definition, equalTo(testDefinition));
+//  }
+//
+//  @Test
+//  void test4EmptyWordThrowsException() {
+//    PhoneBillRestClient client = newPhoneBillRestClient();
+//    String emptyString = "";
+//
+//    RestException ex =
+//      assertThrows(RestException.class, () -> client.addDictionaryEntry(emptyString, emptyString));
+//    assertThat(ex.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_PRECON_FAILED));
+//    assertThat(ex.getMessage(), equalTo(Messages.missingRequiredParameter("word")));
+//  }
 
 }

@@ -6,6 +6,8 @@ import edu.pdx.cs410J.web.HttpRequestHelper;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -19,22 +21,39 @@ public class Project4 {
     public static void main(String... args) {
         String hostName = null;
         String portString = null;
-        String word = null;
-        String definition = null;
+        String name = null;
+        String caller = null;
+        String callee = null;
+        String bd = null;
+        String bt = null;
+        String ba = null;
+        String ed = null;
+        String et = null;
+        String ea = null;
 
         for (String arg : args) {
             if (hostName == null) {
                 hostName = arg;
-
             } else if ( portString == null) {
                 portString = arg;
-
-            } else if (word == null) {
-                word = arg;
-
-            } else if (definition == null) {
-                definition = arg;
-
+            } else if (name == null) {
+                name = arg;
+            } else if (caller == null) {
+                caller = arg;
+            } else if (callee == null) {
+                callee = arg;
+            } else if (bd == null) {
+                bd = arg;
+            } else if (bt == null) {
+                bt = arg;
+            } else if (ba == null) {
+                ba = arg;
+            } else if (ed == null) {
+                ed = arg;
+            } else if (et == null) {
+                et = arg;
+            } else if (ea == null) {
+                ea = arg;
             } else {
                 usage("Extraneous command line argument: " + arg);
             }
@@ -58,27 +77,37 @@ public class Project4 {
 
         PhoneBillRestClient client = new PhoneBillRestClient(hostName, port);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+
         String message;
         try {
-            if (word == null) {
-                // Print all word/definition pairs
-                Map<String, String> dictionary = client.getAllDictionaryEntries();
-                StringWriter sw = new StringWriter();
-                PrettyPrinter pretty = new PrettyPrinter(sw);
-                pretty.dump(dictionary);
-                message = sw.toString();
+            String beg = bd + " " + bt + " " + ba;
+            String end = ed + " " + et + " " + ea;
+            client.addPhoneCallEntry(name, caller, callee, beg, end);
+            PhoneCall newCall = new PhoneCall(caller, callee, sdf.parse(beg), sdf.parse(end));
 
-            } else if (definition == null) {
-                // Print all dictionary entries
-                message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
+            message = Messages.addedPhoneCall(name, newCall);
 
-            } else {
-                // Post the word/definition pair
-                client.addDictionaryEntry(word, definition);
-                message = Messages.definedWordAs(word, definition);
-            }
+//            if (word == null) {
+//                // Print all word/definition pairs
+//                Map<String, String> dictionary = client.getAllDictionaryEntries();
+//                StringWriter sw = new StringWriter();
+//                PrettyPrinter pretty = new PrettyPrinter(sw);
+//                pretty.dump(dictionary);
+//                message = sw.toString();
+//
+//            } else if (definition == null) {
+//                // Print all dictionary entries
+//                message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
+//
+//            } else {
+//                // Post the word/definition pair
+//                client.addDictionaryEntry(word, definition);
+//                message = Messages.definedWordAs(word, definition);
+//            }
 
-        } catch (IOException | ParserException ex ) {
+//        } catch (IOException | ParserException ex ) {
+        } catch (IOException | ParseException ex) {
             error("While contacting server: " + ex);
             return;
         }

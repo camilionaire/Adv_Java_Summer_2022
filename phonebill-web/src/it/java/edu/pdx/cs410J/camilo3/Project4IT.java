@@ -35,41 +35,41 @@ class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString(Project4.MISSING_ARGS));
     }
 
-    @Test
-    void test2EmptyServer() {
-        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT );
-        String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatWordCount(0)));
-    }
+//    @Test
+//    void test2EmptyServer() {
+//        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT );
+//        String out = result.getTextWrittenToStandardOut();
+//        assertThat(out, out, containsString(PrettyPrinter.formatWordCount(0)));
+//    }
+//
+//    @Test
+//    void test3NoDefinitionsThrowsAppointmentBookRestException() {
+//        String word = "WORD";
+//        try {
+//            invokeMain(Project4.class, HOSTNAME, PORT, word);
+//            fail("Expected a RestException to be thrown");
+//
+//        } catch (UncaughtExceptionInMain ex) {
+//            RestException cause = (RestException) ex.getCause();
+//            assertThat(cause.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
+//        }
+//    }
 
-    @Test
-    void test3NoDefinitionsThrowsAppointmentBookRestException() {
-        String word = "WORD";
-        try {
-            invokeMain(Project4.class, HOSTNAME, PORT, word);
-            fail("Expected a RestException to be thrown");
-
-        } catch (UncaughtExceptionInMain ex) {
-            RestException cause = (RestException) ex.getCause();
-            assertThat(cause.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND));
-        }
-    }
-
-    @Test
-    void test4AddDefinition() {
-        String word = "WORD";
-        String definition = "DEFINITION";
-
-        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, word, definition );
-        String out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(Messages.definedWordAs(word, definition)));
-
-        result = invokeMain( Project4.class, HOSTNAME, PORT, word );
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
-
-        result = invokeMain( Project4.class, HOSTNAME, PORT );
-        out = result.getTextWrittenToStandardOut();
-        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
-    }
+//    @Test
+//    void test4AddDefinition() {
+//        String word = "WORD";
+//        String definition = "DEFINITION";
+//
+//        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, word, definition );
+//        String out = result.getTextWrittenToStandardOut();
+//        assertThat(out, out, containsString(Messages.definedWordAs(word, definition)));
+//
+//        result = invokeMain( Project4.class, HOSTNAME, PORT, word );
+//        out = result.getTextWrittenToStandardOut();
+//        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
+//
+//        result = invokeMain( Project4.class, HOSTNAME, PORT );
+//        out = result.getTextWrittenToStandardOut();
+//        assertThat(out, out, containsString(PrettyPrinter.formatDictionaryEntry(word, definition)));
+//    }
 }

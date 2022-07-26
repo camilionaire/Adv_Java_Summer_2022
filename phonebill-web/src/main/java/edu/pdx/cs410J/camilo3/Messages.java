@@ -11,9 +11,9 @@ public class Messages
         return String.format("The required parameter \"%s\" is missing", parameterName);
     }
 
-    public static String definedWordAs(String word, String definition )
+    public static String addedPhoneCall(String name, PhoneCall newCall )
     {
-        return String.format( "Defined %s as %s", word, definition );
+        return String.format( "%s was added to \nbill for: %s", newCall, name );
     }
 
     public static String allDictionaryEntriesDeleted() {
