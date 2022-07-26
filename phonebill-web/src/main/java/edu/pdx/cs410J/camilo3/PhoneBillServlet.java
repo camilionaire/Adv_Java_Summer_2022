@@ -44,11 +44,17 @@ public class PhoneBillServlet extends HttpServlet
         response.setContentType( "text/plain" );
 
         String name = getParameter( NAME_PARAMETER, request );
-        if (name != null) {
-            writeWholeBill(name, response);
+        String begin = getParameter( BEGIN_PARAMETER, request );
+        String end = getParameter( END_PARAMETER, request );
 
-        } else {
+        if (begin == null && end == null) {
+            if (name != null) {
+                writeWholeBill(name, response);
+
+            } else {
 //            writeAllDictionaryEntries(response);
+            }
+
         }
     }
 
@@ -95,15 +101,20 @@ public class PhoneBillServlet extends HttpServlet
         // replaced this with stuff to change into a phonebill and add that.
 //        this.dictionary.put(word, definition);
         // this ONLY adds a new phoneBill phonecall and looks it up.
-        PhoneBill newBill = new PhoneBill(name);
+        PhoneBill oldBill = null;
         PhoneCall newCall = null;
         try {
+            oldBill = this.dictionary.get(name);
+            if (oldBill == null) {
+                oldBill = new PhoneBill(name);
+            }
+
             newCall = new PhoneCall(caller, callee, sdf.parse(begin), sdf.parse(end));
         } catch (Exception e) {
             missingRequiredParameter(response, "Something screwed up!");
         }
-        newBill.addPhoneCall(newCall);
-        this.dictionary.put(name, newBill);
+        oldBill.addPhoneCall(newCall);
+        this.dictionary.put(name, oldBill);
 
 
         PrintWriter pw = response.getWriter();
