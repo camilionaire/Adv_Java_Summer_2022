@@ -56,10 +56,11 @@ public class PhoneCallChecker {
      * throws error if there are no command line arguments
      */
     @VisibleForTesting
-    static void isArrayZero(ArrayList args) throws MissingCommandLineArguments {
+    static boolean isArrayZero(ArrayList args) {
         if (args.size() == 0) {
-            throw new MissingCommandLineArguments();
+            return true;
         }
+        return false;
     }
 
     /**

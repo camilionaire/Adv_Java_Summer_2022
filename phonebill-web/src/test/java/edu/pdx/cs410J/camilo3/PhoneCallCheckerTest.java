@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -79,18 +81,25 @@ public class PhoneCallCheckerTest {
     }
 
     /**
-     *  These are just all the ways that formatting can fail!!!
+     *  new boolean is ArrayZero(args)
      */
     @Test
-    void checkFormattingFailsOnZero() {
+    void checkFormattingTrueOnZero() {
         PhoneCallChecker checker = new PhoneCallChecker();
         ArrayList sa = new ArrayList();
-        Exception exception = assertThrows(PhoneCallChecker.MissingCommandLineArguments.class, () -> {
-            checker.isArrayZero(sa);
-        });
-        assertTrue(exception.getMessage().contains("TOO FEW ARGUMENTS"));
+        assertTrue(checker.isArrayZero(sa));
     }
 
+    @Test
+    void checkFormattingFalseOnOne() {
+        PhoneCallChecker checker = new PhoneCallChecker();
+        ArrayList sa = new ArrayList(List.of(new String[]{"hello"}));
+        assertFalse(checker.isArrayZero(sa));
+    }
+
+    /**
+     *  These are just all the ways that formatting can fail!!!
+     */
     @Test
     void checkFormattingFailsOnFewerThanSix() {
         PhoneCallChecker checker = new PhoneCallChecker();
