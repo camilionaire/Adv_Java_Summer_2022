@@ -5,6 +5,9 @@ import edu.pdx.cs410J.ParserException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -17,31 +20,73 @@ public class TextParser {
     this.reader = reader;
   }
 
-  public Map<String, String> parse() throws ParserException {
-    Pattern pattern = Pattern.compile("(.*) : (.*)");
-
-    Map<String, String> map = new HashMap<>();
-
+  /**
+   * parses the phonebill that is on the reader
+   * if everything passes muster, will return a Phonebill
+   * otherwise, will throw a ParserException with the msg attached from
+   * actual custom build errors and messages.
+   */
+  public PhoneBill parse() throws ParserException {
     try (
-      BufferedReader br = new BufferedReader(this.reader)
+            BufferedReader br = new BufferedReader(this.reader)
     ) {
 
-      for (String line = br.readLine(); line != null; line = br.readLine()) {
-        Matcher matcher = pattern.matcher(line);
-        if (!matcher.find()) {
-          throw new ParserException("Unexpected text: " + line);
-        }
+      String customer = br.readLine();
 
-        String word = matcher.group(1);
-        String definition = matcher.group(2);
-
-        map.put(word, definition);
+      if (customer == null) {
+        throw new ParserException("Missing customer");
       }
 
-    } catch (IOException e) {
-      throw new ParserException("While parsing dictionary", e);
-    }
+      PhoneBill aBill = new PhoneBill(customer);
+      PhoneCallChecker checker = new PhoneCallChecker();
 
-    return map;
+      SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+      // need to go through these phonecalls here
+      // and add them all to the phonebill class.
+      while ((customer = br.readLine()) != null) {
+        ArrayList aCallArray = new ArrayList(Arrays.asList(customer.split(" ")));
+        checker.checkForImproperFormatting(aCallArray);
+        PhoneCall aCall = new PhoneCall(
+                (String) aCallArray.get(0), (String) aCallArray.get(1), sdf.parse(aCallArray.get(2) + " " + aCallArray.get(3) + " " + aCallArray.get(4)),
+                sdf.parse(aCallArray.get(5) + " " + aCallArray.get(6) + " " + aCallArray.get(7)));
+        aBill.addPhoneCall(aCall);
+      }
+
+      return aBill;
+
+    } catch (Exception e) { // switched from IOException initially.
+      throw new ParserException("While parsing phone bill text an error was encountered.\n" +
+              "One or more of the phone call listings was improperly formatted.\n" +
+              "Proper usage: caller callee mm/dd/yyyy hh:mm a/pm mm/dd/yyyy hh:mm a/pm\n" +
+              "Error was as shown:\n" +
+              e.getMessage());
+    }
   }
+//  public Map<String, String> parse() throws ParserException {
+//    Pattern pattern = Pattern.compile("(.*) : (.*)");
+//
+//    Map<String, String> map = new HashMap<>();
+//
+//    try (
+//      BufferedReader br = new BufferedReader(this.reader)
+//    ) {
+//
+//      for (String line = br.readLine(); line != null; line = br.readLine()) {
+//        Matcher matcher = pattern.matcher(line);
+//        if (!matcher.find()) {
+//          throw new ParserException("Unexpected text: " + line);
+//        }
+//
+//        String word = matcher.group(1);
+//        String definition = matcher.group(2);
+//
+//        map.put(word, definition);
+//      }
+//
+//    } catch (IOException e) {
+//      throw new ParserException("While parsing dictionary", e);
+//    }
+//
+//    return map;
+//  }
 }

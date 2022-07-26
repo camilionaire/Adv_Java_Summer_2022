@@ -6,6 +6,7 @@ import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Map;
 
 import static edu.pdx.cs410J.web.HttpRequestHelper.Response;
@@ -50,27 +51,30 @@ public class PhoneBillRestClient {
 //    return parser.parse();
 //  }
 //
-//  /**
-//   * Returns the definition for the given word
-//   */
-//  public String getDefinition(String word) throws IOException, ParserException {
-//    Response response = http.get(Map.of("word", word));
-//    throwExceptionIfNotOkayHttpStatus(response);
-//    String content = response.getContent();
-//
-//    TextParser parser = new TextParser(new StringReader(content));
-//    return parser.parse().get(word);
-//  }
+  /**
+   * Returns the pretty print version of the phonebill
+   */
+  public String getPhoneBill(String customer) throws IOException, ParserException {
+    Response response = http.get(Map.of("customer", customer));
+    throwExceptionIfNotOkayHttpStatus(response);
+    String content = response.getContent();
+
+    TextParser parser = new TextParser(new StringReader(content));
+    StringWriter sw = new StringWriter();
+    PrettyPrinter pp = new PrettyPrinter(sw);
+    pp.dump(parser.parse());
+    return sw.toString();
+  }
 
 //    public void addDictionaryEntry(String word, String definition) throws IOException {
 //      Response response = http.post(Map.of("word", word, "definition", definition));
 //      throwExceptionIfNotOkayHttpStatus(response);
 //    }
   public void addPhoneCallEntry(
-          String name, String caller, String callee, String begin, String end)
+          String customer, String caller, String callee, String begin, String end)
           throws IOException {
     Response response = http.post(
-            Map.of("name", name, "caller", caller, "callee", callee,
+            Map.of("customer", customer, "callerNumber", caller, "calleeNumber", callee,
                     "begin", begin, "end", end));
       throwExceptionIfNotOkayHttpStatus(response);
   }
