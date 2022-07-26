@@ -8,8 +8,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This servlet ultimately provides a REST API for working with an
@@ -20,8 +23,8 @@ import java.util.Map;
 public class PhoneBillServlet extends HttpServlet
 {
     static final String NAME_PARAMETER = "name";
-    static final String CALLER_PARAMETER = "caller";
-    static final String CALLEE_PARAMETER = "callee";
+    static final String CALLER_PARAMETER = "callerNumber";
+    static final String CALLEE_PARAMETER = "calleeNumber";
     static final String BEGIN_PARAMETER = "begin";
     static final String END_PARAMETER = "end";
 
@@ -30,7 +33,7 @@ public class PhoneBillServlet extends HttpServlet
 //    static final String DEFINITION_PARAMETER = "definition";
 
     // changed from <String, String>
-    private final Map<String, PhoneBill> dictionary = new HashMap<>();
+    private final Map<String, PhoneBill> phoneBills = new HashMap<>();
 
     /**
      * Handles an HTTP GET request from a client by writing the definition of the
@@ -50,12 +53,18 @@ public class PhoneBillServlet extends HttpServlet
         if (begin == null && end == null) {
             if (name != null) {
                 writeWholeBill(name, response);
-
             } else {
+                missingRequiredParameter(response, "We need a name to search for!");
 //            writeAllDictionaryEntries(response);
             }
-
+        } else if (begin != null && end != null) {
+            if (name != null) {
+                writeSomeBill(name, begin, end, response);
+            }
+        } else {
+            missingRequiredParameter(response, "We need a begin and end time or neither to search for");
         }
+
     }
 
     /**
@@ -100,11 +109,10 @@ public class PhoneBillServlet extends HttpServlet
 
         // replaced this with stuff to change into a phonebill and add that.
 //        this.dictionary.put(word, definition);
-        // this ONLY adds a new phoneBill phonecall and looks it up.
         PhoneBill oldBill = null;
         PhoneCall newCall = null;
         try {
-            oldBill = this.dictionary.get(name);
+            oldBill = this.phoneBills.get(name);
             if (oldBill == null) {
                 oldBill = new PhoneBill(name);
             }
@@ -114,7 +122,7 @@ public class PhoneBillServlet extends HttpServlet
             missingRequiredParameter(response, "Something screwed up!");
         }
         oldBill.addPhoneCall(newCall);
-        this.dictionary.put(name, oldBill);
+        this.phoneBills.put(name, oldBill);
 
 
         PrintWriter pw = response.getWriter();
@@ -133,7 +141,7 @@ public class PhoneBillServlet extends HttpServlet
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain");
 
-        this.dictionary.clear();
+        this.phoneBills.clear();
 
         PrintWriter pw = response.getWriter();
         pw.println(Messages.allDictionaryEntriesDeleted());
@@ -161,7 +169,7 @@ public class PhoneBillServlet extends HttpServlet
      * The text of the message is formatted with {@link TextDumper}
      */
     private void writeWholeBill(String name, HttpServletResponse response) throws IOException {
-        PhoneBill aBill = this.dictionary.get(name);
+        PhoneBill aBill = this.phoneBills.get(name);
 
         // if we couldn't find a bill by that name
         if (aBill == null) {
@@ -174,6 +182,36 @@ public class PhoneBillServlet extends HttpServlet
             // changed to aBill from wordDefinition since dumper no longer
             // works that way I decided...
             dumper.dump(aBill);
+
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+    }
+    private void writeSomeBill(String name, String begin, String end, HttpServletResponse response) throws IOException {
+        PhoneBill aBill = this.phoneBills.get(name);
+        Date begDate = null;
+        Date endDate = null;
+        if (aBill == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        } else {
+            SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+            PrintWriter pw = response.getWriter();
+            TextDumper dumper = new TextDumper(pw);
+            try {
+                begDate = sdf.parse(begin);
+                endDate = sdf.parse(end);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            }
+            PhoneBill retBill = new PhoneBill(name);
+            Collection<PhoneCall> calls = aBill.getPhoneCalls();
+
+            for (PhoneCall call : calls) {
+                if (time1IsBeforeTime2(begDate, call.getBeginTime()) && time1IsBeforeTime2(call.getBeginTime(), endDate)) {
+                    retBill.addPhoneCall(call);
+                }
+            }
+
+            dumper.dump(retBill);
 
             response.setStatus(HttpServletResponse.SC_OK);
         }
@@ -209,7 +247,17 @@ public class PhoneBillServlet extends HttpServlet
         return value;
       }
     }
-
+    /**
+     * returns true if the start is before or equal to the end
+     * false otherwise
+     */
+    @VisibleForTesting
+    static boolean time1IsBeforeTime2(Date time1, Date time2) {
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(
+                time2.getTime() - time1.getTime());
+        if (seconds >= 0L) { return true; }
+        else { return false;}
+    }
 //    @VisibleForTesting
 //    String getDefinition(String word) {
 //        return this.dictionary.get(word);
