@@ -41,9 +41,13 @@ public class PhoneBillRestClientTest {
         String res = client.getPhoneBill(customer);
         StringWriter sw = new StringWriter();
 
-        assertThat(res, containsString("Customer name:\n" + customer + "\r\n\r\n" +
-                "Caller:       Callee:       Call Begins:          Call Ends:            Time:\r\n" +
+        assertThat(res, containsString("Customer name:\n" + customer));
+        assertThat(res, containsString(
+                "Caller:       Callee:       Call Begins:          Call Ends:            Time:"));
+        assertThat(res, containsString(
                 "------------  ------------  --------------------  --------------------  --------"));
+        assertThat(res, containsString(
+                 callerNumber + "  " + calleeNumber + "  Mar 03, 22  10:29 AM  Mar 03, 22  12:29 PM  120 mins"));
     }
   // this all got broke when I changed the textdumper class...
 //  @Test
