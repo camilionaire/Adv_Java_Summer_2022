@@ -53,12 +53,31 @@ public class OptionsChecker {
 
     /**
      * just sees if there is a -print option in any of the options
-     * works with textfile additional possibility
+     * works with -host, -port additional possibility
      */
     public static boolean checkForPrint(ArrayList<String> argList) {
         String prev = null;
         for (int i=0; i < argList.size(); i++) {
             if (argList.get(i).equals("-print")) {
+                argList.remove(i);
+                return true;
+            } else if (! argList.get(i).startsWith("-") &&
+                    (i == 0 || ( !prev.equals("-host") && !prev.equals("-port")))) {
+                return false;
+            }
+            prev = argList.get(i);
+        }
+        return false;
+    }
+
+    /**
+     * just sees if there is a -print option in any of the options
+     * works with -host, -port additional possibility
+     */
+    public static boolean checkForSearch(ArrayList<String> argList) {
+        String prev = null;
+        for (int i=0; i < argList.size(); i++) {
+            if (argList.get(i).equals("-search")) {
                 argList.remove(i);
                 return true;
             } else if (! argList.get(i).startsWith("-") &&

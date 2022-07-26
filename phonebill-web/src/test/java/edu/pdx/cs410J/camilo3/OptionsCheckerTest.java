@@ -66,7 +66,7 @@ public class OptionsCheckerTest {
     }
 
     /**
-     * These next few check the checkForHost paths
+     * These next few check the checkForPrint paths
      */
     @Test
     void checkForPrintTrue() {
@@ -110,7 +110,51 @@ public class OptionsCheckerTest {
     }
 
     /**
-     * These next couple test out the check for text file in the options
+     * These next few check the checkForSearch paths
+     */
+    @Test
+    void checkForSearchTrue() {
+        OptionsChecker optCh = new OptionsChecker();
+        ArrayList argList = new ArrayList<>(Arrays.asList("-search", "-first"));
+
+        assertEquals(optCh.checkForSearch(argList), true);
+    }
+
+    @Test
+    void checkForSearchTrueAfter() {
+        OptionsChecker optCh = new OptionsChecker();
+        ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-search"));
+
+        assertEquals(optCh.checkForSearch(argList), true);
+    }
+
+    @Test
+    void checkForSearchTrueAfterEverything() {
+        OptionsChecker optCh = new OptionsChecker();
+        ArrayList argList = new ArrayList<>(Arrays.asList(
+                "-first", "-host", "aHosthost", "-port", "8675", "-search"));
+
+        assertEquals(optCh.checkForSearch(argList), true);
+    }
+
+    @Test
+    void checkForSearchFalseZero() {
+        OptionsChecker optCh = new OptionsChecker();
+        ArrayList argList = new ArrayList<>();
+
+        assertEquals(optCh.checkForSearch(argList), false);
+    }
+
+    @Test
+    void checkForSearchFalseOutOfOptions() {
+        OptionsChecker optCh = new OptionsChecker();
+        ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-second", "third"));
+
+        assertEquals(optCh.checkForSearch(argList), false);
+    }
+
+    /**
+     * These next couple test out the check for host in the options
      * @throws OptionsChecker.MissingName
      */
     @Test
