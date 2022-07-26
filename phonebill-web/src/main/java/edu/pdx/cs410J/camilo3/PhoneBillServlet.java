@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class PhoneBillServlet extends HttpServlet
 {
-    static final String NAME_PARAMETER = "name";
+    static final String NAME_PARAMETER = "customer";
     static final String CALLER_PARAMETER = "callerNumber";
     static final String CALLEE_PARAMETER = "calleeNumber";
     static final String BEGIN_PARAMETER = "begin";

@@ -46,14 +46,14 @@ class PhoneBillServletTest {
   void addOnePhoneBillToDictionary() throws IOException, ParseException {
     PhoneBillServlet servlet = new PhoneBillServlet();
 
-    String name = "Camilo Schaser-Hughes";
+    String customer = "Camilo Schaser-Hughes";
     String callerNumber = "831-227-1838";
     String calleeNumber = "831-222-1234";
     String begin = "3/3/2022 11:11 am";
     String end = "03/03/2022 12:12 pm";
 
     HttpServletRequest request = mock(HttpServletRequest.class);
-    when(request.getParameter("name")).thenReturn(name);
+    when(request.getParameter("customer")).thenReturn(customer);
     when(request.getParameter("callerNumber")).thenReturn(callerNumber);
     when(request.getParameter("calleeNumber")).thenReturn(calleeNumber);
     when(request.getParameter("begin")).thenReturn(begin);
@@ -72,7 +72,7 @@ class PhoneBillServletTest {
     SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
     PhoneCall fakeCall = new PhoneCall(callerNumber, calleeNumber, sdf.parse(begin), sdf.parse(end));
 
-    assertThat(stringWriter.toString(), containsString(Messages.addedPhoneCall(name, fakeCall)));
+    assertThat(stringWriter.toString(), containsString(Messages.addedPhoneCall(customer, fakeCall)));
 
     // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
     ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);

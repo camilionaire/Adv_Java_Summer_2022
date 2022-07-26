@@ -28,15 +28,15 @@
 </h2>
 
 
-<div>
-    <form method="get" action="calls">
-        List all dictionary entries <input type="submit" definition="Submit"/>
-    </form>
-</div>
+<!--<div>-->
+<!--    <form method="get" action="calls">-->
+<!--        List all dictionary entries <input type="submit" definition="Submit"/>-->
+<!--    </form>-->
+<!--</div>-->
 
 <div>
     <form method="get" action="calls">
-        Search Name:<input name="name" type="text" size="10" title="name"/>
+        Search Name:<input name="customer" type="text" size="10" title="customer"/>
         Search Beg Time: <input name="begin" type="text" size="15" title="begin"/>
         Search End Time: <input name="end" type="text" size="15" title="end"/>
         <input type="submit" definition="Submit"/>
@@ -46,9 +46,9 @@
 <div>
     <form method="post" action="calls">
         Create a dictionary entry
-        <input name="name" type="text" size="10" title="name"/> :
-        <input name="callerNumber" type="text" size="10" title="caller"/> :
-        <input name="calleeNumber" type="text" size="10" title="callee"/> :
+        <input name="customer" type="text" size="10" title="customer"/> :
+        <input name="callerNumber" type="text" size="10" title="callerNumber"/> :
+        <input name="calleeNumber" type="text" size="10" title="calleeNumber"/> :
         <input name="begin" type="text" size="15" title="begin"/> :
         <input name="end" type="text" size="15" title="end"/> :
         <input type="submit" definition="Submit"/>
