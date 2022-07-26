@@ -43,7 +43,7 @@ public class OptionsChecker {
                 return true;
             } else if (! arg.startsWith("-") &&
                     (arg == argList.get(0) ||
-                            (!prev.equals("-textFile") && !prev.equals("-pretty")))) {
+                            (!prev.equals("-host") && !prev.equals("-port")))) {
                 return false;
             }
             prev = arg;
@@ -62,7 +62,7 @@ public class OptionsChecker {
                 argList.remove(i);
                 return true;
             } else if (! argList.get(i).startsWith("-") &&
-                    (i == 0 || ( !prev.equals("-textFile") && !prev.equals("-pretty")))) {
+                    (i == 0 || ( !prev.equals("-host") && !prev.equals("-port")))) {
                 return false;
             }
             prev = argList.get(i);
@@ -71,17 +71,17 @@ public class OptionsChecker {
     }
 
     /**
-     * just sees if there is a -textFile file option in any of the options
-     * if there is, it will remove the next arg as the filename, delete that
+     * just sees if there is a -host option in any of the options
+     * if there is, it will remove the next arg as the host, delete that
      * delete the option and return the string, else return null string.
      * if the next arg is an option or is non-existent, throws error.
      */
-    public static String checkForTextFile(ArrayList<String> argList) throws MissingFileName {
+    public static String checkForHost(ArrayList<String> argList) throws MissingName {
         String prev = null;
         String turnString = null;
         for (int i=0; i < argList.size(); i++) {
             String curr = argList.get(i);
-            if (curr.equals("-textFile")) {
+            if (curr.equals("-host")) {
                 // if we haven't reached the end of the args
                 // and the next arg isn't an option
                 if (i + 1 < argList.size() && !argList.get(i + 1).startsWith("-")) {
@@ -89,10 +89,10 @@ public class OptionsChecker {
                     argList.remove(i + 1);
                     argList.remove(i);
                 } else {
-                    throw new MissingFileName();
+                    throw new MissingName("HOSTNAME");
                 }
             } else if (! curr.startsWith("-") &&
-                    (i == 0 || !prev.equals("-pretty"))) {
+                    (i == 0 || !prev.equals("-port"))) {
                     break;
                 }
                 prev = curr;
@@ -106,12 +106,12 @@ public class OptionsChecker {
      * delete the option and return the string, else return null string.
      * if the next arg is an option or is non-existent, throws error.
      */
-    public static String checkForPrettyFile(ArrayList<String> argList) throws MissingFileName {
+    public static String checkForPort(ArrayList<String> argList) throws MissingName {
         String turnString = null;
         String prev = null;
         for (int i=0; i < argList.size(); i++) {
             String curr = argList.get(i);
-            if (curr.equals("-pretty")) {
+            if (curr.equals("-port")) {
                 // if we haven't reached the end of the args
                 // and the next arg isn't an option or is '-'
                 if (i+1 < argList.size() &&
@@ -121,10 +121,10 @@ public class OptionsChecker {
                     argList.remove(i+1);
                     argList.remove(i);
                 } else {
-                    throw new MissingFileName();
+                    throw new MissingName("PORT");
                 }
             } else if (! curr.startsWith("-") &&
-                    (i == 0 || !prev.equals("-textFile"))) {
+                    (i == 0 || !prev.equals("-host"))) {
                 break;
             }
             prev = curr;
@@ -135,10 +135,10 @@ public class OptionsChecker {
     /**
      * exception that is thrown when the file argument is missing.
      */
-    static class MissingFileName extends Exception {
-        public MissingFileName() {
-            super("IT LOOKS LIKE YOU'RE MISSING A FILENAME.\n" +
-                    "proper usage is -textFile file <args>\n" +
+    static class MissingName extends Exception {
+        public MissingName(String missing) {
+            super("IT LOOKS LIKE YOU'RE MISSING A " + missing + ".\n" +
+                    "proper usage is -host hostname <args>\n" +
                     "please run with -README flag for more details.\n" +
                     "Thank you.");
         }

@@ -41,18 +41,18 @@ public class OptionsCheckerTest {
     }
     @Test
     void stringOfArgsWithOptionOfReadmeTrueMultipleOptions() {
-        String[] test = {"-print", "-hello-world", "-README", "more things"};
         OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<> (Arrays.asList("-print", "-hello-world", "-README", "more things"));
+        ArrayList<String> argList = new ArrayList<> (Arrays.asList("-print", "-hello-world", "-README", "more things"));
 
         assertEquals(optCh.checkForReadme(argList), true);
     }
 
     @Test
-    void stringOfArgsWithOptionOfReadmeTrueWithTextFile() {
-        String[] test = {"-print", "-textFile", "yowza.txt", "-hello-world", "-README", "more things"};
+    void stringOfArgsWithOptionOfReadmeTrueWithHost() {
+        String[] test = {"-print", "-host", "yowzahost", "-hello-world", "-README", "more things"};
         OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<> (Arrays.asList("-print", "-hello-world", "-README", "more things"));
+        ArrayList argList = new ArrayList<> (Arrays.asList("-print", "-host", "yowzahost",
+                "-hello-world", "-README", "more things"));
 
         assertEquals(optCh.checkForReadme(argList), true);
     }
@@ -66,7 +66,7 @@ public class OptionsCheckerTest {
     }
 
     /**
-     * These next few check the checkForPrint paths
+     * These next few check the checkForHost paths
      */
     @Test
     void checkForPrintTrue() {
@@ -88,7 +88,7 @@ public class OptionsCheckerTest {
     void checkForPrintTrueAfterEverything() {
         OptionsChecker optCh = new OptionsChecker();
         ArrayList argList = new ArrayList<>(Arrays.asList(
-                "-first", "-textFile", "aFile.txt", "-pretty", "pretty/file.txt", "-print"));
+                "-first", "-host", "aHosthost", "-port", "8675", "-print"));
 
         assertEquals(optCh.checkForPrint(argList), true);
     }
@@ -111,142 +111,114 @@ public class OptionsCheckerTest {
 
     /**
      * These next couple test out the check for text file in the options
-     * @throws OptionsChecker.MissingFileName
+     * @throws OptionsChecker.MissingName
      */
     @Test
-    void checkForTextFlagTrue() throws OptionsChecker.MissingFileName {
+    void checkForHostTrue() throws OptionsChecker.MissingName {
         OptionsChecker optCh = new OptionsChecker();
-        String[] test = {"-print", "-textFile", "yowza.txt", "-hello-world", "-README", "more things"};
+        String[] test = {"-print", "-host", "outOfTownHost", "-hello-world", "-README", "more things"};
         ArrayList argList = new ArrayList<>(Arrays.asList(test));
         ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-hello-world", "-README", "more things"}));
 
-        String yowza = optCh.checkForTextFile(argList);
+        String host = optCh.checkForHost(argList);
 
-        assertEquals(yowza, "yowza.txt");
-
-        assertEquals(compare, argList);
-    }
-
-    @Test
-    void checkForTextFlagTrueAfterPretty() throws OptionsChecker.MissingFileName {
-        OptionsChecker optCh = new OptionsChecker();
-        String[] test = {"-print", "-pretty", "a/pretty/file.txt", "-textFile", "yowza.txt", "-hello-world", "-README", "more things"};
-        ArrayList argList = new ArrayList<>(Arrays.asList(test));
-        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-pretty", "a/pretty/file.txt", "-hello-world", "-README", "more things"}));
-
-        String yowza = optCh.checkForTextFile(argList);
-
-        assertEquals(yowza, "yowza.txt");
+        assertEquals(host, "outOfTownHost");
 
         assertEquals(compare, argList);
     }
 
     @Test
-    void checkForTextFlagError() throws OptionsChecker.MissingFileName {
+    void checkForHostTrueAfterPort() throws OptionsChecker.MissingName {
         OptionsChecker optCh = new OptionsChecker();
-        String[] test = {"-print", "-textFile", "-hello-world", "-README", "more things"};
+        String[] test = {"-print", "-port", "9876", "-host", "partyHost", "-hello-world", "-README", "more things"};
         ArrayList argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-port", "9876", "-hello-world", "-README", "more things"}));
 
-        Exception exception = assertThrows(OptionsChecker.MissingFileName.class, () -> {
-            optCh.checkForTextFile(argList);
-        });
-        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
+        String host = optCh.checkForHost(argList);
+
+        assertEquals(host, "partyHost");
+
+        assertEquals(compare, argList);
     }
 
     @Test
-    void checkForTextFlagErrorLastArg() throws OptionsChecker.MissingFileName {
+    void checkForHostError() throws OptionsChecker.MissingName {
         OptionsChecker optCh = new OptionsChecker();
-        String[] test = {"-print", "-some-option", "-textFile"};
+        String[] test = {"-print", "-host", "-hello-world", "-README", "more things"};
         ArrayList argList = new ArrayList<>(Arrays.asList(test));
 
-        Exception exception = assertThrows(OptionsChecker.MissingFileName.class, () -> {
-            optCh.checkForTextFile(argList);
+        Exception exception = assertThrows(OptionsChecker.MissingName.class, () -> {
+            optCh.checkForHost(argList);
         });
-        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
+        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A HOSTNAME."));
+    }
+
+    @Test
+    void checkForHostErrorLastArg() throws OptionsChecker.MissingName {
+        OptionsChecker optCh = new OptionsChecker();
+        String[] test = {"-print", "-some-option", "-host"};
+        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+
+        Exception exception = assertThrows(OptionsChecker.MissingName.class, () -> {
+            optCh.checkForHost(argList);
+        });
+        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A HOSTNAME."));
     }
 
     /**
-     * These next couple test out the check for pretty in the options
-     * basically just a copy replace of the TextFlag tests above.
-     * @throws OptionsChecker.MissingFileName
+     * These next couple test out the check for port in the options
+     * basically just a copy replace of the Host tests above.
+     * @throws OptionsChecker.MissingName
      */
     @Test
-    void checkForPrettyFlagTrue() throws OptionsChecker.MissingFileName {
+    void checkForPortFlagTrue() throws OptionsChecker.MissingName {
         OptionsChecker optCh = new OptionsChecker();
-        String[] test = {"-print", "-pretty", "yowza.txt", "-hello-world", "-README", "more things"};
+        String[] test = {"-print", "-port", "9090", "-hello-world", "-README", "more things"};
         ArrayList argList = new ArrayList<>(Arrays.asList(test));
         ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-hello-world", "-README", "more things"}));
 
-        String yowza = optCh.checkForPrettyFile(argList);
+        String port = optCh.checkForPort(argList);
 
-        assertEquals(yowza, "yowza.txt");
-
-        assertEquals(compare, argList);
-    }
-
-    @Test
-    void checkForPrettyFlagTrueAfterTextFile() throws OptionsChecker.MissingFileName {
-        OptionsChecker optCh = new OptionsChecker();
-        String[] test = {"-print", "-textFile", "some/silly/file.txt", "-pretty", "yowza.txt", "-hello-world", "-README", "more things"};
-        ArrayList argList = new ArrayList<>(Arrays.asList(test));
-        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-textFile", "some/silly/file.txt", "-hello-world", "-README", "more things"}));
-
-        String yowza = optCh.checkForPrettyFile(argList);
-
-        assertEquals(yowza, "yowza.txt");
+        assertEquals(port, "9090");
 
         assertEquals(compare, argList);
     }
 
     @Test
-    void checkForPrettyFlagTrueForHyphen() throws OptionsChecker.MissingFileName {
+    void checkForPortFlagTrueAfterTextFile() throws OptionsChecker.MissingName {
         OptionsChecker optCh = new OptionsChecker();
-        String[] test = {"-print", "-pretty", "-", "-hello-world", "-README", "more things"};
+        String[] test = {"-print", "-host", "localhost", "-port", "5309", "-hello-world", "-README", "more things"};
         ArrayList argList = new ArrayList<>(Arrays.asList(test));
-        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-hello-world", "-README", "more things"}));
+        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-host", "localhost", "-hello-world", "-README", "more things"}));
 
-        String yowza = optCh.checkForPrettyFile(argList);
+        String port = optCh.checkForPort(argList);
 
-        assertEquals(yowza, "-");
+        assertEquals(port, "5309");
 
         assertEquals(compare, argList);
     }
 
     @Test
-    void checkForPrettyFlagError() throws OptionsChecker.MissingFileName {
+    void checkForPortFlagError() throws OptionsChecker.MissingName {
         OptionsChecker optCh = new OptionsChecker();
-        String[] test = {"-print", "-pretty", "-hello-world", "-README", "more things"};
+        String[] test = {"-print", "-port", "-hello-world", "-README", "more things"};
         ArrayList argList = new ArrayList<>(Arrays.asList(test));
 
-        Exception exception = assertThrows(OptionsChecker.MissingFileName.class, () -> {
-            optCh.checkForPrettyFile(argList);
+        Exception exception = assertThrows(OptionsChecker.MissingName.class, () -> {
+            optCh.checkForPort(argList);
         });
-        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
+        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A PORT."));
     }
 
     @Test
-    void checkForPrettyLastArgError() throws OptionsChecker.MissingFileName {
+    void checkForPortLastArgError() throws OptionsChecker.MissingName {
         OptionsChecker optCh = new OptionsChecker();
-        String[] test = {"-print", "-pretty"};
+        String[] test = {"-print", "-port"};
         ArrayList argList = new ArrayList<>(Arrays.asList(test));
 
-        Exception exception = assertThrows(OptionsChecker.MissingFileName.class, () -> {
-            optCh.checkForPrettyFile(argList);
+        Exception exception = assertThrows(OptionsChecker.MissingName.class, () -> {
+            optCh.checkForPort(argList);
         });
-        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A FILENAME."));
+        assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A PORT."));
     }
-
-
-    // this doesn't work... will probably go to office hours to figure out why
-//    /**
-//     * this test hopefully tests that stupid error that's keeping me
-//     * from 100% code test coverage on jacoco... not that that is important.
-//     */
-//    @Test
-//    void checkForBadReadMe() {
-//        OptionsChecker optCh = new OptionsChecker();
-//        Exception exception = assertThrows(RuntimeException.class, () -> {
-//            optCh.printReadme("does-not-exist.txt");
-//        });
-//    }
-}
+} // end of OptionsCheckerTest class

@@ -8,6 +8,8 @@ import java.io.PrintStream;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -19,74 +21,78 @@ public class Project4 {
     public static final String MISSING_ARGS = "Missing command line arguments";
 
     public static void main(String... args) {
-        String hostName = null;
-        String portString = null;
-        String name = null;
-        String caller = null;
-        String callee = null;
-        String bd = null;
-        String bt = null;
-        String ba = null;
-        String ed = null;
-        String et = null;
-        String ea = null;
+        boolean readme, printOption;
+        PhoneBill aBill;
+        PhoneCall aCall;
+        ArrayList<String> argList = new ArrayList<String>(Arrays.asList(args));
 
-        for (String arg : args) {
-            if (hostName == null) {
-                hostName = arg;
-            } else if ( portString == null) {
-                portString = arg;
-            } else if (name == null) {
-                name = arg;
-            } else if (caller == null) {
-                caller = arg;
-            } else if (callee == null) {
-                callee = arg;
-            } else if (bd == null) {
-                bd = arg;
-            } else if (bt == null) {
-                bt = arg;
-            } else if (ba == null) {
-                ba = arg;
-            } else if (ed == null) {
-                ed = arg;
-            } else if (et == null) {
-                et = arg;
-            } else if (ea == null) {
-                ea = arg;
-            } else {
-                usage("Extraneous command line argument: " + arg);
-            }
+        OptionsChecker optChecker = new OptionsChecker();
+
+        // runs through options and checks for a -README
+        readme = optChecker.checkForReadme(argList);
+
+        if (! readme) {
+
+            System.out.println("The Readme was not found!!!");
+            printOption = optChecker.checkForPrint(argList);
         }
 
-        if (hostName == null) {
-            usage( MISSING_ARGS );
-
-        } else if ( portString == null) {
-            usage( "Missing port" );
-        }
-
-        int port;
-        try {
-            port = Integer.parseInt( portString );
-            
-        } catch (NumberFormatException ex) {
-            usage("Port \"" + portString + "\" must be an integer");
-            return;
-        }
-
-        PhoneBillRestClient client = new PhoneBillRestClient(hostName, port);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
-
-        String message;
-        try {
-            String beg = bd + " " + bt + " " + ba;
-            String end = ed + " " + et + " " + ea;
-            client.addPhoneCallEntry(name, caller, callee, beg, end);
-            PhoneCall newCall = new PhoneCall(caller, callee, sdf.parse(beg), sdf.parse(end));
-
-            message = Messages.addedPhoneCall(name, newCall);
+//        for (String arg : args) {
+//            if (hostName == null) {
+//                hostName = arg;
+//            } else if ( portString == null) {
+//                portString = arg;
+//            } else if (name == null) {
+//                name = arg;
+//            } else if (caller == null) {
+//                caller = arg;
+//            } else if (callee == null) {
+//                callee = arg;
+//            } else if (bd == null) {
+//                bd = arg;
+//            } else if (bt == null) {
+//                bt = arg;
+//            } else if (ba == null) {
+//                ba = arg;
+//            } else if (ed == null) {
+//                ed = arg;
+//            } else if (et == null) {
+//                et = arg;
+//            } else if (ea == null) {
+//                ea = arg;
+//            } else {
+//                usage("Extraneous command line argument: " + arg);
+//            }
+//        }
+//
+//        if (hostName == null) {
+//            usage( MISSING_ARGS );
+//
+//        } else if ( portString == null) {
+//            usage( "Missing port" );
+//        }
+//
+//        int port;
+//        try {
+//            port = Integer.parseInt( portString );
+//
+//        } catch (NumberFormatException ex) {
+//            usage("Port \"" + portString + "\" must be an integer");
+//            return;
+//        }
+//
+//        PhoneBillRestClient client = new PhoneBillRestClient(hostName, port);
+//
+//        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+//
+//        String message;
+//        try {
+//            String beg = bd + " " + bt + " " + ba;
+//            String end = ed + " " + et + " " + ea;
+//            client.addPhoneCallEntry(name, caller, callee, beg, end);
+//            PhoneCall newCall = new PhoneCall(caller, callee, sdf.parse(beg), sdf.parse(end));
+//
+//            message = Messages.addedPhoneCall(name, newCall);
 
 //            if (word == null) {
 //                // Print all word/definition pairs
@@ -107,12 +113,14 @@ public class Project4 {
 //            }
 
 //        } catch (IOException | ParserException ex ) {
-        } catch (IOException | ParseException ex) {
-            error("While contacting server: " + ex);
-            return;
-        }
 
-        System.out.println(message);
+            // THIS I'LL PROBABLY ADD BACK IN!!!
+//        } catch (IOException | ParseException ex) {
+//            error("While contacting server: " + ex);
+//            return;
+//        }
+//
+//        System.out.println(message);
     }
 
     /**
