@@ -25,7 +25,7 @@ public class PhoneBillRestClientTest {
 
     // this one I failed to get working...
     @Test
-    void getCustomerCamiloEntryReturnsPhoneBill() throws ParseException, IOException, ParserException {
+    void getFullPhoneBillCamiloEntryReturnsPhoneBill() throws ParseException, IOException, ParserException {
         SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
         String customer = "Camilo";
         String callerNumber = "831-227-1838";
@@ -49,38 +49,57 @@ public class PhoneBillRestClientTest {
         assertTrue(calls.get(0).getCallee().equals(calleeNumber));
         assertTrue(calls.get(0).getBeginTime().getTime() == begin.getTime());
         assertTrue(calls.get(0).getEndTime().getTime() == end.getTime());
-//        StringWriter sw = new StringWriter();
-
-//        assertThat(res, containsString("Customer name:\n" + customer));
-//        assertThat(res, containsString(
-//                "Caller:       Callee:       Call Begins:          Call Ends:            Time:"));
-//        assertThat(res, containsString(
-//                "------------  ------------  --------------------  --------------------  --------"));
-//        assertThat(res, containsString(
-//                 callerNumber + "  " + calleeNumber + "  Mar 03, 22  10:29 AM  Mar 03, 22  12:29 PM  120 mins"));
     }
-  // this all got broke when I changed the textdumper class...
-//  @Test
-//  void getAllDictionaryEntriesPerformsHttpGetWithNoParameters() throws ParserException, IOException {
-//    Map<String, String> dictionary = Map.of("One", "1", "Two", "2");
+
+    @Test
+    void getPartialPhoneBillCamiloEntryReturnsPhoneBill() throws ParseException, IOException, ParserException {
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+        String customer = "Camilo";
+        String callerNumber = "831-227-1838";
+        String calleeNumber = "831-227-1234";
+        String begin = "3/4/2022 10:29 am";
+        String end = "03/06/2022 12:29 pm";
+        String beg2String = "3/5/2022 10:29 am";
+        String end2String = "03/05/2022 12:29 pm";
+        Date begin2 = sdf.parse(beg2String);
+        Date end2 = sdf.parse(end2String);
+        PhoneBill aBill = new PhoneBill(customer);
+//        PhoneCall call = new PhoneCall(callerNumber, calleeNumber, begin, end);
+        PhoneCall call2 = new PhoneCall(callerNumber, calleeNumber, begin2, end2);
+//        aBill.addPhoneCall(call);
+        aBill.addPhoneCall(call2);
+
+        HttpRequestHelper http = mock(HttpRequestHelper.class);
+        when(http.get(eq(Map.of("customer", customer, "begin", begin, "end", end)))).thenReturn(phoneBillAsText(aBill));
+
+        PhoneBillRestClient client = new PhoneBillRestClient(http);
+
+        PhoneBill custBill = client.getPartialPhoneBill(customer, begin, end);
+
+        assertTrue(custBill.getCustomer().equals(customer));
+        ArrayList<PhoneCall> calls = (ArrayList<PhoneCall>) custBill.getPhoneCalls();
+        assertTrue(calls.get(0).getCaller().equals(callerNumber));
+        assertTrue(calls.get(0).getCallee().equals(calleeNumber));
+        assertTrue(calls.get(0).getBeginTime().getTime() == begin2.getTime());
+        assertTrue(calls.get(0).getEndTime().getTime() == end2.getTime());
+    }
+
+//    @Test
+//    void putAPhoneBillOntoTheServlet() {
+//        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+//        String customer = "Camilo";
+//        String callerNumber = "831-227-1838";
+//        String calleeNumber = "831-227-1234";
+//        String begin = "3/3/2022 10:29 am";
+//        String end = "03/03/2022 12:29 pm";
 //
-//    HttpRequestHelper http = mock(HttpRequestHelper.class);
-//    when(http.get(eq(Map.of()))).thenReturn(dictionaryAsText(dictionary));
-//
-//    PhoneBillRestClient client = new PhoneBillRestClient(http);
-//
-//    assertThat(client.getAllDictionaryEntries(), equalTo(dictionary));
-//  }
+//        HttpRequestHelper http = mock(HttpRequestHelper.class);
+//        when(http.post(eq(Map.of("customer", customer, "callerNumber", callerNumber, "calleeNumber", calleeNumber, begin, "end", end)))).thenReturn(phoneBillAsText(aBill));
+//    }
 
   private HttpRequestHelper.Response phoneBillAsText(PhoneBill aBill) {
       StringWriter sw = new StringWriter();
       new TextDumper(sw).dump(aBill);
       return new HttpRequestHelper.Response(sw.toString());
   }
-//  private HttpRequestHelper.Response dictionaryAsText(Map<String, String> dictionary) {
-//    StringWriter writer = new StringWriter();
-//    new TextDumper(writer).dump(dictionary);
-//
-//    return new HttpRequestHelper.Response(writer.toString());
-//  }
 }

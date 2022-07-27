@@ -217,21 +217,6 @@ public class PhoneBillServlet extends HttpServlet
         }
     }
 
-    // changed text dumper and I don't think we need this...
-//    /**
-//     * Writes all of the dictionary entries to the HTTP response.
-//     *
-//     * The text of the message is formatted with {@link TextDumper}
-//     */
-//    private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
-//    {
-//        PrintWriter pw = response.getWriter();
-//        TextDumper dumper = new TextDumper(pw);
-//        dumper.dump(dictionary);
-//
-//        response.setStatus( HttpServletResponse.SC_OK );
-//    }
-
     /**
      * Returns the value of the HTTP request parameter with the given name.
      *
@@ -247,6 +232,7 @@ public class PhoneBillServlet extends HttpServlet
         return value;
       }
     }
+
     /**
      * returns true if the start is before or equal to the end
      * false otherwise
@@ -257,9 +243,5 @@ public class PhoneBillServlet extends HttpServlet
                 time2.getTime() - time1.getTime());
         return seconds >= 0L;
     }
-//    @VisibleForTesting
-//    String getDefinition(String word) {
-//        return this.dictionary.get(word);
-//    }
 
 }

@@ -41,16 +41,6 @@ public class PhoneBillRestClient {
     this.http = http;
   }
 
-//  /**
-//   * Returns all dictionary entries from the server
-//   */
-//  public Map<String, String> getAllDictionaryEntries() throws IOException, ParserException {
-//    Response response = http.get(Map.of());
-//
-//    TextParser parser = new TextParser(new StringReader(response.getContent()));
-//    return parser.parse();
-//  }
-//
   /**
    * Returns the pretty print version of the phonebill
    */
@@ -59,7 +49,6 @@ public class PhoneBillRestClient {
     throwExceptionIfNotOkayHttpStatus(response);
     TextParser ps = new TextParser(new StringReader(response.getContent()));
     return ps.parse();
-//    return getPrettyString(response);
   }
 
   /**
@@ -72,21 +61,6 @@ public class PhoneBillRestClient {
     return ps.parse();
   }
 
-  private String getPrettyString(Response response) throws ParserException {
-    throwExceptionIfNotOkayHttpStatus(response);
-    String content = response.getContent();
-
-    TextParser parser = new TextParser(new StringReader(content));
-    StringWriter sw = new StringWriter();
-    PrettyPrinter pp = new PrettyPrinter(sw);
-    pp.dump(parser.parse());
-    return sw.toString();
-  }
-
-  //    public void addDictionaryEntry(String word, String definition) throws IOException {
-//      Response response = http.post(Map.of("word", word, "definition", definition));
-//      throwExceptionIfNotOkayHttpStatus(response);
-//    }
   public void addPhoneCallEntry(
           String customer, String caller, String callee, String begin, String end)
           throws IOException {
