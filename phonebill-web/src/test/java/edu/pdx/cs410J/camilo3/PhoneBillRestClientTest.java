@@ -8,12 +8,15 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -22,7 +25,7 @@ public class PhoneBillRestClientTest {
 
     // this one I failed to get working...
     @Test
-    void getCustomerCamiloEntryPrettyIThink() throws ParseException, IOException, ParserException {
+    void getCustomerCamiloEntryReturnsPhoneBill() throws ParseException, IOException, ParserException {
         SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
         String customer = "Camilo";
         String callerNumber = "831-227-1838";
@@ -38,16 +41,23 @@ public class PhoneBillRestClientTest {
 
         PhoneBillRestClient client = new PhoneBillRestClient(http);
 
-        String res = client.getPhoneBill(customer);
-        StringWriter sw = new StringWriter();
+        PhoneBill custBill = client.getPhoneBill(customer);
 
-        assertThat(res, containsString("Customer name:\n" + customer));
-        assertThat(res, containsString(
-                "Caller:       Callee:       Call Begins:          Call Ends:            Time:"));
-        assertThat(res, containsString(
-                "------------  ------------  --------------------  --------------------  --------"));
-        assertThat(res, containsString(
-                 callerNumber + "  " + calleeNumber + "  Mar 03, 22  10:29 AM  Mar 03, 22  12:29 PM  120 mins"));
+        assertTrue(custBill.getCustomer().equals(customer));
+        ArrayList<PhoneCall> calls = (ArrayList<PhoneCall>) custBill.getPhoneCalls();
+        assertTrue(calls.get(0).getCaller().equals(callerNumber));
+        assertTrue(calls.get(0).getCallee().equals(calleeNumber));
+        assertTrue(calls.get(0).getBeginTime().getTime() == begin.getTime());
+        assertTrue(calls.get(0).getEndTime().getTime() == end.getTime());
+//        StringWriter sw = new StringWriter();
+
+//        assertThat(res, containsString("Customer name:\n" + customer));
+//        assertThat(res, containsString(
+//                "Caller:       Callee:       Call Begins:          Call Ends:            Time:"));
+//        assertThat(res, containsString(
+//                "------------  ------------  --------------------  --------------------  --------"));
+//        assertThat(res, containsString(
+//                 callerNumber + "  " + calleeNumber + "  Mar 03, 22  10:29 AM  Mar 03, 22  12:29 PM  120 mins"));
     }
   // this all got broke when I changed the textdumper class...
 //  @Test

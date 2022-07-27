@@ -43,12 +43,7 @@ public class Project4 {
                 host = hpResult[0];
                 portString = hpResult[1];
 
-                int port;
-                try {
-                    port = Integer.parseInt(portString);
-                } catch (NumberFormatException ex) {
-                    throw new PortIsNotAnInteger();
-                }
+                int port = optChecker.parsedPort(portString);
 
                 PhoneBillRestClient client = new PhoneBillRestClient(host, port);
                 PhoneCallChecker checker = new PhoneCallChecker();
@@ -65,7 +60,11 @@ public class Project4 {
                 argList.remove(0);
 
                 if (checker.isArrayZero(argList)) {
-                    message = client.getPhoneBill(customer);
+                    PhoneBill custBill = client.getPhoneBill(customer);
+                    StringWriter sw = new StringWriter();
+                    PrettyPrinter pp = new PrettyPrinter(sw);
+                    pp.dump(custBill);
+                    message = sw.toString();
                 } else if (argList.size() == 8) {
                     checker.checkForImproperFormatting(argList);
                     String beg = argList.get(2) + " " + argList.get(3) + " " + argList.get(4);
@@ -79,7 +78,12 @@ public class Project4 {
                     // will need to add in some error checking here
                     String beg = argList.get(0) + " " + argList.get(1) + " " + argList.get(2);
                     String end = argList.get(3) + " " + argList.get(4) + " " + argList.get(5);
-                    message = client.getPartialPhoneBill(customer, beg, end);
+                    PhoneBill custPartBill = client.getPartialPhoneBill(customer, beg, end);
+                    StringWriter sw = new StringWriter();
+                    PrettyPrinter pp = new PrettyPrinter(sw);
+                    pp.dump(custPartBill);
+                    message = sw.toString();
+
                 } else {
                     // message just here to prevent the error of 'possibly' being null.
                     message = "something went horribly wrong";
@@ -98,13 +102,6 @@ public class Project4 {
         } // end of the if readMe section
 
 //        try {
-//            String beg = bd + " " + bt + " " + ba;
-//            String end = ed + " " + et + " " + ea;
-//            client.addPhoneCallEntry(name, caller, callee, beg, end);
-//            PhoneCall newCall = new PhoneCall(caller, callee, sdf.parse(beg), sdf.parse(end));
-//
-//            message = Messages.addedPhoneCall(name, newCall);
-
 //            if (word == null) {
 //                // Print all word/definition pairs
 //                Map<String, String> dictionary = client.getAllDictionaryEntries();
@@ -141,15 +138,6 @@ public class Project4 {
     static void checkOutOfOptions(ArrayList<String> args) throws TooManyOptions {
         if (args.get(0).startsWith("-")) {
             throw new TooManyOptions();
-        }
-    }
-
-    /**
-     * throws an error if the port isn't an int, will probs be refactored out
-     */
-    static class PortIsNotAnInteger extends Exception {
-        public PortIsNotAnInteger() {
-            super("THE PORT HAS GOTTA BE AN INTEGER DUDE!");
         }
     }
 

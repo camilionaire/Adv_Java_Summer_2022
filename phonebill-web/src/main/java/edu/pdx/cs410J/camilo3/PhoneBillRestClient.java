@@ -54,17 +54,22 @@ public class PhoneBillRestClient {
   /**
    * Returns the pretty print version of the phonebill
    */
-  public String getPhoneBill(String customer) throws IOException, ParserException {
+  public PhoneBill getPhoneBill(String customer) throws IOException, ParserException {
     Response response = http.get(Map.of("customer", customer));
-    return getPrettyString(response);
+    throwExceptionIfNotOkayHttpStatus(response);
+    TextParser ps = new TextParser(new StringReader(response.getContent()));
+    return ps.parse();
+//    return getPrettyString(response);
   }
 
   /**
    * Returns the pretty print version of the phonebill
    */
-  public String getPartialPhoneBill(String customer, String begin, String end) throws IOException, ParserException {
+  public PhoneBill getPartialPhoneBill(String customer, String begin, String end) throws IOException, ParserException {
     Response response = http.get(Map.of("customer", customer, "begin", begin, "end", end));
-    return getPrettyString(response);
+    throwExceptionIfNotOkayHttpStatus(response);
+    TextParser ps = new TextParser(new StringReader(response.getContent()));
+    return ps.parse();
   }
 
   private String getPrettyString(Response response) throws ParserException {

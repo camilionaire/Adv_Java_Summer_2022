@@ -166,6 +166,17 @@ public class OptionsChecker {
         return new String[]{host, port};
     }
 
+    @VisibleForTesting
+    static int parsedPort(String portString) throws PortIsNotAnInteger {
+        int port;
+        try {
+            port = Integer.parseInt(portString);
+            return port;
+        } catch (NumberFormatException e) {
+            throw new PortIsNotAnInteger();
+        }
+    }
+
     /**
      * exception that is thrown if host without port or
      * port without host
@@ -176,6 +187,15 @@ public class OptionsChecker {
                     "You need to have a host and a port,\n" +
                     "or you can do neither and I'll just set\n" +
                     "host to localhost and port to 8080.");
+        }
+    }
+
+    /**
+     * throws an error if the port isn't an int, will probs be refactored out
+     */
+    static class PortIsNotAnInteger extends Exception {
+        public PortIsNotAnInteger() {
+            super("THE PORT HAS GOTTA BE AN INTEGER DUDE!");
         }
     }
 
