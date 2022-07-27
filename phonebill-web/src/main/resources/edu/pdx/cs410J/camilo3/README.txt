@@ -20,8 +20,8 @@ end             Date and time call ended
 Date and time should be in the format: mm/dd/yyyy hh:mm
 
 options are (options may appear in any order):
--host           hostname Host computer on which the server runs
--port           port Port on which the server is listening
+-host hostname  Host computer on which the server runs
+-port port      Port on which the server is listening
 -search         Phone calls should be searched for
 -print          Prints a description of the new phone call
 -README         Prints a README for this project and exits

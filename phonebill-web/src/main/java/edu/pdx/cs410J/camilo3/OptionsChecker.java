@@ -35,7 +35,7 @@ public class OptionsChecker {
      * just sees if there is a -README option in any of the options
      */
     @VisibleForTesting
-    public static boolean checkForReadme(ArrayList<String> argList) {
+    static boolean checkForReadme(ArrayList<String> argList) {
         String prev = null;
         for (String arg : argList) {
             if (arg.equals("-README")) {
@@ -55,7 +55,8 @@ public class OptionsChecker {
      * just sees if there is a -print option in any of the options
      * works with -host, -port additional possibility
      */
-    public static boolean checkForPrint(ArrayList<String> argList) {
+    @VisibleForTesting
+    static boolean checkForPrint(ArrayList<String> argList) {
         String prev = null;
         for (int i=0; i < argList.size(); i++) {
             if (argList.get(i).equals("-print")) {
@@ -74,7 +75,8 @@ public class OptionsChecker {
      * just sees if there is a -print option in any of the options
      * works with -host, -port additional possibility
      */
-    public static boolean checkForSearch(ArrayList<String> argList) {
+    @VisibleForTesting
+    static boolean checkForSearch(ArrayList<String> argList) {
         String prev = null;
         for (int i=0; i < argList.size(); i++) {
             if (argList.get(i).equals("-search")) {
@@ -95,7 +97,8 @@ public class OptionsChecker {
      * delete the option and return the string, else return null string.
      * if the next arg is an option or is non-existent, throws error.
      */
-    public static String checkForHost(ArrayList<String> argList) throws MissingName {
+    @VisibleForTesting
+    static String checkForHost(ArrayList<String> argList) throws MissingName {
         String prev = null;
         String turnString = null;
         for (int i=0; i < argList.size(); i++) {
@@ -125,7 +128,8 @@ public class OptionsChecker {
      * delete the option and return the string, else return null string.
      * if the next arg is an option or is non-existent, throws error.
      */
-    public static String checkForPort(ArrayList<String> argList) throws MissingName {
+    @VisibleForTesting
+    static String checkForPort(ArrayList<String> argList) throws MissingName {
         String turnString = null;
         String prev = null;
         for (int i=0; i < argList.size(); i++) {
@@ -151,6 +155,30 @@ public class OptionsChecker {
         return turnString;
     }
 
+    @VisibleForTesting
+    static String[] hostAndPortOrNeither(String host, String port) throws HostPortGoesTogether {
+        if (host == null && port == null) {
+            host = "localhost";
+            port = "8080";
+        } else if (host == null || port == null) {
+            throw new HostPortGoesTogether();
+        }
+        return new String[]{host, port};
+    }
+
+    /**
+     * exception that is thrown if host without port or
+     * port without host
+     */
+    static class HostPortGoesTogether extends Exception {
+        public HostPortGoesTogether() {
+            super("MISSING HOST OR PORT!\n" +
+                    "You need to have a host and a port,\n" +
+                    "or you can do neither and I'll just set\n" +
+                    "host to localhost and port to 8080.");
+        }
+    }
+
     /**
      * exception that is thrown when the file argument is missing.
      */
@@ -162,5 +190,4 @@ public class OptionsChecker {
                     "Thank you.");
         }
     }
-
-}
+} // end of OptionsChecker class.

@@ -29,10 +29,57 @@ class Project4IT extends InvokeMainTestCase {
       client.removeAllDictionaryEntries();
     }
 
+    @Test
+    void test1NoCommandLineArguments() {
+        MainMethodResult result = invokeMain( Project4.class );
+        assertThat(result.getTextWrittenToStandardError(), containsString("While parsing the command line, there were irregularities\n"));
+    }
+
+    @Test
+    void testForPortNotParsable() {
+        MainMethodResult result = invokeMain(Project4.class, "-port", "Camilo", "-host", "localhost");
+        assertThat(result.getTextWrittenToStandardError(), containsString("While attempting to carry out your request\n"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("THE PORT HAS GOTTA BE AN INTEGER DUDE!"));
+    }
+
+    @Test
+    void test1ToMakeSureCanAddAPhoneBillAndItPrints() {
+        MainMethodResult result = invokeMain(
+                Project4.class, "-print", "Camilo", "831-666-7777", "831-777-6666",
+                "3/3/2003", "11:11", "am", "3/3/2003", "12:12", "pm");
+        assertThat(result.getTextWrittenToStandardOut(), containsString(
+                "Phone call from 831-666-7777 to 831-777-6666 from 3/3/03, 11:11 AM to 3/3/03, 12:12 PM" +
+                " was added to \nbill for: Camilo"
+        ));
+    }
+
+    @Test
+    void testToSeeIfPortHostErrorIsThrown() {
+        MainMethodResult result = invokeMain(Project4.class, "-port", "8080", "Steven", "867-867-5309", "503-222-2222",
+                "03/17/2022", "11:11", "am", "03/17/2022", "12:01", "pm");
+        assertThat(result.getTextWrittenToStandardError(), containsString(
+                "While attempting to carry out your request\n" +
+                        "we received the following error message:\n"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("MISSING HOST OR PORT!\n" +
+                "You need to have a host and a port,\n"));
+    }
+
+    @Test
+    void test2ToSeeIfTooManyOptionsErrorIsThrown() {
+        MainMethodResult result = invokeMain(
+                Project4.class, "-Iron-Man", "Camilo", "831-666-7777", "831-777-6666",
+                "3/3/2003", "11:11", "am", "3/3/2003", "12:12", "pm");
+        assertThat(result.getTextWrittenToStandardError(), containsString("UNRECOGNIZED OPTIONS!\n" +
+                        "Only options currently available are -print,\n"));
+    }
+
 //    @Test
-//    void test1NoCommandLineArguments() {
-//        MainMethodResult result = invokeMain( Project4.class );
-//        assertThat(result.getTextWrittenToStandardError(), containsString(Project4.MISSING_ARGS));
+//    void test3ToSeeIfMissingCommandLineArgumentsIsThrown() {
+//        MainMethodResult result = invokeMain(
+//                Project4.class, "-Iron-Man", "Camilo", "831-666-7777", "831-777-6666",
+//                "3/3/2003", "11:11", "am", "3/3/2003", "12:12", "pm");
+//        assertThat(result.getTextWrittenToStandardError(), containsString("UNRECOGNIZED OPTIONS!\n" +
+//                "Only options currently available are -print,\n"));
 //    }
 
 //    @Test

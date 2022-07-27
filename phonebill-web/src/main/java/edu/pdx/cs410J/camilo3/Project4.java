@@ -23,7 +23,6 @@ public class Project4 {
 
     public static void main(String... args) {
         boolean readme, printOption, searchOption;
-        PhoneBill aBill;
         PhoneCall aCall;
         ArrayList<String> argList = new ArrayList<String>(Arrays.asList(args));
 
@@ -33,8 +32,6 @@ public class Project4 {
         readme = optChecker.checkForReadme(argList);
 
         if (!readme) {
-            System.out.println("The Readme Option was not there!!!");
-            System.out.println("The program continues on");
             printOption = optChecker.checkForPrint(argList);
             searchOption = optChecker.checkForSearch(argList);
 
@@ -42,12 +39,9 @@ public class Project4 {
                 String host = optChecker.checkForHost(argList);
                 String portString = optChecker.checkForPort(argList);
 
-                if (host == null && portString == null) {
-                    host = "localhost";
-                    portString = "8080";
-                } else if (host == null || portString == null) {
-                    throw new HostPortGoesTogether();
-                }
+                String[] hpResult = optChecker.hostAndPortOrNeither(host, portString);
+                host = hpResult[0];
+                portString = hpResult[1];
 
                 int port;
                 try {
@@ -63,7 +57,7 @@ public class Project4 {
                 String message;
 
                 if (checker.isArrayZero(argList)) {
-                    throw new MissingCommandLineArguments();
+                    throw new CommandLineException("There are no arguments.");
                 }
 
                 checkOutOfOptions(argList);
@@ -83,18 +77,22 @@ public class Project4 {
                     message = Messages.addedPhoneCall(customer, aCall);
                 } else if (searchOption && argList.size() == 6) {
                     // will need to add in some error checking here
-                    String beg = argList.get(2) + " " + argList.get(3) + " " + argList.get(4);
-                    String end = argList.get(5) + " " + argList.get(6) + " " + argList.get(7);
+                    String beg = argList.get(0) + " " + argList.get(1) + " " + argList.get(2);
+                    String end = argList.get(3) + " " + argList.get(4) + " " + argList.get(5);
                     message = client.getPartialPhoneBill(customer, beg, end);
                 } else {
+                    // message just here to prevent the error of 'possibly' being null.
                     message = "something went horribly wrong";
-                    throw new CommandLineException("wrong number of args");
+                    throw new CommandLineException("Incorrect number/formatting of args.");
                 }
 
-                System.out.println(message);
+                if (argList.size() != 8 || printOption) {
+                    System.out.println(message);
+                }
 
             } catch (Exception e) {
-                System.err.println("We Got One!!!\n" + e.getMessage());
+                System.err.println("While attempting to carry out your request\n" +
+                        "we received the following error message:\n" + e.getMessage());
             }
 
         } // end of the if readMe section
@@ -147,61 +145,6 @@ public class Project4 {
     }
 
     /**
-     * Makes sure that the give response has the expected HTTP status code
-     *
-     * @param code     The expected status code
-     * @param response The response from the server
-     */
-    private static void checkResponseCode(int code, HttpRequestHelper.Response response) {
-        if (response.getHttpStatusCode() != code) {
-            error(String.format("Expected HTTP code %d, got code %d.\n\n%s", code,
-                    response.getHttpStatusCode(), response.getContent()));
-        }
-    }
-
-    private static void error(String message) {
-        PrintStream err = System.err;
-        err.println("** " + message);
-    }
-
-    /**
-     * Prints usage information for this program and exits
-     *
-     * @param message An error message to print
-     */
-    private static void usage(String message) {
-        PrintStream err = System.err;
-        err.println("** " + message);
-        err.println();
-        err.println("usage: java Project4 host port [word] [definition]");
-        err.println("  host         Host of web server");
-        err.println("  port         Port of web server");
-        err.println("  word         Word in dictionary");
-        err.println("  definition   Definition of word");
-        err.println();
-        err.println("This simple program posts words and their definitions");
-        err.println("to the server.");
-        err.println("If no definition is specified, then the word's definition");
-        err.println("is printed.");
-        err.println("If no word is specified, all dictionary entries are printed");
-        err.println();
-    }
-
-    /**
-     * exception that is thrown if host without port or
-     * port without host
-     */
-
-    static class HostPortGoesTogether extends Exception {
-        public HostPortGoesTogether() {
-            super("MISSING HOST OR PORT!\n" +
-                    "You need to have a host and a port,\n" +
-                    "or you can do neither and I'll just set\n" +
-                    "host to localhost and port to 8080.");
-        }
-    }
-
-    /**
      * throws an error if the port isn't an int, will probs be refactored out
      */
     static class PortIsNotAnInteger extends Exception {
@@ -217,19 +160,19 @@ public class Project4 {
         public TooManyOptions() {
             super( "UNRECOGNIZED OPTIONS!\n" +
                     "Only options currently available are -print,\n" +
-                    "-README, -textFile file, and -pretty (- or file)");
+                    "-README, -search, -host hostname, and -port port");
         }
     }
 
-    /**
-     * exception that is thrown when there are too few arguments
-     */
-    @VisibleForTesting
-    static class MissingCommandLineArguments extends Exception {
-        public MissingCommandLineArguments() {
-            super("TOO FEW ARGUMENTS");
-        }
-    }
+//    /**
+//     * exception that is thrown when there are too few arguments
+//     */
+//    @VisibleForTesting
+//    static class MissingCommandLineArguments extends Exception {
+//        public MissingCommandLineArguments() {
+//            super("TOO FEW ARGUMENTS");
+//        }
+//    }
 
     /**
      * exception that is thrown when the names don't match.
@@ -237,10 +180,53 @@ public class Project4 {
     static class CommandLineException extends Exception {
         public CommandLineException(String msg) {
             super("While parsing the command line, there were irregularities\n" +
-                    "usage: java -jar target/phonebill-2022.0.0.jar [options] <args>\n" +
+                    "usage: java -jar target/phonebill-client.jar [options] <args>\n" +
                     "Run with the '-README' flag enabled for proper usage.\n" +
                     "Error message shown was:\n" + msg);
         }
     }
+
+    // THIS I MIGHT NEED LATER ON... I DON'T REALLY KNOW THOUGH.
+//    /**
+//     * Makes sure that the give response has the expected HTTP status code
+//     *
+//     * @param code     The expected status code
+//     * @param response The response from the server
+//     */
+//    private static void checkResponseCode(int code, HttpRequestHelper.Response response) {
+//        if (response.getHttpStatusCode() != code) {
+//            error(String.format("Expected HTTP code %d, got code %d.\n\n%s", code,
+//                    response.getHttpStatusCode(), response.getContent()));
+//        }
+//    }
+//
+//    private static void error(String message) {
+//        PrintStream err = System.err;
+//        err.println("** " + message);
+//    }
+
+    // might need this as well, not sure what PrintStream is or if I should use it.
+//    /**
+//     * Prints usage information for this program and exits
+//     *
+//     * @param message An error message to print
+//     */
+//    private static void usage(String message) {
+//        PrintStream err = System.err;
+//        err.println("** " + message);
+//        err.println();
+//        err.println("usage: java Project4 host port [word] [definition]");
+//        err.println("  host         Host of web server");
+//        err.println("  port         Port of web server");
+//        err.println("  word         Word in dictionary");
+//        err.println("  definition   Definition of word");
+//        err.println();
+//        err.println("This simple program posts words and their definitions");
+//        err.println("to the server.");
+//        err.println("If no definition is specified, then the word's definition");
+//        err.println("is printed.");
+//        err.println("If no word is specified, all dictionary entries are printed");
+//        err.println();
+//    }
 
 } // end of the Project4 class
