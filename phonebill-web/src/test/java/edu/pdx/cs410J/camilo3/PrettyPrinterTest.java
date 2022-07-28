@@ -18,7 +18,7 @@ public class PrettyPrinterTest {
     SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
 
     @Test
-    void appointmentBookOwnerIsDumpedInTextFormat() throws IOException {
+    void text01CustomerIsDumpedInTextFormat() throws IOException {
         String customer = "Test Phone Bill";
         PhoneBill bill = new PhoneBill(customer);
 
@@ -30,17 +30,17 @@ public class PrettyPrinterTest {
         assertThat(text, containsString("Customer name:\n" + customer));
     }
     @Test
-    void canPrettyPrintAPhoneBillWithJustANameToFileWithoutError(@TempDir File tempDir) throws IOException {
+    void test02CanPrettyPrintAPhoneBillWithJustANameToFileWithoutError(@TempDir File tempDir) throws IOException {
         String customer = "Test Phone Bill";
         PhoneBill bill = new PhoneBill(customer);
 
         // can remove the tempDir here if you want to take a look at the apptbook.txt file
-        File textFile = new File(tempDir, "apptbook.txt");
+        File textFile = new File(tempDir, "phonebill.txt");
         PrettyPrinter pretty = new PrettyPrinter(new FileWriter(textFile));
         pretty.dump(bill);
     }
     @Test
-    void canPrettyPrintAPhoneBillWithMultiplePhoneNumbersToFileWithoutError(@TempDir File tempDir) throws IOException, ParseException {
+    void test03CanPrettyPrintAPhoneBillWithMultiplePhoneNumbersToFileWithoutError(@TempDir File tempDir) throws IOException, ParseException {
         String customer = "Test Phone Bill";
         PhoneBill bill = new PhoneBill(customer);
 
@@ -57,13 +57,13 @@ public class PrettyPrinterTest {
 
         // can delete or add tempDir, to first arg of file to be able to look at file,
         // if that's something you want to do.
-        File textFile = new File(tempDir, "apptbook.txt");
+        File textFile = new File(tempDir, "phonebill.txt");
         PrettyPrinter pretty = new PrettyPrinter(new FileWriter(textFile));
         pretty.dump(bill);
     }
 
     @Test
-    void appointmentBookOwnerIsDumpedInTextFormatMultPhoneNumbers() throws IOException, ParseException {
+    void test04AppointmentBookOwnerIsDumpedInTextFormatMultPhoneNumbers() throws ParseException {
         String customer = "Test Phone Bill";
         PhoneBill bill = new PhoneBill(customer);
 
