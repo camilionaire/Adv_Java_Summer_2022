@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * a class for doing a lot of validation on the individual options
@@ -22,6 +23,7 @@ public class OptionsChecker {
     static void printReadme() {
         try (InputStream readme = Project4.class.getResourceAsStream("README.txt")
         ) {
+            assert readme != null;
             BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
             for (String line; (line = reader.readLine()) != null;) {
                 System.out.println(line);
@@ -43,7 +45,8 @@ public class OptionsChecker {
                 return true;
             } else if (! arg.startsWith("-") &&
                     (arg == argList.get(0) ||
-                            (!prev.equals("-host") && !prev.equals("-port")))) {
+                            (!Objects.equals(prev, "-host") &&
+                                    !Objects.equals(prev, "-port")))) {
                 return false;
             }
             prev = arg;
@@ -137,9 +140,7 @@ public class OptionsChecker {
             if (curr.equals("-port")) {
                 // if we haven't reached the end of the args
                 // and the next arg isn't an option or is '-'
-                if (i+1 < argList.size() &&
-                        (argList.get(i+1).equals("-") ||
-                                ! argList.get(i+1).startsWith("-"))) {
+                if (i+1 < argList.size() && ! argList.get(i+1).startsWith("-")) {
                     turnString = argList.get(i+1);
                     argList.remove(i+1);
                     argList.remove(i);
@@ -155,6 +156,16 @@ public class OptionsChecker {
         return turnString;
     }
 
+    /**
+     * if host and port are null, will set host to localhost and port to 8080
+     * if host and port are not null, will return host and port
+     * if we have one but not the other, will throw error.
+     * @param host string name for host, or null
+     * @param port string name for port, or null
+     * @return returns a string array of size two, the first string
+     * will be the host name and the second will be the port name
+     * @throws HostPortGoesTogether get's caught up the line.
+     */
     @VisibleForTesting
     static String[] hostAndPortOrNeither(String host, String port) throws HostPortGoesTogether {
         if (host == null && port == null) {
@@ -166,6 +177,13 @@ public class OptionsChecker {
         return new String[]{host, port};
     }
 
+    /**
+     * wrapper function for error handling on checking if port
+     * is parsable.
+     * @param portString string of the port to be parsed
+     * @return the parsed portString
+     * @throws PortIsNotAnInteger throws error if not parsable
+     */
     @VisibleForTesting
     static int parsedPort(String portString) throws PortIsNotAnInteger {
         int port;
