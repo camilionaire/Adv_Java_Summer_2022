@@ -10,14 +10,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class OptionsCheckerTest {
-
     @Test
-    void test1ReadmeCanBeReadAsResource() throws IOException {
+    void test01ReadmeCanBeReadAsResource() throws IOException {
         try (
                 InputStream readme = Project4.class.getResourceAsStream("README.txt")
         ) {
@@ -32,80 +32,62 @@ public class OptionsCheckerTest {
      * These 4 tests are for the ReadMe test on the arg strings.
      */
     @Test
-    void test2StringOfArgsWithOptionOfReadmeTrueSingleOption() {
-
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>(Arrays.asList("-README"));
-
-        assertEquals(optCh.checkForReadme(argList), true);
+    void test02StringOfArgsWithOptionOfReadmeTrueSingleOption() {
+        ArrayList<String> argList = new ArrayList<>(List.of("-README"));
+        assertTrue(OptionsChecker.checkForReadme(argList));
     }
     @Test
-    void test3stringOfArgsWithOptionOfReadmeTrueMultipleOptions() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList<String> argList = new ArrayList<> (Arrays.asList("-print", "-hello-world", "-README", "more things"));
-
-        assertEquals(optCh.checkForReadme(argList), true);
+    void test03stringOfArgsWithOptionOfReadmeTrueMultipleOptions() {
+        ArrayList<String> argList = new ArrayList<> (Arrays.asList(
+                "-print", "-hello-world", "-README", "more things"));
+        assertTrue(OptionsChecker.checkForReadme(argList));
     }
 
     @Test
-    void test4StringOfArgsWithOptionOfReadmeTrueWithHost() {
-        String[] test = {"-print", "-host", "yowzahost", "-hello-world", "-README", "more things"};
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<> (Arrays.asList("-print", "-host", "yowzahost",
+    void test04StringOfArgsWithOptionOfReadmeTrueWithHost() {
+        ArrayList<String> argList = new ArrayList<> (Arrays.asList("-print", "-host", "yowzahost",
                 "-hello-world", "-README", "more things"));
-
-        assertEquals(optCh.checkForReadme(argList), true);
+        assertTrue(OptionsChecker.checkForReadme(argList));
     }
 
     @Test
-    void test5StringOfArgsWithOptionOfReadmeFalseMultipleOptions() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>(Arrays.asList("-print", "-hello-world", "Robert Paulson", "-README"));
-
-        assertEquals(optCh.checkForReadme(argList), false);
+    void test05StringOfArgsWithOptionOfReadmeFalseMultipleOptions() {
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList("-print", "-hello-world", "Robert Paulson", "-README"));
+        assertFalse(OptionsChecker.checkForReadme(argList));
     }
 
     /**
      * These next few check the checkForPrint paths
      */
     @Test
-    void test6CheckForPrintTrue() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>(Arrays.asList("-print", "-first"));
-
-        assertEquals(optCh.checkForPrint(argList), true);
+    void test06CheckForPrintTrue() {
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList("-print", "-first"));
+        assertTrue(OptionsChecker.checkForPrint(argList));
     }
 
     @Test
-    void test7CheckForPrintTrueAfter() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-print"));
-
-        assertEquals(optCh.checkForPrint(argList), true);
+    void test07CheckForPrintTrueAfter() {
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList("-first", "-print"));
+        assertTrue(OptionsChecker.checkForPrint(argList));
     }
 
     @Test
-    void test8CheckForPrintTrueAfterEverything() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>(Arrays.asList(
+    void test08CheckForPrintTrueAfterEverything() {
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList(
                 "-first", "-host", "aHosthost", "-port", "8675", "-print"));
-        assertEquals(optCh.checkForPrint(argList), true);
+        assertTrue(OptionsChecker.checkForPrint(argList));
     }
 
     @Test
-    void test9CheckForPrintFalseZero() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>();
-
-        assertEquals(optCh.checkForPrint(argList), false);
+    void test09CheckForPrintFalseZero() {
+        assertFalse(OptionsChecker.checkForPrint(new ArrayList<>()));
     }
 
     @Test
     void test10CheckForPrintFalseOutOfOptions() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-second", "third"));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList("-first", "-second", "third"));
 
-        assertEquals(optCh.checkForPrint(argList), false);
+        assertFalse(OptionsChecker.checkForPrint(argList));
     }
 
     /**
@@ -113,57 +95,49 @@ public class OptionsCheckerTest {
      */
     @Test
     void test11CheckForSearchTrue() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>(Arrays.asList("-search", "-first"));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList("-search", "-first"));
 
-        assertEquals(optCh.checkForSearch(argList), true);
+        assertTrue(OptionsChecker.checkForSearch(argList));
     }
 
     @Test
     void test12CheckForSearchTrueAfter() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-search"));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList("-first", "-search"));
 
-        assertEquals(optCh.checkForSearch(argList), true);
+        assertTrue(OptionsChecker.checkForSearch(argList));
     }
 
     @Test
     void test13heckForSearchTrueAfterEverything() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>(Arrays.asList(
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList(
                 "-first", "-host", "aHosthost", "-port", "8675", "-search"));
 
-        assertEquals(optCh.checkForSearch(argList), true);
+        assertTrue(OptionsChecker.checkForSearch(argList));
     }
 
     @Test
     void test14CheckForSearchFalseZero() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>();
-
-        assertEquals(optCh.checkForSearch(argList), false);
+        assertFalse(OptionsChecker.checkForSearch(new ArrayList<>()));
     }
 
     @Test
     void test15CheckForSearchFalseOutOfOptions() {
-        OptionsChecker optCh = new OptionsChecker();
-        ArrayList argList = new ArrayList<>(Arrays.asList("-first", "-second", "third"));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList("-first", "-second", "third"));
 
-        assertEquals(optCh.checkForSearch(argList), false);
+        assertFalse(OptionsChecker.checkForSearch(argList));
     }
 
     /**
      * These next couple test out the check for host in the options
-     * @throws OptionsChecker.MissingName
+     * @throws OptionsChecker.MissingName says we're missing a name
      */
     @Test
-    void checkForHostTrue() throws OptionsChecker.MissingName {
-        OptionsChecker optCh = new OptionsChecker();
+    void test16CheckForHostTrue() throws OptionsChecker.MissingName {
         String[] test = {"-print", "-host", "outOfTownHost", "-hello-world", "-README", "more things"};
-        ArrayList argList = new ArrayList<>(Arrays.asList(test));
-        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-hello-world", "-README", "more things"}));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList<String> compare = new ArrayList<>(Arrays.asList("-print", "-hello-world", "-README", "more things"));
 
-        String host = optCh.checkForHost(argList);
+        String host = OptionsChecker.checkForHost(argList);
 
         assertEquals(host, "outOfTownHost");
 
@@ -171,13 +145,12 @@ public class OptionsCheckerTest {
     }
 
     @Test
-    void checkForHostTrueAfterPort() throws OptionsChecker.MissingName {
-        OptionsChecker optCh = new OptionsChecker();
+    void test17CheckForHostTrueAfterPort() throws OptionsChecker.MissingName {
         String[] test = {"-print", "-port", "9876", "-host", "partyHost", "-hello-world", "-README", "more things"};
-        ArrayList argList = new ArrayList<>(Arrays.asList(test));
-        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-port", "9876", "-hello-world", "-README", "more things"}));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList<String> compare = new ArrayList<>(Arrays.asList("-print", "-port", "9876", "-hello-world", "-README", "more things"));
 
-        String host = optCh.checkForHost(argList);
+        String host = OptionsChecker.checkForHost(argList);
 
         assertEquals(host, "partyHost");
 
@@ -185,42 +158,37 @@ public class OptionsCheckerTest {
     }
 
     @Test
-    void checkForHostError() throws OptionsChecker.MissingName {
-        OptionsChecker optCh = new OptionsChecker();
+    void test18CheckForHostError() {
         String[] test = {"-print", "-host", "-hello-world", "-README", "more things"};
-        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList(test));
 
-        Exception exception = assertThrows(OptionsChecker.MissingName.class, () -> {
-            optCh.checkForHost(argList);
-        });
+        Exception exception = assertThrows(OptionsChecker.MissingName.class, () ->
+                OptionsChecker.checkForHost(argList));
         assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A HOSTNAME."));
     }
 
     @Test
-    void checkForHostErrorLastArg() throws OptionsChecker.MissingName {
-        OptionsChecker optCh = new OptionsChecker();
+    void test19CheckForHostErrorLastArg() {
         String[] test = {"-print", "-some-option", "-host"};
-        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList(test));
 
-        Exception exception = assertThrows(OptionsChecker.MissingName.class, () -> {
-            optCh.checkForHost(argList);
-        });
+        Exception exception = assertThrows(OptionsChecker.MissingName.class, () ->
+                OptionsChecker.checkForHost(argList));
         assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A HOSTNAME."));
     }
 
     /**
      * These next couple test out the check for port in the options
      * basically just a copy replace of the Host tests above.
-     * @throws OptionsChecker.MissingName
+     * @throws OptionsChecker.MissingName a special error message.
      */
     @Test
-    void checkForPortFlagTrue() throws OptionsChecker.MissingName {
-        OptionsChecker optCh = new OptionsChecker();
+    void test20CheckForPortFlagTrue() throws OptionsChecker.MissingName {
         String[] test = {"-print", "-port", "9090", "-hello-world", "-README", "more things"};
-        ArrayList argList = new ArrayList<>(Arrays.asList(test));
-        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-hello-world", "-README", "more things"}));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList<String> compare = new ArrayList<>(Arrays.asList("-print", "-hello-world", "-README", "more things"));
 
-        String port = optCh.checkForPort(argList);
+        String port = OptionsChecker.checkForPort(argList);
 
         assertEquals(port, "9090");
 
@@ -228,13 +196,12 @@ public class OptionsCheckerTest {
     }
 
     @Test
-    void checkForPortFlagTrueAfterTextFile() throws OptionsChecker.MissingName {
-        OptionsChecker optCh = new OptionsChecker();
+    void test21CheckForPortFlagTrueAfterTextFile() throws OptionsChecker.MissingName {
         String[] test = {"-print", "-host", "localhost", "-port", "5309", "-hello-world", "-README", "more things"};
-        ArrayList argList = new ArrayList<>(Arrays.asList(test));
-        ArrayList compare = new ArrayList(Arrays.asList(new String[]{"-print", "-host", "localhost", "-hello-world", "-README", "more things"}));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList<String> compare = new ArrayList<>(Arrays.asList("-print", "-host", "localhost", "-hello-world", "-README", "more things"));
 
-        String port = optCh.checkForPort(argList);
+        String port = OptionsChecker.checkForPort(argList);
 
         assertEquals(port, "5309");
 
@@ -242,26 +209,22 @@ public class OptionsCheckerTest {
     }
 
     @Test
-    void checkForPortFlagError() throws OptionsChecker.MissingName {
-        OptionsChecker optCh = new OptionsChecker();
+    void test22CheckForPortFlagError() {
         String[] test = {"-print", "-port", "-hello-world", "-README", "more things"};
-        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList(test));
 
-        Exception exception = assertThrows(OptionsChecker.MissingName.class, () -> {
-            optCh.checkForPort(argList);
-        });
+        Exception exception = assertThrows(OptionsChecker.MissingName.class, () ->
+                OptionsChecker.checkForPort(argList));
         assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A PORT."));
     }
 
     @Test
-    void checkForPortLastArgError() throws OptionsChecker.MissingName {
-        OptionsChecker optCh = new OptionsChecker();
+    void test24CheckForPortLastArgError() {
         String[] test = {"-print", "-port"};
-        ArrayList argList = new ArrayList<>(Arrays.asList(test));
+        ArrayList<String> argList = new ArrayList<>(Arrays.asList(test));
 
-        Exception exception = assertThrows(OptionsChecker.MissingName.class, () -> {
-            optCh.checkForPort(argList);
-        });
+        Exception exception = assertThrows(OptionsChecker.MissingName.class, () ->
+                OptionsChecker.checkForPort(argList));
         assertTrue(exception.getMessage().contains("IT LOOKS LIKE YOU'RE MISSING A PORT."));
     }
 
@@ -270,41 +233,35 @@ public class OptionsCheckerTest {
      * that port and host are both set or neither set.
      */
     @Test
-    void testForHostPortBothNull() throws OptionsChecker.HostPortGoesTogether {
-        OptionsChecker optCh = new OptionsChecker();
-        String[] result = optCh.hostAndPortOrNeither(null, null);
-        assertTrue(result[0].equals("localhost"));
-        assertTrue(result[1].equals("8080"));
+    void test25ForHostPortBothNull() throws OptionsChecker.HostPortGoesTogether {
+        String[] result = OptionsChecker.hostAndPortOrNeither(null, null);
+        assertEquals("localhost", result[0]);
+        assertEquals("8080", result[1]);
     }
 
     @Test
-    void testForHostPortBothSet() throws OptionsChecker.HostPortGoesTogether {
-        OptionsChecker optCh = new OptionsChecker();
+    void test26ForHostPortBothSet() throws OptionsChecker.HostPortGoesTogether {
         String host = "hostfromouttatown";
         String port = "1234";
-        String[] result = optCh.hostAndPortOrNeither(host, port);
-        assertTrue(result[0].equals(host));
-        assertTrue(result[1].equals(port));
+        String[] result = OptionsChecker.hostAndPortOrNeither(host, port);
+        assertEquals(result[0], host);
+        assertEquals(result[1], port);
     }
 
     @Test
-    void testForHostPortPortNotSet() {
-        OptionsChecker optCh = new OptionsChecker();
+    void test27ForHostPortPortNotSet() {
         String host = "hostfromouttatown";
-        Exception exception = assertThrows(OptionsChecker.HostPortGoesTogether.class, () -> {
-            optCh.hostAndPortOrNeither(host, null);
-        });
+        Exception exception = assertThrows(OptionsChecker.HostPortGoesTogether.class, () ->
+                OptionsChecker.hostAndPortOrNeither(host, null));
         assertTrue(exception.getMessage().contains("MISSING HOST OR PORT!\n" +
                 "You need to have a host and a port,\n"));
     }
 
     @Test
-    void testForHostPortHostNotSet() {
-        OptionsChecker optCh = new OptionsChecker();
+    void test28ForHostPortHostNotSet() {
         String port = "1234";
-        Exception exception = assertThrows(OptionsChecker.HostPortGoesTogether.class, () -> {
-            optCh.hostAndPortOrNeither(null, port);
-        });
+        Exception exception = assertThrows(OptionsChecker.HostPortGoesTogether.class, () ->
+                OptionsChecker.hostAndPortOrNeither(null, port));
         assertTrue(exception.getMessage().contains("MISSING HOST OR PORT!\n" +
                 "You need to have a host and a port,\n"));
     }
