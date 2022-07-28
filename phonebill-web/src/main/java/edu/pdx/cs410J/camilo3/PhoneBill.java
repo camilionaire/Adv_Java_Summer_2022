@@ -48,8 +48,7 @@ public PhoneBill(String customer) {
   @Override
   public void addPhoneCall(PhoneCall call) {
     phoneCalls.add(call);
-    // not sure if this is the right place for this or maybe just every time
-    // the collection gets gotten by getPhoneCalls() method.
+    // sorts after every phone call, could get to when get phone calls?
     Collections.sort(phoneCalls);
   }
 

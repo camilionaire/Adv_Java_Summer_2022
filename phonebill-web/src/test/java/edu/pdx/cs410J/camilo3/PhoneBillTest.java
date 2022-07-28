@@ -22,7 +22,7 @@ public class PhoneBillTest {
      * This unit test makes sure something is created when we create the object.
      */
     @Test
-    void testToSeeThatBillIsCreated() {
+    void test01ToSeeThatBillIsCreated() {
         PhoneBill aBill = new PhoneBill("Steven");
         assertNotNull(aBill);
     }
@@ -31,7 +31,7 @@ public class PhoneBillTest {
      * This unit test makes sure getCustomer works
      */
     @Test
-    void testToSeeThatGetCustomerWorks() {
+    void test02ToSeeThatGetCustomerWorks() {
         PhoneBill aBill = new PhoneBill("Steven");
         assertThat(aBill.getCustomer(), containsString("Steven"));
     }
@@ -41,7 +41,7 @@ public class PhoneBillTest {
      * of phone calls.
      */
     @Test
-    void testToSeeThatGetPhoneCallsWorksZeroEntries() {
+    void test03ToSeeThatGetPhoneCallsWorksZeroEntries() {
         PhoneBill aBill = new PhoneBill("Steven");
         // I guess this is how this works?...
         assertEquals(aBill.getPhoneCalls(), Arrays.asList(new PhoneCall[0]));
@@ -52,9 +52,8 @@ public class PhoneBillTest {
      * with the size of the list that is returned.
      */
     @Test
-    void testToSeeThatPhoneCallsIsZeroSetAndGetPhoneCallsWorksZeroEntries() {
+    void test04ToSeeThatPhoneCallsIsZeroSetAndGetPhoneCallsWorksZeroEntries() {
         PhoneBill aBill = new PhoneBill("Steven");
-        // I guess this is how this works?...
         assertEquals(aBill.getPhoneCalls().size(), 0);
     }
 
@@ -62,7 +61,7 @@ public class PhoneBillTest {
      * This unit test makes sure addPhoneCalls works when there is one phone call
      */
     @Test
-    void testToSeeThatAddingAPhoneCallWorks() throws ParseException {
+    void test05ToSeeThatAddingAPhoneCallWorks() throws ParseException {
         PhoneBill aBill = new PhoneBill("Steven");
         PhoneCall call = new PhoneCall(
                 "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39 pm"));
@@ -78,7 +77,7 @@ public class PhoneBillTest {
      * This unit test makes sure getPhoneCalls works when we add 2 phoneCalls
      */
     @Test
-    void testToSeeThatAddingAPhoneCallWorksForSizeTwo() throws ParseException {
+    void test06ToSeeThatAddingAPhoneCallWorksForSizeTwo() throws ParseException {
         PhoneBill aBill = new PhoneBill("Steven");
         PhoneCall call = new PhoneCall(
                 "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39 pm"));
@@ -95,7 +94,7 @@ public class PhoneBillTest {
      * This unit test makes sure getPhoneCalls works when we add 2 phoneCalls
      */
     @Test
-    void testToSeeThatTwoPhoneCallsGetOrderedCorrectlyInArray() throws ParseException {
+    void test07ToSeeThatTwoPhoneCallsGetOrderedCorrectlyInArray() throws ParseException {
         PhoneBill aBill = new PhoneBill("Steven");
         PhoneCall call = new PhoneCall(
                 "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 pm") ,sdf.parse("3/02/2022 10:39 pm"));
@@ -115,7 +114,7 @@ public class PhoneBillTest {
      * NOT SURE HOW TO DO A FAKE OR A MOCK YET... STILL WATCHING THE VIDEOS
      */
     @Test
-    void testToSeeThatAddingAPhoneCallAndPrintToStringWorks() throws ParseException {
+    void test08ToSeeThatAddingAPhoneCallAndPrintToStringWorks() throws ParseException {
         PhoneBill aBill = new PhoneBill("Steven");
         PhoneCall call = new PhoneCall(
                 "503-867-5309", "800-666-1234", sdf.parse("03/2/2022 1:03 am") ,sdf.parse("3/15/2022 10:39 pm"));

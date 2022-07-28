@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Map;
 
 public class TextDumper {
   private final Writer writer;
@@ -23,8 +22,10 @@ public class TextDumper {
     try (
             PrintWriter pw = new PrintWriter(this.writer)
     ) {
+      // prints customer's name
       pw.println(bill.getCustomer());
-      // this may be all I really needed to write in here I think...
+
+      // prints out all of the phone calls
       Collection<PhoneCall> theCalls = bill.getPhoneCalls();
       for (PhoneCall aCall : theCalls) {
         pw.println(aCall.getCaller() + " " + aCall.getCallee() +
@@ -34,17 +35,4 @@ public class TextDumper {
       pw.flush();
     }
   }
-
-// this is all of the old code that I'm going to be replacing I guess...
-//  public void dump(Map<String, String> dictionary) {
-//    try (
-//      PrintWriter pw = new PrintWriter(this.writer)
-//    ){
-//      for (Map.Entry<String, String> entry : dictionary.entrySet()) {
-//        pw.println(entry.getKey() + " : " + entry.getValue());
-//      }
-//
-//      pw.flush();
-//    }
-//  }
 }

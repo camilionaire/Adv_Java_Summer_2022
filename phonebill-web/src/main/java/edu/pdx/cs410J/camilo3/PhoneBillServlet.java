@@ -124,10 +124,10 @@ public class PhoneBillServlet extends HttpServlet
         oldBill.addPhoneCall(newCall);
         this.phoneBills.put(name, oldBill);
 
-
-        PrintWriter pw = response.getWriter();
-        pw.println(Messages.addedPhoneCall(name, newCall));
-        pw.flush();
+//
+//        PrintWriter pw = response.getWriter();
+//        pw.println(Messages.addedPhoneCall(name, newCall));
+//        pw.flush();
 
         response.setStatus( HttpServletResponse.SC_OK);
     }
