@@ -23,7 +23,6 @@ public class OptionsChecker {
     static void printReadme() {
         try (InputStream readme = Project4.class.getResourceAsStream("README.txt")
         ) {
-            assert readme != null;
             BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
             for (String line; (line = reader.readLine()) != null;) {
                 System.out.println(line);
