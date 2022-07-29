@@ -8,10 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,7 +24,6 @@ public class PhoneBillServlet extends HttpServlet
     static final String CALLEE_PARAMETER = "calleeNumber";
     static final String BEGIN_PARAMETER = "begin";
     static final String END_PARAMETER = "end";
-
     static final SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
 
 //    static final String DEFINITION_PARAMETER = "definition";
@@ -55,7 +51,6 @@ public class PhoneBillServlet extends HttpServlet
                 writeWholeBill(name, response);
             } else {
                 missingRequiredParameter(response, "We need a name to search for!");
-//            writeAllDictionaryEntries(response);
             }
         } else if (begin != null && end != null) {
             if (name != null) {
@@ -64,7 +59,6 @@ public class PhoneBillServlet extends HttpServlet
         } else {
             missingRequiredParameter(response, "We need a begin and end time or neither to search for");
         }
-
     }
 
     /**
@@ -109,25 +103,24 @@ public class PhoneBillServlet extends HttpServlet
 
         // replaced this with stuff to change into a phonebill and add that.
 //        this.dictionary.put(word, definition);
-        PhoneBill oldBill = null;
         PhoneCall newCall = null;
+        PhoneBill oldBill = this.phoneBills.get(name);
+        if (oldBill == null) {
+            oldBill = new PhoneBill(name);
+        }
         try {
-            oldBill = this.phoneBills.get(name);
-            if (oldBill == null) {
-                oldBill = new PhoneBill(name);
-            }
+            String[] bg = begin.split(" ");
+            String[] ed = end.split(" ");
+            ArrayList<String> input = new ArrayList<String>(List.of(new String[]{caller, callee, bg[0], bg[1], bg[2], ed[0], ed[1], ed[2]}));
+
+            PhoneCallChecker.checkForImproperFormatting(input);
 
             newCall = new PhoneCall(caller, callee, sdf.parse(begin), sdf.parse(end));
         } catch (Exception e) {
-            missingRequiredParameter(response, "Something screwed up!");
+            requiredParameterNotFormattedCorrectly(response, ("Something screwed up!\n" + e.getMessage()));
         }
         oldBill.addPhoneCall(newCall);
         this.phoneBills.put(name, oldBill);
-
-//
-//        PrintWriter pw = response.getWriter();
-//        pw.println(Messages.addedPhoneCall(name, newCall));
-//        pw.flush();
 
         response.setStatus( HttpServletResponse.SC_OK);
     }
@@ -153,11 +146,22 @@ public class PhoneBillServlet extends HttpServlet
 
     /**
      * Writes an error message about a missing parameter to the HTTP response.
-     *
      * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
      */
     private void missingRequiredParameter( HttpServletResponse response, String parameterName )
         throws IOException
+    {
+        String message = Messages.missingRequiredParameter(parameterName);
+        response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
+    }
+
+    /**
+     * Writes an error message about a missing parameter to the HTTP response.
+     *
+     * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
+     */
+    private void requiredParameterNotFormattedCorrectly( HttpServletResponse response, String parameterName )
+            throws IOException
     {
         String message = Messages.missingRequiredParameter(parameterName);
         response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
