@@ -62,31 +62,4 @@ public class TextParser {
               e.getMessage());
     }
   }
-//  public Map<String, String> parse() throws ParserException {
-//    Pattern pattern = Pattern.compile("(.*) : (.*)");
-//
-//    Map<String, String> map = new HashMap<>();
-//
-//    try (
-//      BufferedReader br = new BufferedReader(this.reader)
-//    ) {
-//
-//      for (String line = br.readLine(); line != null; line = br.readLine()) {
-//        Matcher matcher = pattern.matcher(line);
-//        if (!matcher.find()) {
-//          throw new ParserException("Unexpected text: " + line);
-//        }
-//
-//        String word = matcher.group(1);
-//        String definition = matcher.group(2);
-//
-//        map.put(word, definition);
-//      }
-//
-//    } catch (IOException e) {
-//      throw new ParserException("While parsing dictionary", e);
-//    }
-//
-//    return map;
-//  }
 }
