@@ -21,6 +21,10 @@ public class Project4 {
 
     public static final String MISSING_ARGS = "Missing command line arguments";
 
+    /**
+     * main class that's called from the command line.
+     * @param args all the args that are possible.
+     */
     public static void main(String... args) {
         boolean readme, printOption, searchOption;
         PhoneCall aCall;

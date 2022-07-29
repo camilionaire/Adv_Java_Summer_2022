@@ -26,9 +26,6 @@ public class PhoneBillServlet extends HttpServlet
     static final String END_PARAMETER = "end";
     static final SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
 
-//    static final String DEFINITION_PARAMETER = "definition";
-
-    // changed from <String, String>
     private final Map<String, PhoneBill> phoneBills = new HashMap<>();
 
     /**
@@ -157,7 +154,6 @@ public class PhoneBillServlet extends HttpServlet
 
     }
 
-
     /**
      * Writes an error message about a missing parameter to the HTTP response.
      * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
@@ -181,7 +177,7 @@ public class PhoneBillServlet extends HttpServlet
     }
 
     /**
-     * Writes the definition of the given word to the HTTP response.
+     * Writes the whole phone bill
      * The text of the message is formatted with {@link TextDumper}
      */
     private void writeWholeBill(String name, HttpServletResponse response) throws IOException {
@@ -204,6 +200,13 @@ public class PhoneBillServlet extends HttpServlet
             response.setStatus(HttpServletResponse.SC_OK);
         }
     }
+
+    /**
+     * Copies the phone bill and get's all the phone calls
+     * adds all the phone calls within the parameters to the new phone
+     * bill and writes that via the text dumper.
+     * The text of the message is formatted with {@link TextDumper}
+     */
     private void writeSomeBill(String name, String begin, String end, HttpServletResponse response) throws IOException {
         PhoneBill aBill = this.phoneBills.get(name);
         Date begDate;
@@ -265,6 +268,10 @@ public class PhoneBillServlet extends HttpServlet
         return seconds >= 0L;
     }
 
+    /**
+     * a bit of a throwaway error, the msg is never read
+     * if I had more time I would refactor it away somewhere.
+     */
     static class TimeError extends Exception {
         public TimeError() {
             super("Time appears to be moving backwards!!!...");
