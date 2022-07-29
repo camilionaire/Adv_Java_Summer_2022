@@ -25,7 +25,7 @@ class PhoneBillServletTest {
 
   // this doesn't quite work the same way with the phonebill...
   @Test
-  void nothingIsReturnedFromPosting() throws ServletException, IOException {
+  void test01NothingIsReturnedFromPosting() throws ServletException, IOException {
     PhoneBillServlet servlet = new PhoneBillServlet();
     String customer = "Camilo Schaser-Hughes";
     String callerNumber = "831-227-1838";
@@ -52,8 +52,15 @@ class PhoneBillServletTest {
   }
 
   // redone so now it works i think...
+
+  /**
+   * adds a phone bill and phone call to the servlet
+   * and then retrieves whole bill from servlet.
+   * @throws IOException
+   * @throws ParseException
+   */
   @Test
-  void addOnePhoneBillToDictionary() throws IOException, ParseException {
+  void test02AddOnePhoneBillToDictionaryAndGetsWholeBill() throws IOException, ParseException {
     PhoneBillServlet servlet = new PhoneBillServlet();
 
     String customer = "Camilo Schaser-Hughes";
@@ -110,9 +117,74 @@ class PhoneBillServletTest {
     assertThat(stringWriter2.toString(), containsString(callerNumber + " "  + calleeNumber +
             " " + begin + " " + end));
   }
+  /**
+   * adds a phone bill and phone call to the servlet
+   * and then retrieves partial bill
+   * works on the fact that the search is inclusive of begin/end times.
+   * @throws IOException
+   * @throws ParseException
+   */
+  @Test
+  void test03AddOnePhoneBillToDictionaryGetsPartial() throws IOException, ParseException {
+    PhoneBillServlet servlet = new PhoneBillServlet();
+
+    String customer = "Camilo Schaser-Hughes";
+    String callerNumber = "831-227-1838";
+    String calleeNumber = "831-222-1234";
+    // keep day it looks like double digits leading zero for test to work
+    // it is not hardcoded and
+    String begin = "3/03/2022 11:11 am";
+    String end = "3/03/2022 12:12 pm";
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter("customer")).thenReturn(customer);
+    when(request.getParameter("callerNumber")).thenReturn(callerNumber);
+    when(request.getParameter("calleeNumber")).thenReturn(calleeNumber);
+    when(request.getParameter("begin")).thenReturn(begin);
+    when(request.getParameter("end")).thenReturn(end);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter pw = new PrintWriter(stringWriter, true);
+
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doPost(request, response);
+
+    // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
+    ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
+    verify(response).setStatus(statusCode.capture());
+
+    assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
+
+    HttpServletRequest request2 = mock(HttpServletRequest.class);
+    when(request2.getParameter("customer")).thenReturn(customer);
+    when(request2.getParameter("begin")).thenReturn(begin);
+    when(request2.getParameter("end")).thenReturn(end);
+    HttpServletResponse response2 = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    StringWriter stringWriter2 = new StringWriter();
+    PrintWriter pw2 = new PrintWriter(stringWriter2, true);
+
+    when(response2.getWriter()).thenReturn(pw2);
+
+    servlet.doGet(request2, response2);
+
+    // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
+    ArgumentCaptor<Integer> statusCode2 = ArgumentCaptor.forClass(Integer.class);
+    verify(response2).setStatus(statusCode2.capture());
+
+    assertThat(statusCode2.getValue(), equalTo(HttpServletResponse.SC_OK));
+    assertThat(stringWriter2.toString(), containsString(customer));
+    assertThat(stringWriter2.toString(), containsString(callerNumber + " "  + calleeNumber +
+            " " + begin + " " + end));
+  }
 
   @Test
-  void testToCheckIfNoBillsSomethingHappens() throws IOException {
+  void test04ToCheckIfNoBillsSomethingHappens() throws IOException {
     PhoneBillServlet servlet = new PhoneBillServlet();
 
     String customer = "Camilo Schaser-Hughes";
@@ -145,7 +217,7 @@ class PhoneBillServletTest {
 
   }
   @Test
-  void testToCheckIfTimesBackwardsSomethingHappens() throws IOException {
+  void test05ToCheckIfTimesBackwardsSomethingHappens() throws IOException {
     PhoneBillServlet servlet = new PhoneBillServlet();
 
     String customer = "Camilo Schaser-Hughes";
@@ -176,6 +248,29 @@ class PhoneBillServletTest {
     assertThat(errMsg.getValue(), containsString("The required parameter \"Dates\" is is incorrectly formed."));
     assertThat(errMsg.getValue(), containsString("\nBegin date must be after End Date as well."));
 
+  }
+
+  @Test
+  void test06JustToMakeSureDoDeleteDoesntDoNotOk() throws IOException {
+    PhoneBillServlet servlet = new PhoneBillServlet();
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    HttpServletResponse response = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    // don't know if I need this for this test LOOKS LIKE I DO!!!
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw, true);
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doDelete(request, response);
+
+    // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
+    ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
+//    verify(response).setContentType("text/plain");
+    verify(response).setStatus(statusCode.capture());
+
+    assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
+    assertThat(sw.toString(), containsString("All dictionary entries have been deleted"));
   }
 
 }
