@@ -30,13 +30,13 @@ class Project4IT extends InvokeMainTestCase {
     }
 
     @Test
-    void test01NoCommandLineArguments() {
+    void test02NoCommandLineArguments() {
         MainMethodResult result = invokeMain( Project4.class );
         assertThat(result.getTextWrittenToStandardError(), containsString("While parsing the command line, there were irregularities\n"));
     }
 
     @Test
-    void test02ForPortNotParsable() {
+    void test03ForPortNotParsable() {
         MainMethodResult result = invokeMain(Project4.class, "-port", "Camilo", "-host", "localhost");
         assertThat(result.getTextWrittenToStandardError(), containsString("While attempting to carry out your request\n"));
         assertThat(result.getTextWrittenToStandardError(), containsString("THE PORT HAS GOTTA BE AN INTEGER DUDE!"));
@@ -44,7 +44,7 @@ class Project4IT extends InvokeMainTestCase {
 
 
     @Test
-    void test03ToSeeIfPortHostErrorIsThrown() {
+    void test04ToSeeIfPortHostErrorIsThrown() {
         MainMethodResult result = invokeMain(Project4.class, "-port", "8080", "Steven", "867-867-5309", "503-222-2222",
                 "03/17/2022", "11:11", "am", "03/17/2022", "12:01", "pm");
         assertThat(result.getTextWrittenToStandardError(), containsString(
@@ -55,7 +55,7 @@ class Project4IT extends InvokeMainTestCase {
     }
 
     @Test
-    void test04ToSeeIfTooManyOptionsErrorIsThrown() {
+    void test05ToSeeIfTooManyOptionsErrorIsThrown() {
         MainMethodResult result = invokeMain(
                 Project4.class, "-Iron-Man", "Camilo", "831-666-7777", "831-777-6666",
                 "3/3/2003", "11:11", "am", "3/3/2003", "12:12", "pm");
@@ -64,7 +64,7 @@ class Project4IT extends InvokeMainTestCase {
     }
 
     @Test
-    void test05ToMakeSureCanAddAPhoneBillAndItPrints() {
+    void test06ToMakeSureCanAddAPhoneBillAndItPrints() {
         MainMethodResult result = invokeMain(
                 Project4.class, "-print", "Camilo", "831-666-7777", "831-777-6666",
                 "3/3/2003", "11:11", "am", "3/3/2003", "12:12", "pm");
@@ -75,7 +75,7 @@ class Project4IT extends InvokeMainTestCase {
     }
 
     @Test
-    void test06AddANameAndReadItBackOldPersists() {
+    void test07AddANameAndReadItBackOldPersists() {
         invokeMain(
                 Project4.class, "Camilo", "831-666-7777", "831-777-6666",
                 "3/6/2003", "12:31", "pm", "3/6/2003", "12:57", "pm");
