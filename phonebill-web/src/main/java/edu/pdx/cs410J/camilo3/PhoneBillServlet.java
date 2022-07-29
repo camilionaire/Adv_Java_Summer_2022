@@ -40,36 +40,44 @@ public class PhoneBillServlet extends HttpServlet
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
-        response.setContentType( "text/plain" );
 
         String name = getParameter( NAME_PARAMETER, request );
         String begin = getParameter( BEGIN_PARAMETER, request );
         String end = getParameter( END_PARAMETER, request );
 
-        if (begin == null && end == null) {
-            if (name != null) {
+        if (name == null) {
+            missingRequiredParameter(response, "We need a name to search for!");
+        } else {
+            if (begin == null && end == null) {
                 writeWholeBill(name, response);
-            } else {
-                missingRequiredParameter(response, "We need a name to search for!");
-            }
-        } else if (begin != null && end != null) {
-            if (name != null) {
+            } else if (begin != null && end != null) {
                 try {
                     Date begT = sdf.parse(begin);
                     Date endT = sdf.parse(end);
-
-                    if (PhoneCallChecker.isStartBeforeEnd(begT, endT)) {
+                    if (! PhoneCallChecker.isStartBeforeEnd(begT, endT)) {
                         throw new TimeError();
                     }
-
                 } catch (Exception e) {
-                    requiredParameterNotFormattedCorrectly(response, "Date time are not formatted correctly!");
+                    requiredParameterNotFormattedCorrectly(response,
+                            "Dates");
+                    return;
                 }
                 writeSomeBill(name, begin, end, response);
-            }
-        } else {
+            } else {
             missingRequiredParameter(response, "We need a begin and end time or neither to search for");
+            }
         }
+    }
+
+    /**
+     * Writes an error message about a missing parameter to the HTTP response.
+     * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
+     */
+    private void noPhoneBillFound( HttpServletResponse response, String customer)
+            throws IOException
+    {
+        String message = Messages.noPhoneBillFound(customer);
+        response.sendError(HttpServletResponse.SC_NO_CONTENT, message);
     }
 
     /**
@@ -149,6 +157,7 @@ public class PhoneBillServlet extends HttpServlet
 
     }
 
+
     /**
      * Writes an error message about a missing parameter to the HTTP response.
      * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
@@ -167,7 +176,7 @@ public class PhoneBillServlet extends HttpServlet
     private void requiredParameterNotFormattedCorrectly( HttpServletResponse response, String parameterName )
             throws IOException
     {
-        String message = Messages.missingRequiredParameter(parameterName);
+        String message = Messages.requiredParameterNotFormattedCorrectly(parameterName);
         response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
     }
 
@@ -180,8 +189,10 @@ public class PhoneBillServlet extends HttpServlet
 
         // if we couldn't find a bill by that name
         if (aBill == null) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            noPhoneBillFound(response, name);
+//            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } else {
+            response.setContentType( "text/plain" );
             PrintWriter pw = response.getWriter();
 
 //            Map<String, String> wordDefinition = Map.of(word, definition);
@@ -195,11 +206,13 @@ public class PhoneBillServlet extends HttpServlet
     }
     private void writeSomeBill(String name, String begin, String end, HttpServletResponse response) throws IOException {
         PhoneBill aBill = this.phoneBills.get(name);
-        Date begDate = null;
-        Date endDate = null;
+        Date begDate;
+        Date endDate;
         if (aBill == null) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            noPhoneBillFound(response, name);
+//            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         } else {
+            response.setContentType( "text/plain" );
             SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
             PrintWriter pw = response.getWriter();
             TextDumper dumper = new TextDumper(pw);
@@ -208,6 +221,7 @@ public class PhoneBillServlet extends HttpServlet
                 endDate = sdf.parse(end);
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
+                return;
             }
             PhoneBill retBill = new PhoneBill(name);
             Collection<PhoneCall> calls = aBill.getPhoneCalls();

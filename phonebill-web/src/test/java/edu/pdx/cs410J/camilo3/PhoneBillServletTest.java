@@ -49,8 +49,10 @@ class PhoneBillServletTest {
     String customer = "Camilo Schaser-Hughes";
     String callerNumber = "831-227-1838";
     String calleeNumber = "831-222-1234";
-    String begin = "3/3/2022 11:11 am";
-    String end = "03/03/2022 12:12 pm";
+    // keep day it looks like double digits leading zero for test to work
+    // it is not hardcoded and
+    String begin = "3/03/2022 11:11 am";
+    String end = "3/03/2022 12:12 pm";
 
     HttpServletRequest request = mock(HttpServletRequest.class);
     when(request.getParameter("customer")).thenReturn(customer);
@@ -79,6 +81,29 @@ class PhoneBillServletTest {
     verify(response).setStatus(statusCode.capture());
 
     assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
+
+    HttpServletRequest request2 = mock(HttpServletRequest.class);
+    when(request2.getParameter("customer")).thenReturn(customer);
+    when(request2.getParameter("begin")).thenReturn(null);
+    when(request2.getParameter("end")).thenReturn(null);
+    HttpServletResponse response2 = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    StringWriter stringWriter2 = new StringWriter();
+    PrintWriter pw2 = new PrintWriter(stringWriter2, true);
+
+    when(response2.getWriter()).thenReturn(pw2);
+
+    servlet.doGet(request2, response2);
+
+    // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
+    ArgumentCaptor<Integer> statusCode2 = ArgumentCaptor.forClass(Integer.class);
+    verify(response2).setStatus(statusCode2.capture());
+
+    assertThat(statusCode2.getValue(), equalTo(HttpServletResponse.SC_OK));
+    assertThat(stringWriter2.toString(), containsString(customer));
+    assertThat(stringWriter2.toString(), containsString(callerNumber + " "  + calleeNumber +
+            " " + begin + " " + end));
 
     // not sure if need this or if it's really all that important, it would be get phonebill
     // and then assert the textdumper version of it...
@@ -86,46 +111,119 @@ class PhoneBillServletTest {
   }
 
   @Test
-  void getOnePhoneBillToDictionary() throws IOException, ParseException {
+  void testToCheckIfNoBillsSomethingHappens() throws IOException {
     PhoneBillServlet servlet = new PhoneBillServlet();
 
     String customer = "Camilo Schaser-Hughes";
-    String callerNumber = "831-227-1838";
-    String calleeNumber = "831-222-1234";
-    String begin = "3/3/2022 11:11 am";
-    String end = "03/03/2022 12:12 pm";
+    String begin = "3/03/2022 11:11 am";
+    String end = "3/03/2022 12:12 pm";
 
     HttpServletRequest request = mock(HttpServletRequest.class);
     when(request.getParameter("customer")).thenReturn(customer);
-    when(request.getParameter("callerNumber")).thenReturn(callerNumber);
-    when(request.getParameter("calleeNumber")).thenReturn(calleeNumber);
     when(request.getParameter("begin")).thenReturn(begin);
     when(request.getParameter("end")).thenReturn(end);
-
     HttpServletResponse response = mock(HttpServletResponse.class);
 
     // Use a StringWriter to gather the text from multiple calls to println()
+    // don't know if I need this for this test
     StringWriter stringWriter = new StringWriter();
     PrintWriter pw = new PrintWriter(stringWriter, true);
 
     when(response.getWriter()).thenReturn(pw);
 
-    servlet.doPost(request, response);
-
-    SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
-    PhoneCall fakeCall = new PhoneCall(callerNumber, calleeNumber, sdf.parse(begin), sdf.parse(end));
-
-//    assertThat(stringWriter.toString(), containsString(Messages.addedPhoneCall(customer, fakeCall)));
+    servlet.doGet(request, response);
 
     // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
     ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
-    verify(response).setStatus(statusCode.capture());
+    ArgumentCaptor<String> errMsg = ArgumentCaptor.forClass(String.class);
+    verify(response).sendError(statusCode.capture(), errMsg.capture());
 
-    assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
+    assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_NO_CONTENT));
+    assertThat(errMsg.getValue(), containsString("We could not locate any phone bill's by the\n" +
+            "name " + customer + ".  Sorry."));
 
-    // not sure if need this or if it's really all that important, it would be get phonebill
-    // and then assert the textdumper version of it...
-//    assertThat(servlet.getDefinition(word), equalTo(definition));
   }
+  @Test
+  void testToCheckIfTimesBackwardsSomethingHappens() throws IOException {
+    PhoneBillServlet servlet = new PhoneBillServlet();
+
+    String customer = "Camilo Schaser-Hughes";
+    String end = "3/03/2022 11:11 am";
+    String begin = "3/03/2022 12:12 pm";
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter("customer")).thenReturn(customer);
+    when(request.getParameter("begin")).thenReturn(begin);
+    when(request.getParameter("end")).thenReturn(end);
+    HttpServletResponse response = mock(HttpServletResponse.class);
+
+    // Use a StringWriter to gather the text from multiple calls to println()
+    // don't know if I need this for this test
+    StringWriter stringWriter = new StringWriter();
+    PrintWriter pw = new PrintWriter(stringWriter, true);
+
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doGet(request, response);
+
+    // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
+    ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
+    ArgumentCaptor<String> errMsg = ArgumentCaptor.forClass(String.class);
+    verify(response).sendError(statusCode.capture(), errMsg.capture());
+
+    assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_PRECONDITION_FAILED));
+    assertThat(errMsg.getValue(), containsString("The required parameter \"Dates\" is is incorrectly formed."));
+    assertThat(errMsg.getValue(), containsString("\nBegin date must be after End Date as well."));
+
+  }
+
+
+//  /**
+//   * I am honestly not sure if this test does anything...
+//   * @throws IOException
+//   * @throws ParseException
+//   */
+//  @Test
+//  void getOnePhoneBillToDictionary() throws IOException, ParseException {
+//    PhoneBillServlet servlet = new PhoneBillServlet();
+//
+//    String customer = "Camilo Schaser-Hughes";
+//    String callerNumber = "831-227-1838";
+//    String calleeNumber = "831-222-1234";
+//    String begin = "3/3/2022 11:11 am";
+//    String end = "03/03/2022 12:12 pm";
+//
+//    HttpServletRequest request = mock(HttpServletRequest.class);
+//    when(request.getParameter("customer")).thenReturn(customer);
+//    when(request.getParameter("callerNumber")).thenReturn(callerNumber);
+//    when(request.getParameter("calleeNumber")).thenReturn(calleeNumber);
+//    when(request.getParameter("begin")).thenReturn(begin);
+//    when(request.getParameter("end")).thenReturn(end);
+//
+//    HttpServletResponse response = mock(HttpServletResponse.class);
+//
+//    // Use a StringWriter to gather the text from multiple calls to println()
+//    StringWriter stringWriter = new StringWriter();
+//    PrintWriter pw = new PrintWriter(stringWriter, true);
+//
+//    when(response.getWriter()).thenReturn(pw);
+//
+//    servlet.doPost(request, response);
+//
+//    SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+//    PhoneCall fakeCall = new PhoneCall(callerNumber, calleeNumber, sdf.parse(begin), sdf.parse(end));
+//
+////    assertThat(stringWriter.toString(), containsString(Messages.addedPhoneCall(customer, fakeCall)));
+//
+//    // Use an ArgumentCaptor when you want to make multiple assertions against the value passed to the mock
+//    ArgumentCaptor<Integer> statusCode = ArgumentCaptor.forClass(Integer.class);
+//    verify(response).setStatus(statusCode.capture());
+//
+//    assertThat(statusCode.getValue(), equalTo(HttpServletResponse.SC_OK));
+//
+//    // not sure if need this or if it's really all that important, it would be get phonebill
+//    // and then assert the textdumper version of it...
+////    assertThat(servlet.getDefinition(word), equalTo(definition));
+//  }
 
 }
