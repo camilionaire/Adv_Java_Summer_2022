@@ -94,14 +94,11 @@ public class PhoneCallChecker {
         }
     }
 
-    static void checkADateTime(ArrayList<String> args) throws ImproperDate, ExtraneousCommandLineArguments,
-            MissingCommandLineArguments, ImproperTime, ParseException, EndIsBeforeStart {
+    static void checkADateTime(ArrayList<String> args) throws ImproperDate,
+            ImproperTime, ParseException, EndIsBeforeStart {
 //        System.out.println(args); // put in for error testing.
-        if (args.size() < 6) {
-            throw new MissingCommandLineArguments();
-        } else if (args.size() > 6) {
-            throw new ExtraneousCommandLineArguments();
-        } else if (! isValidDate(args.get(0)) || ! isValidDate(args.get(3))) {
+        // took out checks that is of length 6, does that out of function.
+        if (! isValidDate(args.get(0)) || ! isValidDate(args.get(3))) {
             throw new ImproperDate();
         } else if (! isValidTime(args.get(1) + " " + args.get(2)) ||
                 ! isValidTime(args.get(4) + " " + args.get(5))) {
