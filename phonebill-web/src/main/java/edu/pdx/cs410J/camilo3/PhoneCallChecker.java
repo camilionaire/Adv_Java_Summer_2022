@@ -94,13 +94,34 @@ public class PhoneCallChecker {
         }
     }
 
+    static void checkADateTime(ArrayList<String> args) throws ImproperDate, ExtraneousCommandLineArguments,
+            MissingCommandLineArguments, ImproperTime, ParseException, EndIsBeforeStart {
+//        System.out.println(args); // put in for error testing.
+        if (args.size() < 6) {
+            throw new MissingCommandLineArguments();
+        } else if (args.size() > 6) {
+            throw new ExtraneousCommandLineArguments();
+        } else if (! isValidDate(args.get(0)) || ! isValidDate(args.get(3))) {
+            throw new ImproperDate();
+        } else if (! isValidTime(args.get(1) + " " + args.get(2)) ||
+                ! isValidTime(args.get(4) + " " + args.get(5))) {
+            throw new ImproperTime();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+        Date start = sdf.parse(args.get(0) + " " + args.get(1) + " " + args.get(2));
+        Date end = sdf.parse(args.get(3) + " " + args.get(4) + " " + args.get(5));
+        if ( ! isStartBeforeEnd(start, end)) {
+            throw new EndIsBeforeStart();
+        }
+    }
+
     /**
      * exception that is thrown when end time is before start
      */
     static class EndIsBeforeStart extends Exception {
         public EndIsBeforeStart() {
             super( "END TIME IS BEFORE START!\n" +
-                    "When we were examining the phonecall\n," +
+                    "When we were examining the phonecall,\n" +
                     "we noticed the end time is before the start time.\n" +
                     "Please check your input or laws of physics.");
         }

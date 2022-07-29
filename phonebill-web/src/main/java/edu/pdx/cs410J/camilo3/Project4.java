@@ -78,6 +78,8 @@ public class Project4 {
                     // will need to add in some error checking here
                     String beg = argList.get(0) + " " + argList.get(1) + " " + argList.get(2);
                     String end = argList.get(3) + " " + argList.get(4) + " " + argList.get(5);
+                    checker.checkADateTime(argList); // throws errors if things are wrong
+                    // before the servlet that will also throw errors.
                     PhoneBill custPartBill = client.getPartialPhoneBill(customer, beg, end);
                     StringWriter sw = new StringWriter();
                     PrettyPrinter pp = new PrettyPrinter(sw);
@@ -101,34 +103,11 @@ public class Project4 {
 
         } // end of the if readMe section
 
-//        try {
-//            if (word == null) {
-//                // Print all word/definition pairs
-//                Map<String, String> dictionary = client.getAllDictionaryEntries();
-//                StringWriter sw = new StringWriter();
-//                PrettyPrinter pretty = new PrettyPrinter(sw);
-//                pretty.dump(dictionary);
-//                message = sw.toString();
-//
-//            } else if (definition == null) {
-//                // Print all dictionary entries
-//                message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
-//
-//            } else {
-//                // Post the word/definition pair
-//                client.addDictionaryEntry(word, definition);
-//                message = Messages.definedWordAs(word, definition);
-//            }
-
-//        } catch (IOException | ParserException ex ) {
-
         // THIS I'LL PROBABLY ADD BACK IN!!!
 //        } catch (IOException | ParseException ex) {
 //            error("While contacting server: " + ex);
 //            return;
 //        }
-//
-//        System.out.println(message);
     }
 
     @VisibleForTesting
