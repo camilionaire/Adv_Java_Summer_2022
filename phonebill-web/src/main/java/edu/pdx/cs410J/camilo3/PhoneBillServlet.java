@@ -54,6 +54,17 @@ public class PhoneBillServlet extends HttpServlet
             }
         } else if (begin != null && end != null) {
             if (name != null) {
+                try {
+                    Date begT = sdf.parse(begin);
+                    Date endT = sdf.parse(end);
+
+                    if (PhoneCallChecker.isStartBeforeEnd(begT, endT)) {
+                        throw new TimeError();
+                    }
+
+                } catch (Exception e) {
+                    requiredParameterNotFormattedCorrectly(response, "Date time are not formatted correctly!");
+                }
                 writeSomeBill(name, begin, end, response);
             }
         } else {
@@ -76,33 +87,27 @@ public class PhoneBillServlet extends HttpServlet
             missingRequiredParameter(response, NAME_PARAMETER);
             return;
         }
-
         String caller = getParameter(CALLER_PARAMETER, request );
         if ( caller == null) {
             missingRequiredParameter( response, CALLER_PARAMETER );
             return;
         }
-
         String callee = getParameter(CALLEE_PARAMETER, request );
         if ( callee == null) {
             missingRequiredParameter( response, CALLEE_PARAMETER );
             return;
         }
-
         String begin = getParameter(BEGIN_PARAMETER, request );
         if (begin == null) {
             missingRequiredParameter(response, BEGIN_PARAMETER);
             return;
         }
-
         String end = getParameter(END_PARAMETER, request );
         if (end == null) {
             missingRequiredParameter(response, END_PARAMETER);
             return;
         }
 
-        // replaced this with stuff to change into a phonebill and add that.
-//        this.dictionary.put(word, definition);
         PhoneCall newCall = null;
         PhoneBill oldBill = this.phoneBills.get(name);
         if (oldBill == null) {
@@ -157,7 +162,6 @@ public class PhoneBillServlet extends HttpServlet
 
     /**
      * Writes an error message about a missing parameter to the HTTP response.
-     *
      * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
      */
     private void requiredParameterNotFormattedCorrectly( HttpServletResponse response, String parameterName )
@@ -169,7 +173,6 @@ public class PhoneBillServlet extends HttpServlet
 
     /**
      * Writes the definition of the given word to the HTTP response.
-     *
      * The text of the message is formatted with {@link TextDumper}
      */
     private void writeWholeBill(String name, HttpServletResponse response) throws IOException {
@@ -248,4 +251,9 @@ public class PhoneBillServlet extends HttpServlet
         return seconds >= 0L;
     }
 
+    static class TimeError extends Exception {
+        public TimeError() {
+            super("Time appears to be moving backwards!!!...");
+        }
+    }
 }
