@@ -70,7 +70,7 @@ public class PhoneBillServlet extends HttpServlet
     }
 
     /**
-     * Writes an error message about a missing parameter to the HTTP response.
+     * Writes an error message about not finding a phone bill.
      * The text of the error message is created by {@link Messages#missingRequiredParameter(String)}
      */
     private void noPhoneBillFound( HttpServletResponse response, String customer)

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import static edu.pdx.cs410J.web.HttpRequestHelper.Response;
 import static edu.pdx.cs410J.web.HttpRequestHelper.RestException;
+import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
@@ -77,7 +78,10 @@ public class PhoneBillRestClient {
 
     private void throwExceptionIfNotOkayHttpStatus(Response response) {
       int code = response.getHttpStatusCode();
-      if (code != HTTP_OK) {
+      if (code == HTTP_NO_CONTENT) {
+        String message = "We couldn't find anyone by that name.  Sorry.";
+        throw new RestException(code, message);
+      } else if (code != HTTP_OK) {
         String message = response.getContent();
         throw new RestException(code, message);
       }
