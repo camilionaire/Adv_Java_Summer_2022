@@ -24,22 +24,32 @@ import static org.mockito.Mockito.*;
 class PhoneBillServletTest {
 
   // this doesn't quite work the same way with the phonebill...
-//  @Test
-//  void initiallyServletContainsNoDictionaryEntries() throws ServletException, IOException {
-//    PhoneBillServlet servlet = new PhoneBillServlet();
-//
-//    HttpServletRequest request = mock(HttpServletRequest.class);
-//    HttpServletResponse response = mock(HttpServletResponse.class);
-//    PrintWriter pw = mock(PrintWriter.class);
-//
-//    when(response.getWriter()).thenReturn(pw);
-//
-//    servlet.doGet(request, response);
-//
-//    // Nothing is written to the response's PrintWriter
-//    verify(pw, never()).println(anyString());
-//    verify(response).setStatus(HttpServletResponse.SC_OK);
-//  }
+  @Test
+  void nothingIsReturnedFromPosting() throws ServletException, IOException {
+    PhoneBillServlet servlet = new PhoneBillServlet();
+    String customer = "Camilo Schaser-Hughes";
+    String callerNumber = "831-227-1838";
+    String calleeNumber = "831-222-1234";
+    String begin = "3/3/2022 11:11 am";
+    String end = "03/03/2022 12:12 pm";
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter("customer")).thenReturn(customer);
+    when(request.getParameter("callerNumber")).thenReturn(callerNumber);
+    when(request.getParameter("calleeNumber")).thenReturn(calleeNumber);
+    when(request.getParameter("begin")).thenReturn(begin);
+    when(request.getParameter("end")).thenReturn(end);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+    PrintWriter pw = mock(PrintWriter.class);
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doPost(request, response);
+
+    // Nothing is written to the response's PrintWriter
+    verify(pw, never()).println(anyString());
+    verify(response).setStatus(HttpServletResponse.SC_OK);
+  }
 
   // redone so now it works i think...
   @Test

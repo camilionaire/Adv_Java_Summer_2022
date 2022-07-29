@@ -75,7 +75,8 @@ class Project4IT extends InvokeMainTestCase {
     }
 
     @Test
-    void test07AddANameAndReadItBackOldPersists() {
+    void test07RequestPhoneBillReadItBackOldPersists() {
+        // adds a phone bill and doesn't do anything...
         invokeMain(
                 Project4.class, "Camilo", "831-666-7777", "831-777-6666",
                 "3/6/2003", "12:31", "pm", "3/6/2003", "12:57", "pm");
@@ -84,7 +85,20 @@ class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardOut(), containsString("Customer name:\nCamilo"));
         assertThat(result.getTextWrittenToStandardOut(), containsString("Caller:       Callee:       Call Begins:          Call Ends:            Time:"));
         assertThat(result.getTextWrittenToStandardOut(), containsString("831-666-7777  831-777-6666  Mar 03, 03  11:11 AM  Mar 03, 03  12:12 PM  61 mins"));
-                assertThat(result.getTextWrittenToStandardOut(), containsString("831-666-7777  831-777-6666  Mar 03, 03  11:11 AM  Mar 03, 03  12:12 PM  61 mins"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("831-666-7777  831-777-6666  Mar 06, 03  12:31 PM  Mar 06, 03  12:57 PM  26 mins"));
+    }
+    @Test
+    void test08RequestPartialPhoneBillReadItBackOldPersists() {
+        // adds a phone bill and doesn't do anything...
+        invokeMain(
+                Project4.class, "Camilo", "831-666-7777", "831-777-6666",
+                "3/9/2003", "11:47", "am", "3/9/2003", "12:59", "pm");
+        MainMethodResult result = invokeMain(
+                Project4.class, "-search",  "Camilo", "3/5/2003", "12:00", "am", "3/10/2003", "12:00", "am");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Customer name:\nCamilo"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Caller:       Callee:       Call Begins:          Call Ends:            Time:"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("831-666-7777  831-777-6666  Mar 06, 03  12:31 PM  Mar 06, 03  12:57 PM  26 mins"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("831-666-7777  831-777-6666  Mar 09, 03  11:47 AM  Mar 09, 03  12:59 PM  72 mins"));
     }
 
 }
