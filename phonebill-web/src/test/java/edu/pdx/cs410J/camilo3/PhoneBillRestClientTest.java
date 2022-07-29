@@ -17,6 +17,7 @@ import java.util.Map;
 //import static org.hamcrest.Matchers.containsString;
 //import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -84,9 +85,47 @@ public class PhoneBillRestClientTest {
         assertEquals(calls.get(0).getEndTime().getTime(), end2.getTime());
     }
 
+    @Test
+    void putAPhoneBillOntoTheServlet() throws ParseException, IOException {
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+        String customer = "Camilo";
+        String callerNumber = "831-227-1838";
+        String calleeNumber = "831-227-1234";
+        String beginS = "3/3/2022 10:29 am";
+        String endS = "03/03/2022 12:29 pm";
+        Date begin = sdf.parse(beginS);
+        Date end = sdf.parse(endS);
+        PhoneBill aBill = new PhoneBill(customer);
+        PhoneCall call = new PhoneCall(callerNumber, calleeNumber, begin, end);
+        aBill.addPhoneCall(call);
+
+        HttpRequestHelper.Response fakeResponse = mock(HttpRequestHelper.Response.class);
+        when(fakeResponse.getHttpStatusCode()).thenReturn(404);
+
+        HttpRequestHelper http = mock(HttpRequestHelper.class);
+        when(http.post(eq(Map.of("customer", customer,
+                "callerNumber", callerNumber, "calleeNumber", calleeNumber,
+                "begin", beginS, "end", endS)))).thenReturn(fakeResponse);
+
+        PhoneBillRestClient client = new PhoneBillRestClient(http);
+
+        Exception exception = assertThrows(HttpRequestHelper.RestException.class, () ->
+                client.addPhoneCallEntry(customer, callerNumber, calleeNumber, beginS, endS));
+
+    }
+
+//    private HttpRequestHelper.Response fakeResponseNotFound() {
+//
+//        HttpRequestHelper.Response response = mock(HttpRequestHelper.Response.class);
+//        when(response.getHttpStatusCode()).thenReturn(404);
+//
+//        return response;
+//    }
+
   private HttpRequestHelper.Response phoneBillAsText(PhoneBill aBill) {
       StringWriter sw = new StringWriter();
       new TextDumper(sw).dump(aBill);
-      return new HttpRequestHelper.Response(sw.toString());
+      HttpRequestHelper.Response response = new HttpRequestHelper.Response(sw.toString());
+      return response;
   }
 }
