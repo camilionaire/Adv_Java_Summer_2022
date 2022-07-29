@@ -9,14 +9,14 @@ import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+// might use later...
+//import static org.hamcrest.MatcherAssert.assertThat;
+//import static org.hamcrest.Matchers.containsString;
+//import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -43,12 +43,12 @@ public class PhoneBillRestClientTest {
 
         PhoneBill custBill = client.getPhoneBill(customer);
 
-        assertTrue(custBill.getCustomer().equals(customer));
+        assertEquals(custBill.getCustomer(), customer);
         ArrayList<PhoneCall> calls = (ArrayList<PhoneCall>) custBill.getPhoneCalls();
-        assertTrue(calls.get(0).getCaller().equals(callerNumber));
-        assertTrue(calls.get(0).getCallee().equals(calleeNumber));
-        assertTrue(calls.get(0).getBeginTime().getTime() == begin.getTime());
-        assertTrue(calls.get(0).getEndTime().getTime() == end.getTime());
+        assertEquals(calls.get(0).getCaller(), callerNumber);
+        assertEquals(calls.get(0).getCallee(), calleeNumber);
+        assertEquals(calls.get(0).getBeginTime().getTime(), begin.getTime());
+        assertEquals(calls.get(0).getEndTime().getTime(), end.getTime());
     }
 
     @Test
@@ -75,27 +75,14 @@ public class PhoneBillRestClientTest {
         PhoneBillRestClient client = new PhoneBillRestClient(http);
 
         PhoneBill custBill = client.getPartialPhoneBill(customer, begin, end);
-
-        assertTrue(custBill.getCustomer().equals(customer));
         ArrayList<PhoneCall> calls = (ArrayList<PhoneCall>) custBill.getPhoneCalls();
-        assertTrue(calls.get(0).getCaller().equals(callerNumber));
-        assertTrue(calls.get(0).getCallee().equals(calleeNumber));
-        assertTrue(calls.get(0).getBeginTime().getTime() == begin2.getTime());
-        assertTrue(calls.get(0).getEndTime().getTime() == end2.getTime());
-    }
 
-//    @Test
-//    void putAPhoneBillOntoTheServlet() {
-//        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
-//        String customer = "Camilo";
-//        String callerNumber = "831-227-1838";
-//        String calleeNumber = "831-227-1234";
-//        String begin = "3/3/2022 10:29 am";
-//        String end = "03/03/2022 12:29 pm";
-//
-//        HttpRequestHelper http = mock(HttpRequestHelper.class);
-//        when(http.post(eq(Map.of("customer", customer, "callerNumber", callerNumber, "calleeNumber", calleeNumber, begin, "end", end)))).thenReturn(phoneBillAsText(aBill));
-//    }
+        assertEquals(custBill.getCustomer(), customer);
+        assertEquals(calls.get(0).getCaller(), callerNumber);
+        assertEquals(calls.get(0).getCallee(), calleeNumber);
+        assertEquals(calls.get(0).getBeginTime().getTime(), begin2.getTime());
+        assertEquals(calls.get(0).getEndTime().getTime(), end2.getTime());
+    }
 
   private HttpRequestHelper.Response phoneBillAsText(PhoneBill aBill) {
       StringWriter sw = new StringWriter();
