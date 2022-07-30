@@ -94,6 +94,11 @@ public class PhoneCallChecker {
         }
     }
 
+    /**
+     * just a modified checkForImproperFormatting function
+     * that works with the -search name date1 date2 format.
+     * the args should just be [date, time, am, date2, time2 am2]
+     */
     static void checkADateTime(ArrayList<String> args) throws ImproperDate,
             ImproperTime, ParseException, EndIsBeforeStart {
 //        System.out.println(args); // put in for error testing.
