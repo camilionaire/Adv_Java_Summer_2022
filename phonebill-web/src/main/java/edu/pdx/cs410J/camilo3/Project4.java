@@ -1,17 +1,13 @@
 package edu.pdx.cs410J.camilo3;
 
 import com.google.common.annotations.VisibleForTesting;
-import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
-import java.io.IOException;
 import java.io.PrintStream;
 import java.io.StringWriter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
 /**
  * The main class that parses the command line and communicates with the
