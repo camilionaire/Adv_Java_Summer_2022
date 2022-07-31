@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sayHello(View view) {
-        Toast.makeText(this, "Howdy Howdy Howdy!", Toast.LENGTH_SHORT).show();
+        PhoneCall call = new PhoneCall();
+        Toast.makeText(this, "The call is:" + call, Toast.LENGTH_SHORT).show();
     }
 }
