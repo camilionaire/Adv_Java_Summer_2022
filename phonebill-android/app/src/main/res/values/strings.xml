@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Phone Bill</string>
     <string name="hello">Hello Once Again, Advanced Programming with Java!</string>
-    <string name="press_here_please_please">PRESS HERE PLEASE!!! PLEASE!!!</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="read_me">READ ME</string>
+    <string name="read_me_text">This is where the read me goes!</string>
 </resources>
