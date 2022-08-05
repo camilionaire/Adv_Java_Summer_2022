@@ -23,6 +23,8 @@ public class MainMenu extends AppCompatActivity {
 
     public void addAPhoneCall(View view) {
         Toast.makeText(this, "Hello add a phone call!!!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, AddPhoneCall.class);
+        startActivity(intent);
     }
 
     public void lookUpPhoneBill(View view) {
