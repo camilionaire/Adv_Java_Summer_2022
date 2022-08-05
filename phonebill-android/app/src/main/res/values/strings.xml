@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Phone Bill</string>
-    <string name="hello">Hello Once Again, Advanced Programming with Java!</string>
+    <string name="hello">Hot Line Bling</string>
     <string name="main_menu">Main Menu</string>
     <string name="read_me">READ ME</string>
-    <string name="read_me_text">This is where the read me goes!</string>
+    <string name="read_me_title">PROJECT 5</string>
+    <string name="read_me_text">This is where all of the text is going to go.\n I don\'t know where or how to do line breaks.\noh, okay... yeah, that totally works\nalright.</string>
+    <string name="add_a_phone_call">Add a phone call</string>
+    <string name="look_up_phone_bill">look up phone bill</string>
+    <string name="search_phone_bills">search phone bills</string>
 </resources>

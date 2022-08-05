@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "The call is:" + call, Toast.LENGTH_SHORT).show();
     }
 
+    /** this will go to our main menu... */
+    public void goToMainMenu(View view) {
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+    }
     /** this is called when the readme button is pressed. */
     public void goToReadMe(View view) {
         Intent intent = new Intent(this, DisplayReadMe.class);
