@@ -21,7 +21,7 @@
         android:id="@+id/textView"
         android:layout_width="268dp"
         android:layout_height="94dp"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="88dp"
         android:fontFamily="@font/bangers"
         android:text="@string/hello"
         android:textAlignment="center"
@@ -44,5 +44,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="287dp"
+        android:layout_height="431dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="296dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pngwing_com" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
