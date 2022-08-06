@@ -8,4 +8,12 @@
     <string name="add_a_phone_call">Add a phone call</string>
     <string name="look_up_phone_bill">look up phone bill</string>
     <string name="search_phone_bills">search phone bills</string>
+    <string name="caller">Caller</string>
+    <string name="submit">Submit</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="end_time">end time</string>
+    <string name="end_date">end date</string>
+    <string name="callee">Callee</string>
+    <string name="start_date">start date</string>
+    <string name="start_time">start time</string>
 </resources>
