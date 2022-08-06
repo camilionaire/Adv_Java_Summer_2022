@@ -21,17 +21,21 @@ public class MainMenu extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void addAPhoneCall(View view) {
+    public void goToAddAPhoneCall(View view) {
         Toast.makeText(this, "Hello add a phone call!!!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, AddPhoneCall.class);
         startActivity(intent);
     }
 
-    public void lookUpPhoneBill(View view) {
+    public void goToLookUpPhoneBill(View view) {
         Toast.makeText(this, "Hello look up phone bill!!!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, LookUpPhoneBill.class);
+        startActivity(intent);
     }
 
-    public void searchPhoneBill(View view) {
+    public void goToSearchPhoneBill(View view) {
         Toast.makeText(this, "Hello search phone bill!!!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, SearchPhoneCalls.class);
+        startActivity(intent);
     }
 }
