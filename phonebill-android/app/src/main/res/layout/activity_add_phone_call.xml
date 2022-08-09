@@ -17,6 +17,7 @@
         android:inputType="time"
         android:textColorHint="#757575"
         app:layout_constraintEnd_toStartOf="@+id/endAMPMAdd"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toEndOf="@+id/endDateAdd"
         app:layout_constraintTop_toBottomOf="@+id/startTextTimeAdd" />
 
@@ -143,7 +144,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="36dp"
         android:minWidth="48dp"
-        android:text="@string/am_pm"
+        android:text="@string/start_nam_pm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calleePhoneNum"
         tools:ignore="DuplicateSpeakableTextCheck" />
@@ -157,6 +158,6 @@
         android:minWidth="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startAMPMAdd"
-        tools:text="@string/am_pm" />
+        tools:text="@string/end_nam_pm" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
