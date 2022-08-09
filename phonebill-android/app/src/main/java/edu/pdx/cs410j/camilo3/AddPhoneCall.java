@@ -5,7 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddPhoneCall extends AppCompatActivity {
 
@@ -16,9 +21,43 @@ public class AddPhoneCall extends AppCompatActivity {
     }
 
     public void addPhoneCall(View view) {
-        EditText cust = findViewById(R.id.addCustomerName);
-//        PhoneCall aCall = new PhoneCall();
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a", Locale.US);
+        EditText customer = findViewById(R.id.addCustomerName);
+        EditText callerNumber = findViewById(R.id.callerPhoneNum);
+        EditText calleeNumber = findViewById(R.id.calleePhoneNum);
+        EditText startDate = findViewById(R.id.startDateAdd);
+        EditText endDate = findViewById(R.id.endDateAdd);
+        EditText startTime = findViewById(R.id.startTextTimeAdd);
+        EditText endTime = findViewById(R.id.endTextTimeAdd);
+        Switch startAmPm = findViewById(R.id.startAMPMAdd);
+        Switch endAmPm = findViewById(R.id.endAMPMAdd);
 
-        Toast.makeText(this, "NAME WAS: " + cust.getText(), Toast.LENGTH_LONG).show();
+        String customerString = String.valueOf(customer.getText());
+        String callerString = String.valueOf(callerNumber.getText());
+        String calleeString = String.valueOf(calleeNumber.getText());
+        String stDateString = String.valueOf(startDate.getText());
+        String edDateString = String.valueOf(endDate.getText());
+        String stTimeString = String.valueOf(startTime.getText());
+        String edTimeString = String.valueOf(endTime.getText());
+
+        String sdt = stDateString + " " + stTimeString + " " + (startAmPm.isChecked() ? "pm" : "am");
+        String edt = edDateString + " " + edTimeString + " " + (endAmPm.isChecked() ? "pm" : "am");
+
+        try {
+            Toast.makeText(this, "WHAT IS GOING ON?!?!?!?", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "our sdt: " + sdt, Toast.LENGTH_LONG).show();
+            Date start = sdf.parse(sdt);
+            Date end = sdf.parse(edt);
+            Toast.makeText(this, "Customer: " + customer.getText(), Toast.LENGTH_LONG).show();
+            PhoneCall aCall = new PhoneCall(callerString, calleeString, start, end);
+            Toast.makeText(this, "PhoneCall: \n" + aCall, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            String text = "NAME WAS: " + customerString + "\ncaller: " + callerNumber.getText() + "\ncallee: " + calleeNumber.getText() ;
+            String text2 = "Start Date: " + startDate.getText() + " time: " + startTime.getText() + " pm?: " + startAmPm.isChecked();
+            String text3 = "End Date: " + endDate.getText() + " time: " + endTime.getText() + " pm?: " + endAmPm.isChecked();
+            Toast.makeText(this, text, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, text2, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, text3, Toast.LENGTH_LONG).show();
+        }
     }
 }

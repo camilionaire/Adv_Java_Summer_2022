@@ -16,7 +16,7 @@
         tools:layout_editor_absoluteY="-36dp">
 
         <EditText
-            android:id="@+id/editTextTime2"
+            android:id="@+id/endTextTimeAdd"
             android:layout_width="136dp"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
@@ -28,11 +28,11 @@
             android:textColorHint="#757575"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.866"
-            app:layout_constraintStart_toEndOf="@+id/editTextDate2"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTime" />
+            app:layout_constraintStart_toEndOf="@+id/endDateAdd"
+            app:layout_constraintTop_toBottomOf="@+id/startTextTimeAdd" />
 
         <EditText
-            android:id="@+id/editTextDate2"
+            android:id="@+id/endDateAdd"
             android:layout_width="196dp"
             android:layout_height="48dp"
             android:layout_marginStart="36dp"
@@ -43,7 +43,7 @@
             android:inputType="date"
             android:textColorHint="#757575"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+            app:layout_constraintTop_toBottomOf="@+id/startDateAdd" />
 
         <TextView
             android:id="@+id/addPhCallTitle"
@@ -79,7 +79,7 @@
             app:layout_constraintTop_toBottomOf="@+id/addPhCallTitle" />
 
         <EditText
-            android:id="@+id/editTextDate"
+            android:id="@+id/startDateAdd"
             android:layout_width="196dp"
             android:layout_height="48dp"
             android:layout_marginStart="36dp"
@@ -93,7 +93,7 @@
             app:layout_constraintTop_toBottomOf="@+id/addCustomerName" />
 
         <EditText
-            android:id="@+id/editTextTime"
+            android:id="@+id/startTextTimeAdd"
             android:layout_width="136dp"
             android:layout_height="48dp"
             android:layout_marginTop="24dp"
@@ -105,7 +105,7 @@
             android:textColorHint="#757575"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.857"
-            app:layout_constraintStart_toEndOf="@+id/editTextDate"
+            app:layout_constraintStart_toEndOf="@+id/startDateAdd"
             app:layout_constraintTop_toBottomOf="@+id/addCustomerName" />
 
         <Button

@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void sayHello(View view) {
-        PhoneCall call = new PhoneCall();
-        Toast.makeText(this, "The call is:" + call, Toast.LENGTH_SHORT).show();
-    }
+//    public void sayHello(View view) {
+//        PhoneCall call = new PhoneCall();
+//        Toast.makeText(this, "The call is:" + call, Toast.LENGTH_SHORT).show();
+//    }
 
     /** this will go to our main menu... */
     public void goToMainMenu(View view) {

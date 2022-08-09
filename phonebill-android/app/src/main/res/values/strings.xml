@@ -16,4 +16,5 @@
     <string name="callee">Callee</string>
     <string name="start_date">start date</string>
     <string name="start_time">start time</string>
+    <string name="am_pm">AM/PM</string>
 </resources>

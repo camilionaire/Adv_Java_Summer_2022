@@ -7,24 +7,22 @@
     tools:context=".AddPhoneCall">
 
     <EditText
-        android:id="@+id/editTextTime2"
-        android:layout_width="136dp"
+        android:id="@+id/endTextTimeAdd"
+        android:layout_width="88dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="36dp"
         android:ems="10"
         android:hint="@string/end_time"
         android:importantForAutofill="no"
         android:inputType="time"
         android:textColorHint="#757575"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.866"
-        app:layout_constraintStart_toEndOf="@+id/editTextDate2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTime" />
+        app:layout_constraintEnd_toStartOf="@+id/endAMPMAdd"
+        app:layout_constraintStart_toEndOf="@+id/endDateAdd"
+        app:layout_constraintTop_toBottomOf="@+id/startTextTimeAdd" />
 
     <EditText
-        android:id="@+id/editTextDate2"
-        android:layout_width="196dp"
+        android:id="@+id/endDateAdd"
+        android:layout_width="136dp"
         android:layout_height="48dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="12dp"
@@ -34,7 +32,7 @@
         android:inputType="date"
         android:textColorHint="#757575"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+        app:layout_constraintTop_toBottomOf="@+id/startDateAdd" />
 
     <TextView
         android:id="@+id/addPhCallTitle"
@@ -70,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addPhCallTitle" />
 
     <EditText
-        android:id="@+id/editTextPhone"
+        android:id="@+id/callerPhoneNum"
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
@@ -85,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addCustomerName" />
 
     <EditText
-        android:id="@+id/editTextPhone2"
+        android:id="@+id/calleePhoneNum"
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
@@ -97,11 +95,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/callerPhoneNum" />
 
     <EditText
-        android:id="@+id/editTextDate"
-        android:layout_width="196dp"
+        android:id="@+id/startDateAdd"
+        android:layout_width="136dp"
         android:layout_height="48dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="16dp"
@@ -111,23 +109,21 @@
         android:inputType="date"
         android:textColorHint="#757575"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhone2" />
+        app:layout_constraintTop_toBottomOf="@+id/calleePhoneNum" />
 
     <EditText
-        android:id="@+id/editTextTime"
-        android:layout_width="136dp"
+        android:id="@+id/startTextTimeAdd"
+        android:layout_width="88dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="36dp"
         android:ems="10"
         android:hint="@string/start_time"
         android:importantForAutofill="no"
         android:inputType="time"
         android:textColorHint="#757575"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.882"
-        app:layout_constraintStart_toEndOf="@+id/editTextDate"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhone2" />
+        app:layout_constraintEnd_toStartOf="@+id/startAMPMAdd"
+        app:layout_constraintStart_toEndOf="@+id/startDateAdd"
+        app:layout_constraintTop_toBottomOf="@+id/calleePhoneNum" />
 
     <Button
         android:id="@+id/button2"
@@ -139,4 +135,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addPhCallTitle" />
+
+    <Switch
+        android:id="@+id/startAMPMAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="36dp"
+        android:minWidth="48dp"
+        android:text="@string/am_pm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calleePhoneNum"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+    <Switch
+        android:id="@+id/endAMPMAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="36dp"
+        android:minWidth="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startAMPMAdd"
+        tools:text="@string/am_pm" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
