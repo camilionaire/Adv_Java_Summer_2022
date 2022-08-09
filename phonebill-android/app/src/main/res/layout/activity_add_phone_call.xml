@@ -10,14 +10,13 @@
         android:id="@+id/endTextTimeAdd"
         android:layout_width="88dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/end_time"
         android:importantForAutofill="no"
         android:inputType="time"
         android:textColorHint="#757575"
         app:layout_constraintEnd_toStartOf="@+id/endAMPMAdd"
-        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toEndOf="@+id/endDateAdd"
         app:layout_constraintTop_toBottomOf="@+id/startTextTimeAdd" />
 
@@ -26,7 +25,7 @@
         android:layout_width="136dp"
         android:layout_height="48dp"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/end_date"
         android:importantForAutofill="no"
@@ -153,11 +152,10 @@
         android:id="@+id/endAMPMAdd"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="36dp"
-        android:minWidth="48dp"
+        android:text="@string/end_nam_pm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startAMPMAdd"
-        tools:text="@string/end_nam_pm" />
+        app:layout_constraintTop_toBottomOf="@+id/startAMPMAdd" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

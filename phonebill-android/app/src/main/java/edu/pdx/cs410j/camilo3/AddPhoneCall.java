@@ -44,13 +44,15 @@ public class AddPhoneCall extends AppCompatActivity {
         String edt = edDateString + " " + edTimeString + " " + (endAmPm.isChecked() ? "pm" : "am");
 
         try {
-            Toast.makeText(this, "WHAT IS GOING ON?!?!?!?", Toast.LENGTH_LONG).show();
-            Toast.makeText(this, "our sdt: " + sdt, Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "WHAT IS GOING ON?!?!?!?", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "our sdt: " + sdt, Toast.LENGTH_LONG).show();
             Date start = sdf.parse(sdt);
             Date end = sdf.parse(edt);
             Toast.makeText(this, "Customer: " + customer.getText(), Toast.LENGTH_LONG).show();
+            PhoneBill aBill = new PhoneBill(customerString);
             PhoneCall aCall = new PhoneCall(callerString, calleeString, start, end);
-            Toast.makeText(this, "PhoneCall: \n" + aCall, Toast.LENGTH_LONG).show();
+            aBill.addPhoneCall(aCall);
+            Toast.makeText(this, "We added this phonecall:\n" + aCall, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             String text = "NAME WAS: " + customerString + "\ncaller: " + callerNumber.getText() + "\ncallee: " + calleeNumber.getText() ;
             String text2 = "Start Date: " + startDate.getText() + " time: " + startTime.getText() + " pm?: " + startAmPm.isChecked();
