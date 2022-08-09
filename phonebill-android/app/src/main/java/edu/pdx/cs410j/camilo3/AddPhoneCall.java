@@ -33,6 +33,17 @@ public class AddPhoneCall extends AppCompatActivity {
         td.dump(aBill);
     }
 
+    private PhoneBill readFromFile(String aName) {
+        File fileDir = this.getFilesDir();
+        File maybeBill = new File(fileDir, aName);
+        if (! maybeBill.exists()) {
+            return null;
+        } else {
+            // here is where we'd return a phonebill
+            return new PhoneBill(aName);
+        }
+    }
+
     public void addPhoneCall(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a", Locale.US);
         EditText customer = findViewById(R.id.addCustomerName);
