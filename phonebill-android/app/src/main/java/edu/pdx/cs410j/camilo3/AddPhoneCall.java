@@ -8,6 +8,10 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -18,6 +22,15 @@ public class AddPhoneCall extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_phone_call);
+    }
+
+    private void writeBillToFile(PhoneBill aBill) throws IOException {
+        File fileDir = this.getFilesDir();
+        File billFile = new File(fileDir, aBill.getCustomer());
+        FileWriter fw = new FileWriter(billFile);
+        PrintWriter pw = new PrintWriter(fw);
+        TextDumper td = new TextDumper(pw);
+        td.dump(aBill);
     }
 
     public void addPhoneCall(View view) {
@@ -52,6 +65,7 @@ public class AddPhoneCall extends AppCompatActivity {
             PhoneBill aBill = new PhoneBill(customerString);
             PhoneCall aCall = new PhoneCall(callerString, calleeString, start, end);
             aBill.addPhoneCall(aCall);
+            writeBillToFile(aBill);
             Toast.makeText(this, "We added this phonecall:\n" + aCall, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             String text = "NAME WAS: " + customerString + "\ncaller: " + callerNumber.getText() + "\ncallee: " + calleeNumber.getText() ;
