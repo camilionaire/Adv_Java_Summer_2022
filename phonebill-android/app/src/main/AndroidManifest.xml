@@ -14,6 +14,9 @@
         android:theme="@style/Theme.PhoneBill"
         tools:targetApi="31">
         <activity
+            android:name=".DisplayPhoneBill"
+            android:exported="false" />
+        <activity
             android:name=".SearchPhoneCalls"
             android:exported="false"
             android:parentActivityName=".MainMenu" />
