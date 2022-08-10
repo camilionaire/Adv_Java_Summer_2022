@@ -52,9 +52,9 @@ public class AddPhoneCall extends AppCompatActivity {
 
     public void addPhoneCall(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a", Locale.US);
-        EditText customer = findViewById(R.id.custNameLookUp);
-        EditText callerNumber = findViewById(R.id.callerPhoneNum);
-        EditText calleeNumber = findViewById(R.id.calleePhoneNum);
+        EditText customer = findViewById(R.id.custNameAdd);
+        EditText callerNumber = findViewById(R.id.callerPhoneNumAdd);
+        EditText calleeNumber = findViewById(R.id.calleePhoneNumAdd);
         EditText startDate = findViewById(R.id.startDateAdd);
         EditText endDate = findViewById(R.id.endDateAdd);
         EditText startTime = findViewById(R.id.startTextTimeAdd);

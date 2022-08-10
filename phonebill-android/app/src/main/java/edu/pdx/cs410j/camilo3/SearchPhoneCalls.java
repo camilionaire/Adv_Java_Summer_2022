@@ -5,11 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import edu.pdx.cs410J.ParserException;
 
@@ -22,13 +28,40 @@ public class SearchPhoneCalls extends AppCompatActivity {
     }
 
     public void searchCallsOnClick(View view) {
-        EditText name = findViewById(R.id.custNameLookUp);
-        EditText startDate = findViewById(R.id.custNameLookUp);
-        EditText endDate = findViewById(R.id.custNameLookUp);
-        String nameString = String.valueOf(name.getText());
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a", Locale.US);
+        EditText customer = findViewById(R.id.custNameSearch);
+        EditText startDate = findViewById(R.id.startDateSearch);
+        EditText endDate = findViewById(R.id.endDateSearch);
+        EditText startTime = findViewById(R.id.startTextTimeSearch);
+        EditText endTime = findViewById(R.id.endTextTimeSearch);
+        Switch startAmPm = findViewById(R.id.startAMPMSearch);
+        Switch endAmPm = findViewById(R.id.endAMPMSearch);
+
+        String customerString = String.valueOf(customer.getText());
+        String stDateString = String.valueOf(startDate.getText());
+        String edDateString = String.valueOf(endDate.getText());
+        String stTimeString = String.valueOf(startTime.getText());
+        String edTimeString = String.valueOf(endTime.getText());
+
+        String sdt = stDateString + " " + stTimeString + " " + (startAmPm.isChecked() ? "pm" : "am");
+        String edt = edDateString + " " + edTimeString + " " + (endAmPm.isChecked() ? "pm" : "am");
         try {
-            PhoneBill aBill = readFromFile(nameString);
-            Toast.makeText(this, "ourBill: " + aBill, Toast.LENGTH_LONG).show();
+            Date begin = sdf.parse(sdt);
+            Date end = sdf.parse(edt);
+            PhoneBill aBill = readFromFile(customerString);
+            if (aBill == null) {
+                Toast.makeText(this, "We couldn't find a bill by that name.", Toast.LENGTH_LONG).show();
+            } else {
+                PhoneBill retBill = new PhoneBill(customerString);
+                Collection<PhoneCall> calls = aBill.getPhoneCalls();
+
+                for (PhoneCall call : calls) {
+                    if (time1IsBeforeTime2(begin, call.getBeginTime()) && time1IsBeforeTime2(call.getBeginTime(), end)) {
+                        retBill.addPhoneCall(call);
+                    }
+                }
+                Toast.makeText(this, "ourBill: " + retBill, Toast.LENGTH_LONG).show();
+            }
         } catch (Exception e) {
             Toast.makeText(this, "Something went wrong when reading the file.",
                     Toast.LENGTH_LONG).show();
@@ -48,4 +81,15 @@ public class SearchPhoneCalls extends AppCompatActivity {
             return tp.parse();
         }
     }
+
+    /**
+     * returns true if the start is before or equal to the end
+     * false otherwise
+     */
+    static boolean time1IsBeforeTime2(Date time1, Date time2) {
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(
+                time2.getTime() - time1.getTime());
+        return seconds >= 0L;
+    }
+
 }

@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/custNameLookUp"
+        android:id="@+id/custNameAdd"
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addPhCallTitle" />
 
     <EditText
-        android:id="@+id/callerPhoneNum"
+        android:id="@+id/callerPhoneNumAdd"
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
@@ -80,10 +80,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/custNameLookUp" />
+        app:layout_constraintTop_toBottomOf="@+id/custNameAdd" />
 
     <EditText
-        android:id="@+id/calleePhoneNum"
+        android:id="@+id/calleePhoneNumAdd"
         android:layout_width="320dp"
         android:layout_height="48dp"
         android:layout_marginTop="12dp"
@@ -95,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/callerPhoneNum" />
+        app:layout_constraintTop_toBottomOf="@+id/callerPhoneNumAdd" />
 
     <EditText
         android:id="@+id/startDateAdd"
@@ -109,7 +109,7 @@
         android:inputType="date"
         android:textColorHint="#757575"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calleePhoneNum" />
+        app:layout_constraintTop_toBottomOf="@+id/calleePhoneNumAdd" />
 
     <EditText
         android:id="@+id/startTextTimeAdd"
@@ -123,7 +123,7 @@
         android:textColorHint="#757575"
         app:layout_constraintEnd_toStartOf="@+id/startAMPMAdd"
         app:layout_constraintStart_toEndOf="@+id/startDateAdd"
-        app:layout_constraintTop_toBottomOf="@+id/calleePhoneNum" />
+        app:layout_constraintTop_toBottomOf="@+id/calleePhoneNumAdd" />
 
     <Button
         android:id="@+id/lookUpBillButton"
@@ -145,7 +145,7 @@
         android:minWidth="48dp"
         android:text="@string/start_nam_pm"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calleePhoneNum"
+        app:layout_constraintTop_toBottomOf="@+id/calleePhoneNumAdd"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
     <Switch

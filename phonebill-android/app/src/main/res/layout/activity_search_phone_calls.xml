@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="searchCallsOnClick"
     tools:context=".SearchPhoneCalls">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,11 +13,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:context=".AddPhoneCall"
-        tools:layout_editor_absoluteY="116dp">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:context=".AddPhoneCall">
 
         <EditText
-            android:id="@+id/endTextTimeAdd"
+            android:id="@+id/endTextTimeSearch"
             android:layout_width="88dp"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
@@ -26,11 +27,11 @@
             android:importantForAutofill="no"
             android:inputType="time"
             android:textColorHint="#757575"
-            app:layout_constraintEnd_toStartOf="@+id/switch2"
-            app:layout_constraintTop_toBottomOf="@+id/startTextTimeAdd" />
+            app:layout_constraintEnd_toStartOf="@+id/endAMPMSearch"
+            app:layout_constraintTop_toBottomOf="@+id/startTextTimeSearch" />
 
         <EditText
-            android:id="@+id/endDateAdd"
+            android:id="@+id/endDateSearch"
             android:layout_width="136dp"
             android:layout_height="48dp"
             android:layout_marginStart="36dp"
@@ -40,10 +41,10 @@
             android:importantForAutofill="no"
             android:inputType="date"
             android:textColorHint="#757575"
-            app:layout_constraintEnd_toStartOf="@+id/endTextTimeAdd"
+            app:layout_constraintEnd_toStartOf="@+id/endTextTimeSearch"
             app:layout_constraintHorizontal_bias="0.037"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/startDateAdd" />
+            app:layout_constraintTop_toBottomOf="@+id/startDateSearch" />
 
         <TextView
             android:id="@+id/addPhCallTitle"
@@ -63,7 +64,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/custNameLookUp"
+            android:id="@+id/custNameSearch"
             android:layout_width="320dp"
             android:layout_height="48dp"
             android:layout_marginTop="88dp"
@@ -79,7 +80,7 @@
             app:layout_constraintTop_toBottomOf="@+id/addPhCallTitle" />
 
         <EditText
-            android:id="@+id/startDateAdd"
+            android:id="@+id/startDateSearch"
             android:layout_width="136dp"
             android:layout_height="48dp"
             android:layout_marginStart="36dp"
@@ -90,10 +91,10 @@
             android:inputType="date"
             android:textColorHint="#757575"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/custNameLookUp" />
+            app:layout_constraintTop_toBottomOf="@+id/custNameSearch" />
 
         <EditText
-            android:id="@+id/startTextTimeAdd"
+            android:id="@+id/startTextTimeSearch"
             android:layout_width="88dp"
             android:layout_height="48dp"
             android:layout_marginTop="24dp"
@@ -102,39 +103,40 @@
             android:importantForAutofill="no"
             android:inputType="time"
             android:textColorHint="#757575"
-            app:layout_constraintEnd_toStartOf="@+id/switch1"
-            app:layout_constraintStart_toEndOf="@+id/startDateAdd"
-            app:layout_constraintTop_toBottomOf="@+id/custNameLookUp" />
+            app:layout_constraintEnd_toStartOf="@+id/startAMPMSearch"
+            app:layout_constraintStart_toEndOf="@+id/startDateSearch"
+            app:layout_constraintTop_toBottomOf="@+id/custNameSearch" />
 
         <Button
             android:id="@+id/lookUpBillButton"
             android:layout_width="231dp"
             android:layout_height="48dp"
             android:layout_marginTop="328dp"
+            android:onClick="searchCallsOnClick"
             android:text="@string/submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addPhCallTitle" />
 
         <Switch
-            android:id="@+id/switch1"
+            android:id="@+id/startAMPMSearch"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="36dp"
             android:text="@string/start_nam_pm"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/custNameLookUp" />
+            app:layout_constraintTop_toBottomOf="@+id/custNameSearch" />
 
         <Switch
-            android:id="@+id/switch2"
+            android:id="@+id/endAMPMSearch"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="36dp"
             android:text="@string/end_nam_pm"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switch1" />
+            app:layout_constraintTop_toBottomOf="@+id/startAMPMSearch" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
