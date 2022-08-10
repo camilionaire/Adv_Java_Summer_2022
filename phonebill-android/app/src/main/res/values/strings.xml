@@ -4,7 +4,11 @@
     <string name="main_menu">Main Menu</string>
     <string name="read_me">READ ME</string>
     <string name="read_me_title">PROJECT 5</string>
-    <string name="read_me_text">This is where all of the text is going to go.\n I don\'t know where or how to do line breaks.\noh, okay... yeah, that totally works\nalright.</string>
+    <string name="read_me_text">ReadMe: where you are right now, gives you all the information.</string>
+    <string name="main_menu_text">Main Menu:  has options / buttons to add a phone call, look up a phone bill by name, look up phone calls by name and times, or look at the readme again.</string>
+    <string name="add_phCall_text">Add Phone Call:  allows you to add a phone call with a caller, callee, start date/time and end date/time.  The am/pm switch is am when off and pm when on.  The date is in the format MM/dd/yyyy and the time is in format hh:mm</string>
+    <string name="lookup_phBill_text">Look up Phone Bill:  allows you to look up a phone bill by name.  If we have the phone bill, we will show you it.  If not, we will let you know.</string>
+    <string name="search_phCall_text">Search Phone Bills:  allows you to search through phone bills by name and filter said phone bill by start date being between the start and end dates inputted.</string>
     <string name="add_a_phone_call">Add a phone call</string>
     <string name="look_up_phone_bill">look up phone bill</string>
     <string name="search_phone_bills">search phone bills</string>
