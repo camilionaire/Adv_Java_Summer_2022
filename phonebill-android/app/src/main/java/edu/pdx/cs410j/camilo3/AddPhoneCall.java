@@ -9,12 +9,16 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import edu.pdx.cs410J.ParserException;
 
 public class AddPhoneCall extends AppCompatActivity {
 
@@ -33,14 +37,16 @@ public class AddPhoneCall extends AppCompatActivity {
         td.dump(aBill);
     }
 
-    private PhoneBill readFromFile(String aName) {
+    private PhoneBill readFromFile(String aName) throws ParserException, FileNotFoundException {
         File fileDir = this.getFilesDir();
         File maybeBill = new File(fileDir, aName);
         if (! maybeBill.exists()) {
             return null;
         } else {
-            // here is where we'd return a phonebill
-            return new PhoneBill(aName);
+            // here is where we'd return a phone bill
+            FileReader fr = new FileReader(maybeBill);
+            TextParser tp = new TextParser(fr);
+            return tp.parse();
         }
     }
 
@@ -68,12 +74,14 @@ public class AddPhoneCall extends AppCompatActivity {
         String edt = edDateString + " " + edTimeString + " " + (endAmPm.isChecked() ? "pm" : "am");
 
         try {
-//            Toast.makeText(this, "WHAT IS GOING ON?!?!?!?", Toast.LENGTH_LONG).show();
-//            Toast.makeText(this, "our sdt: " + sdt, Toast.LENGTH_LONG).show();
             Date start = sdf.parse(sdt);
             Date end = sdf.parse(edt);
             Toast.makeText(this, "Customer: " + customer.getText(), Toast.LENGTH_LONG).show();
-            PhoneBill aBill = new PhoneBill(customerString);
+
+            PhoneBill aBill = readFromFile(customerString);
+            if (aBill == null) {
+                aBill = new PhoneBill(customerString);
+            }
             PhoneCall aCall = new PhoneCall(callerString, calleeString, start, end);
             aBill.addPhoneCall(aCall);
             writeBillToFile(aBill);
