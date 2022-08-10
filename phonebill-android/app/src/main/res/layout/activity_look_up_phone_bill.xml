@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/addCustomerName"
+            android:id="@+id/custNameLookUp"
             android:layout_width="320dp"
             android:layout_height="48dp"
             android:layout_marginTop="144dp"
@@ -47,10 +47,11 @@
             app:layout_constraintTop_toBottomOf="@+id/addPhCallTitle" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/lookUpBillButton"
             android:layout_width="231dp"
             android:layout_height="48dp"
             android:layout_marginTop="328dp"
+            android:onClick="lookUpBillClick"
             android:text="@string/submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
