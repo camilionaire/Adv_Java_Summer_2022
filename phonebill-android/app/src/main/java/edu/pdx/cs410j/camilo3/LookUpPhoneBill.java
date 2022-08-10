@@ -2,6 +2,7 @@ package edu.pdx.cs410j.camilo3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -32,6 +33,8 @@ public class LookUpPhoneBill extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
 
+        Intent intent = new Intent(this, DisplayPhoneBill.class);
+        startActivity(intent);
     }
 
     private PhoneBill readFromFile(String aName) throws ParserException, FileNotFoundException {

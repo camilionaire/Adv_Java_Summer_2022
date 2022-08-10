@@ -19,4 +19,5 @@
     <string name="am_pm">AM/PM</string>
     <string name="start_nam_pm">Start\nAM/PM</string>
     <string name="end_nam_pm">End\nAM/PM</string>
+    <string name="customer_bill">Customer Bill</string>
 </resources>
