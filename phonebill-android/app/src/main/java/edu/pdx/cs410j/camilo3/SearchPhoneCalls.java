@@ -2,6 +2,7 @@ package edu.pdx.cs410j.camilo3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -11,7 +12,10 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
@@ -46,27 +50,39 @@ public class SearchPhoneCalls extends AppCompatActivity {
         String sdt = stDateString + " " + stTimeString + " " + (startAmPm.isChecked() ? "pm" : "am");
         String edt = edDateString + " " + edTimeString + " " + (endAmPm.isChecked() ? "pm" : "am");
         try {
+            if (! PhoneCallChecker.isValidDate(stDateString) || ! PhoneCallChecker.isValidDate(edDateString)) {
+                throw new PhoneCallChecker.ImproperDate();
+            } else if (! PhoneCallChecker.isValidTime(stTimeString + " " + (startAmPm.isChecked() ? "pm" : "am")) ||
+            ! PhoneCallChecker.isValidTime(edTimeString + " " + (endAmPm.isChecked() ? "pm" : "am"))) {
+                throw new PhoneCallChecker.ImproperTime();
+            }
             Date begin = sdf.parse(sdt);
             Date end = sdf.parse(edt);
+            if ( ! PhoneCallChecker.isStartBeforeEnd(begin, end)) {
+                throw new PhoneCallChecker.EndIsBeforeStart();
+            }
+
             PhoneBill aBill = readFromFile(customerString);
             if (aBill == null) {
-                Toast.makeText(this, "We couldn't find a bill by that name.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Looks like maybe there's no bill by that name.\n" +
+                        "Maybe check your spelling...", Toast.LENGTH_LONG).show();
             } else {
                 PhoneBill retBill = new PhoneBill(customerString);
                 Collection<PhoneCall> calls = aBill.getPhoneCalls();
 
+                // adds the phone calls to the return bill.
                 for (PhoneCall call : calls) {
                     if (time1IsBeforeTime2(begin, call.getBeginTime()) && time1IsBeforeTime2(call.getBeginTime(), end)) {
                         retBill.addPhoneCall(call);
                     }
                 }
-                Toast.makeText(this, "ourBill: " + retBill, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, DisplayPhoneBill.class);
+                intent.putExtra("PHONE_BILL", retBill);
+                startActivity(intent);
             }
         } catch (Exception e) {
-            Toast.makeText(this, "Something went wrong when reading the file.",
-                    Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Something went wrong\n" + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-
     }
 
     private PhoneBill readFromFile(String aName) throws ParserException, FileNotFoundException {

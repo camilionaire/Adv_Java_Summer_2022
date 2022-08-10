@@ -1,7 +1,5 @@
 package edu.pdx.cs410j.camilo3;
 
-//import com.google.common.annotations.VisibleForTesting;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +15,6 @@ public class PhoneCallChecker {
     /**
      * returns true if is of the form nnn-nnn-nnnn, false otherwise
      */
-//    @VisibleForTesting
     static boolean isValidPhoneNumber(String phoneNumber) {
         return Pattern.matches("^\\d{3}-\\d{3}-\\d{4}$", phoneNumber);
     }
@@ -26,7 +23,6 @@ public class PhoneCallChecker {
      * returns true if date is of the regex form ^\\d?\\d/\\d?\\d/\\d{4}$
      * false otherwise
      */
-//    @VisibleForTesting
     static boolean isValidDate(String date) {
         return Pattern.matches("^\\d?\\d/\\d?\\d/\\d{4}$", date);
     }
@@ -35,7 +31,6 @@ public class PhoneCallChecker {
      * returns true if time is of the regex form ^[01]?\\d:[0-5]\\d$
      * false otherwise
      */
-//    @VisibleForTesting
     static boolean isValidTime(String time) {
         return Pattern.matches("^[01]?\\d:[0-5]\\d ([AP]M|[ap]m)$", time);
     }
@@ -44,7 +39,6 @@ public class PhoneCallChecker {
      * returns true if the start is before or equal to the end
      * false otherwise
      */
-//    @VisibleForTesting
     static boolean isStartBeforeEnd(Date start, Date end) {
         long seconds = TimeUnit.MILLISECONDS.toSeconds(
                 end.getTime() - start.getTime());
@@ -55,11 +49,11 @@ public class PhoneCallChecker {
     /**
      * throws error if there are no command line arguments
      */
-//    @VisibleForTesting
-    static void isArrayZero(ArrayList args) throws MissingCommandLineArguments {
+    static boolean isArrayZero(ArrayList args) {
         if (args.size() == 0) {
-            throw new MissingCommandLineArguments();
+            return true;
         }
+        return false;
     }
 
     /**
@@ -94,12 +88,35 @@ public class PhoneCallChecker {
     }
 
     /**
+     * just a modified checkForImproperFormatting function
+     * that works with the -search name date1 date2 format.
+     * the args should just be [date, time, am, date2, time2 am2]
+     */
+    static void checkADateTime(ArrayList<String> args) throws ImproperDate,
+            ImproperTime, ParseException, EndIsBeforeStart {
+//        System.out.println(args); // put in for error testing.
+        // took out checks that is of length 6, does that out of function.
+        if (! isValidDate(args.get(0)) || ! isValidDate(args.get(3))) {
+            throw new ImproperDate();
+        } else if (! isValidTime(args.get(1) + " " + args.get(2)) ||
+                ! isValidTime(args.get(4) + " " + args.get(5))) {
+            throw new ImproperTime();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a");
+        Date start = sdf.parse(args.get(0) + " " + args.get(1) + " " + args.get(2));
+        Date end = sdf.parse(args.get(3) + " " + args.get(4) + " " + args.get(5));
+        if ( ! isStartBeforeEnd(start, end)) {
+            throw new EndIsBeforeStart();
+        }
+    }
+
+    /**
      * exception that is thrown when end time is before start
      */
     static class EndIsBeforeStart extends Exception {
         public EndIsBeforeStart() {
             super( "END TIME IS BEFORE START!\n" +
-                    "When we were examining the phonecall\n," +
+                    "When we were examining the phonecall,\n" +
                     "we noticed the end time is before the start time.\n" +
                     "Please check your input or laws of physics.");
         }
@@ -152,7 +169,6 @@ public class PhoneCallChecker {
     /**
      * exception that is thrown when there are too few arguments
      */
-//    @VisibleForTesting
     static class MissingCommandLineArguments extends Exception {
         public MissingCommandLineArguments() {
             super("TOO FEW ARGUMENTS");

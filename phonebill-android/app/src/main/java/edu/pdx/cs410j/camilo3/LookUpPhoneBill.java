@@ -25,16 +25,22 @@ public class LookUpPhoneBill extends AppCompatActivity {
     public void lookUpBillClick(View view) {
         EditText name = findViewById(R.id.custNameLookUp);
         String nameString = String.valueOf(name.getText());
+//        PhoneBill aBill = null;
         try {
             PhoneBill aBill = readFromFile(nameString);
-            Toast.makeText(this, "ourBill: " + aBill, Toast.LENGTH_LONG).show();
+            if (aBill == null) {
+                Toast.makeText(this, "Looks like maybe there's no bill by that name.\n" +
+                        "Maybe check your spelling...", Toast.LENGTH_LONG).show();
+            } else {
+                Intent intent = new Intent(this, DisplayPhoneBill.class);
+                intent.putExtra("PHONE_BILL", aBill);
+                startActivity(intent);
+            }
         } catch (Exception e) {
-            Toast.makeText(this, "Something went wrong when reading the file.",
+            Toast.makeText(this, "Something went wrong when reading the file.\n" +
+                            "Maybe the file was corrupted or improperly formatted?",
                     Toast.LENGTH_LONG).show();
         }
-
-        Intent intent = new Intent(this, DisplayPhoneBill.class);
-        startActivity(intent);
     }
 
     private PhoneBill readFromFile(String aName) throws ParserException, FileNotFoundException {

@@ -74,25 +74,36 @@ public class AddPhoneCall extends AppCompatActivity {
         String edt = edDateString + " " + edTimeString + " " + (endAmPm.isChecked() ? "pm" : "am");
 
         try {
+
+            if (! PhoneCallChecker.isValidPhoneNumber(callerString) || ! PhoneCallChecker.isValidPhoneNumber(calleeString)) {
+                throw new PhoneCallChecker.ImproperPhoneNumber();
+            } else if (! PhoneCallChecker.isValidDate(stDateString) || ! PhoneCallChecker.isValidDate(edDateString)) {
+                throw new PhoneCallChecker.ImproperDate();
+            } else if (! PhoneCallChecker.isValidTime(stTimeString + " " + (startAmPm.isChecked() ? "pm" : "am")) ||
+                    ! PhoneCallChecker.isValidTime(edTimeString + " " + (endAmPm.isChecked() ? "pm" : "am"))) {
+                throw new PhoneCallChecker.ImproperTime();
+            }
             Date start = sdf.parse(sdt);
             Date end = sdf.parse(edt);
-            Toast.makeText(this, "Customer: " + customer.getText(), Toast.LENGTH_LONG).show();
+
+            if ( ! PhoneCallChecker.isStartBeforeEnd(start, end)) {
+                throw new PhoneCallChecker.EndIsBeforeStart();
+            }
+            ///// end of checks, everything else should be good minus system errors.
 
             PhoneBill aBill = readFromFile(customerString);
             if (aBill == null) {
                 aBill = new PhoneBill(customerString);
             }
+
             PhoneCall aCall = new PhoneCall(callerString, calleeString, start, end);
             aBill.addPhoneCall(aCall);
+            // writes and confirms success and exits.
             writeBillToFile(aBill);
-            Toast.makeText(this, "We added this phonecall:\n" + aCall, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "We added this phonecall:\n" + aCall + "\nto this bill: " + customerString, Toast.LENGTH_LONG).show();
+            finish();
         } catch (Exception e) {
-            String text = "NAME WAS: " + customerString + "\ncaller: " + callerNumber.getText() + "\ncallee: " + calleeNumber.getText() ;
-            String text2 = "Start Date: " + startDate.getText() + " time: " + startTime.getText() + " pm?: " + startAmPm.isChecked();
-            String text3 = "End Date: " + endDate.getText() + " time: " + endTime.getText() + " pm?: " + endAmPm.isChecked();
-            Toast.makeText(this, text, Toast.LENGTH_LONG).show();
-            Toast.makeText(this, text2, Toast.LENGTH_LONG).show();
-            Toast.makeText(this, text3, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "There was an error:\n" + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 }

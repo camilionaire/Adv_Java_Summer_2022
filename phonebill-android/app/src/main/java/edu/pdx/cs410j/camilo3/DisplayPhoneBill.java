@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class DisplayPhoneBill extends AppCompatActivity {
 
@@ -13,10 +14,14 @@ public class DisplayPhoneBill extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_phone_bill);
 
-        ListView listView = findViewById(R.id.listOfPhoneBills);
+        PhoneBill foundBill = (PhoneBill) getIntent().getSerializableExtra("PHONE_BILL");
+        TextView custName = findViewById(R.id.customerName);
 
-        ArrayAdapter<Integer> sums = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        sums.addAll(1, 2, 3, 4, 5);
-        listView.setAdapter(sums);
+        custName.setText("Customer: " + foundBill.getCustomer());
+
+        ListView listView = findViewById(R.id.listOfPhoneBills);
+        ArrayAdapter<PhoneCall> phCalls = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        phCalls.addAll(foundBill.getPhoneCalls());
+        listView.setAdapter(phCalls);
     }
 }
