@@ -79,6 +79,7 @@ public class SearchPhoneCalls extends AppCompatActivity {
                 Intent intent = new Intent(this, DisplayPhoneBill.class);
                 intent.putExtra("PHONE_BILL", retBill);
                 startActivity(intent);
+                finish();
             }
         } catch (Exception e) {
                 Toast.makeText(this, "Something went wrong\n" + e.getMessage(), Toast.LENGTH_LONG).show();

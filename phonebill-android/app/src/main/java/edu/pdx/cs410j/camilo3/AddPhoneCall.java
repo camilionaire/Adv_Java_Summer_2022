@@ -22,12 +22,21 @@ import edu.pdx.cs410J.ParserException;
 
 public class AddPhoneCall extends AppCompatActivity {
 
+    /**
+     * creates the full on page.
+     * @param savedInstanceState // where we came from?...
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_phone_call);
     }
 
+    /**
+     * Does all the work to write out the bill
+     * @param aBill the bill to be written out
+     * @throws IOException if something goes wrong on the computer side
+     */
     private void writeBillToFile(PhoneBill aBill) throws IOException {
         File fileDir = this.getFilesDir();
         File billFile = new File(fileDir, aBill.getCustomer());
@@ -37,6 +46,13 @@ public class AddPhoneCall extends AppCompatActivity {
         td.dump(aBill);
     }
 
+    /**
+     * reads from a file and returns a phone bill.
+     * @param aName the name of the file and customer name
+     * @return the phone bill or null.
+     * @throws ParserException if the file is misformatted
+     * @throws FileNotFoundException couldn't find the file I guess...
+     */
     private PhoneBill readFromFile(String aName) throws ParserException, FileNotFoundException {
         File fileDir = this.getFilesDir();
         File maybeBill = new File(fileDir, aName);
@@ -50,6 +66,10 @@ public class AddPhoneCall extends AppCompatActivity {
         }
     }
 
+    /**
+     * Adds a phone call.  I'm sure there's an easier way.
+     * @param view where we are coming from.
+     */
     public void addPhoneCall(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy h:mm a", Locale.US);
         EditText customer = findViewById(R.id.custNameAdd);

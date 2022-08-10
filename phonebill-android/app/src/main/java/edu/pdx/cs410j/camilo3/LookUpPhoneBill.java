@@ -35,6 +35,7 @@ public class LookUpPhoneBill extends AppCompatActivity {
                 Intent intent = new Intent(this, DisplayPhoneBill.class);
                 intent.putExtra("PHONE_BILL", aBill);
                 startActivity(intent);
+                finish();
             }
         } catch (Exception e) {
             Toast.makeText(this, "Something went wrong when reading the file.\n" +
