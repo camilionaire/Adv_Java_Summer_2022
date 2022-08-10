@@ -20,4 +20,5 @@
     <string name="start_nam_pm">Start\nAM/PM</string>
     <string name="end_nam_pm">End\nAM/PM</string>
     <string name="customer_bill">Customer Bill</string>
+    <string name="return_button">Return</string>
 </resources>
